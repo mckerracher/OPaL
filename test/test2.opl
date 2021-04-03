@@ -1,0 +1,6 @@
+meaning_of_life = 42;
+
+degrees_of_circle = 360;
+
+print("Meaning of life: ", meaning_of_life, "\n");
+print("Circle has ", degrees_of_circle, " degrees.\n");
