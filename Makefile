@@ -35,11 +35,11 @@ tar: libopal marc
 .PHONY: test
 test: clean all
 	@printf "\n=== Test 1 - test1.opl - TODO ===\n"
-	build/marc input/test1.opl output/test1.opl
+	build/marc --debug --output=output/test1.opl input/test1.opl
 	diff -s test/test1.opl test/test1.opl
 	
 	@printf "\n=== Test 2 - test2.opl - TODO ===\n"
-	build/marc input/test2.opl output/test2.opl
+	build/marc --debug --output=output/test2.opl input/test2.opl
 	diff -s test/test2.opl test/test2.opl
 	
 
