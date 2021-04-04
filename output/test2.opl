@@ -1,0 +1,4 @@
+#include "bool.hpl"
+
+print("Meaning of life: ", meaning_of_life, "\n");
+print("Circle has ", degrees_of_circle, " degrees.\n");

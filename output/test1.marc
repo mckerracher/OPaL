@@ -1,0 +1,9 @@
+// Single line comment
+/*
+  Multi-line
+  comment
+*/
+
+a = 1;
+
+triangle_angles = 180;  // Sum of all angles in a triangle
