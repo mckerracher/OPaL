@@ -232,6 +232,34 @@ main (int argc, char **argv)
   if (retVal != EXIT_SUCCESS)
       return (opal_exit (retVal));
 
+  /// Close rem_comments temp file descriptor rc_fd if not NULL
+  sprintf (perror_msg, "fclose(rc_fd)");
+  logger (DEBUG, perror_msg);
+  if (rc_fd)
+    {
+      if (fclose (rc_fd) == EXIT_SUCCESS)
+        _PASS;
+      else
+        {
+          _FAIL;
+          perror (perror_msg);
+          return (errno);
+        }
+    }
+
+  /// Open rem_comments temp file in read mode, else print error and exit
+  sprintf (perror_msg, "rc_fd = fopen('%s', 'r')", rc_tmp);
+  logger (DEBUG, perror_msg);
+  rc_fd = fopen (rc_tmp, "r");
+  if (rc_fd != NULL)
+    _PASS;
+  else
+    {
+      _FAIL;
+      perror (perror_msg);
+      return (errno);
+    }
+
   /// Create and open temp destination file for proc_includes()
   char *pi_tmp = "tmp/marc_pi.tmp";
   logger (DEBUG, "pi_tmp: '%s'", pi_tmp);
@@ -256,23 +284,56 @@ main (int argc, char **argv)
       return (opal_exit (retVal));
     }
 
-  /// Remove comments included file with rem_comments(), write to destination
-  retVal = rem_comments (pi_fd, dest_fd);
-  if (retVal != EXIT_SUCCESS)
+  /// Close rem_comments temp file descriptor if not NULL
+  if (rc_fd)
     {
-      return (opal_exit (retVal));
+      sprintf (perror_msg, "fclose(rc_fd)");
+      logger (DEBUG, perror_msg);
+
+      if (fclose (rc_fd) == EXIT_SUCCESS)
+        _PASS;
+      else
+        {
+          _FAIL;
+          perror (perror_msg);
+          return (errno);
+        }
     }
 
-  /// Close remove_comments temp file descriptor
-  sprintf (perror_msg, "fclose(rc_fd)");
+  /// Close proc_includes temp file descriptor if not NULL
+  if (pi_fd)
+    {
+      sprintf (perror_msg, "fclose(pi_fd)");
+      logger (DEBUG, perror_msg);
+
+      if (fclose (pi_fd) == EXIT_SUCCESS)
+        _PASS;
+      else
+        {
+          _FAIL;
+          perror (perror_msg);
+          return (errno);
+        }
+    }
+
+  /// Open proc_includes temp file in read mode, else print error and exit
+  sprintf (perror_msg, "pi_fd = fopen('%s', 'r')", pi_tmp);
   logger (DEBUG, perror_msg);
-  if (fclose (rc_fd) == EXIT_SUCCESS)
+  pi_fd = fopen (pi_tmp, "r");
+  if (pi_fd != NULL)
     _PASS;
   else
     {
       _FAIL;
       perror (perror_msg);
       return (errno);
+    }
+
+  /// Remove comments included file with rem_comments(), write to destination
+  retVal = rem_comments (pi_fd, dest_fd);
+  if (retVal != EXIT_SUCCESS)
+    {
+      return (opal_exit (retVal));
     }
 
   /// Close proc_includes temp file descriptor
