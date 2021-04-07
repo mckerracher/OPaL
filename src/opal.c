@@ -5,6 +5,7 @@
 #include <stdlib.h>             /* fopen, fclose, exit() */
 #include <string.h>             /* memset() */
 #include <errno.h>              /* errno macros and codes */
+#include <stdbool.h>            /* boolean datatypes */
 
 #include "../include/opal.h"
 
@@ -230,16 +231,65 @@ opal_exit (short code)
  * MARC FUNCTIONS DECLARATIONS
  * ==================================
  */
-/// Read source, remove comments, write to destination
+/**
+ * @brief       Function to read from source, remove comments, and write to destination
+ *
+ * @param[in]   source_fd     Source to be read from
+ * @param[in]   dest_fd       Destination to written to
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ *
+ */
 short
 rem_comments (FILE *source_fd, FILE *dest_fd)
 {
-
-  // TODO: Replace stub implementation
   logger (DEBUG, "Copy [source_fd] to [dest_fd]");
   char ch = 0;
-  while ((ch = fgetc (source_fd)) != EOF)
-    fputc (ch, dest_fd);
+  char charNext = 0;
+  bool isComment = false;
+  ///Start reading characters from file
+  while ((ch = fgetc (source_fd)) != EOF){
+    if(ch != '/')
+      { ///not a comment
+        fputc (ch, dest_fd);
+        continue;
+      }
+    else
+      charNext = fgetc (source_fd);
+    if(charNext == '/' || charNext == '*')
+      { ///Comment found
+        isComment = true;
+        logger (DEBUG, "Start of comment");
+      }
+    else
+      { ///Not a comment, write both characters to file
+        fputc (ch, dest_fd);
+        fputc (charNext, dest_fd);
+      }
+    while(isComment)
+      {
+        ch = fgetc (source_fd);
+        if(charNext == '/' && (ch =='\n' || ch == EOF))
+          { ///single line comment
+            logger (DEBUG, "End of comment (single line)");
+            isComment = false;
+            charNext = 0;
+          }
+        if(charNext == '*' && ch =='*')  ///multi-line comment
+          {
+            ch = fgetc (source_fd);
+            if(ch == '/')
+              {
+                logger (DEBUG, "End of comment (multi-line)");
+                isComment = false;
+                charNext = 0;
+              }
+          }
+        if(isComment && ch == EOF) ///missing closure to multi-line comment
+          return EXIT_FAILURE;
+      }
+  }
   _DONE;
 
   return EXIT_SUCCESS;
