@@ -244,56 +244,74 @@ opal_exit (short code)
 short
 rem_comments (FILE *source_fd, FILE *dest_fd)
 {
-  logger (DEBUG, "Copy [source_fd] to [dest_fd]");
-  char ch = 0;
-  char charNext = 0;
-  bool isComment = false;
-  ///Start reading characters from file
-  while ((ch = fgetc (source_fd)) != EOF){
-    if(ch != '/')
-      { ///not a comment
-        fputc (ch, dest_fd);
-        continue;
-      }
-    else
-      charNext = fgetc (source_fd);
-    if(charNext == '/' || charNext == '*')
-      { ///Comment found
-        isComment = true;
-        logger (DEBUG, "Start of comment");
-      }
-    else
-      { ///Not a comment, write both characters to file
-        fputc (ch, dest_fd);
-        fputc (charNext, dest_fd);
-      }
-    while(isComment)
-      {
-        ch = fgetc (source_fd);
-        if(charNext == '/' && (ch =='\n' || ch == EOF))
-          { ///single line comment
-            logger (DEBUG, "End of comment (single line)");
-            isComment = false;
-            charNext = 0;
-          }
-        if(charNext == '*' && ch =='*')  ///multi-line comment
-          {
-            ch = fgetc (source_fd);
-            if(ch == '/')
-              {
-                logger (DEBUG, "End of comment (multi-line)");
-                isComment = false;
-                charNext = 0;
-              }
-          }
-        if(isComment && ch == EOF) ///missing closure to multi-line comment
-          return EXIT_FAILURE;
-      }
-  }
-  _DONE;
+  logger(DEBUG, "=== START ===");
 
+  char ch = 0;              ///< char to store current character read
+  char charNext = 0;        ///< char to store next character read
+  bool isComment = false;   ///< Flag to set when comment line found
+
+  /// Start reading characters from file
+  while ((ch = fgetc (source_fd)) != EOF)
+    {
+      /// If character is not a /, line is not a comment
+      if (ch != '/')
+        {
+          fputc (ch, dest_fd);
+          continue;
+        }
+      /// else, read next character
+      else
+        charNext = fgetc (source_fd);
+
+      /// If next character is / or *, line is a comment, set flag
+      if (charNext == '/' || charNext == '*')
+        {
+          isComment = true;
+          logger(DEBUG, "Start of comment");
+        }
+      /// else, not a comment, write both characters to file
+      else
+        {
+          fputc (ch, dest_fd);
+          fputc (charNext, dest_fd);
+        }
+
+      /// If comment flag is set, process comment
+      while (isComment)
+        {
+          /// Read next character from file
+          ch = fgetc (source_fd);
+
+          /// If next character is /, process single line comment
+          if (charNext == '/' && (ch == '\n' || ch == EOF))
+            {
+              logger(DEBUG, "End of comment (single line)");
+              isComment = false;
+              charNext = 0;
+            }
+
+          /// If next character is *, process multi-line comment
+          if (charNext == '*' && ch == '*')
+            {
+              ch = fgetc (source_fd);
+              if (ch == '/')
+                {
+                  logger(DEBUG, "End of comment (multi-line)");
+                  isComment = false;
+                  charNext = 0;
+                }
+            }
+
+          /// If end of file in multi-line comment return EXIT_FAILURE
+          if (isComment && ch == EOF)
+            return EXIT_FAILURE;
+        }
+    }
+
+  logger(DEBUG, "=== END ===");
   return EXIT_SUCCESS;
 }
+
 /// Read source, process includes, write to destination
 short
 proc_includes(FILE *source_fd, FILE *dest_fd)
