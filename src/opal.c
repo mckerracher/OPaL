@@ -6,7 +6,6 @@
 #include <string.h>             /* memset() */
 #include <errno.h>              /* errno macros and codes */
 #include <stdbool.h>            /* boolean datatypes */
-#include <libgen.h>             /* dirname() */
 
 #include "../include/opal.h"
 
@@ -338,16 +337,8 @@ proc_includes(FILE *source_fd, FILE *dest_fd)
                     }
                     logger(DEBUG, "Finished reading in the filename.");
 
-                    ///Get the absolute path to the file before opening it.
-                    ///Get the absolute path to the file before opening it.
-                    char const *tmp = strdup(getenv( "PWD"));
-                    char *absolute_path = dirname(tmp);
-                    char *slash = "/";
-                    strncat(absolute_path, slash, 1);
-                    strncat(absolute_path, filename_buffer, strlen(filename_buffer));
-
                     ///Open file and get the first character in it.
-                    FILE *include_file = fopen(absolute_path, "r");
+                    FILE *include_file = fopen(filename_buffer, "r");
                     char ch_2 = fgetc(include_file);
 
                     if (include_file != NULL)
