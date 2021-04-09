@@ -2,15 +2,10 @@
 #ifndef OPAL_H_
 #define OPAL_H_
 
-/// __BUILD_NUM and __BUILD_DATE macros defined during build
+/// __BUILD_NUM macro defined during build
 #ifndef __BUILD_NUMBER
 #define __BUILD_NUMBER 0
 #endif  /* __BUILD_NUMBER */
-
-#ifndef __BUILD_DATE
-#define __BUILD_DATE 0
-#endif  /* __BUILD_DATE */
-
 
 #define TRUE 1          ///< Alias for better code readability
 #define FALSE 0         ///< Alias for better code readability
@@ -51,7 +46,7 @@ char perror_msg[1024] = { 0 };
 
 /*
  * ==================================
- * COMMON FUNCTIONS DECLARATIONS
+ * COMMON FUNCTION DECLARATIONS
  * ==================================
  */
 /// Print formatted message to log file
@@ -63,7 +58,7 @@ short opal_exit (short);
 
 /*
  * ==================================
- * MARC FUNCTIONS DECLARATIONS
+ * MARC FUNCTION DECLARATIONS
  * ==================================
  */
 /// Read source, remove comments, write to destination

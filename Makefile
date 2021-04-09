@@ -1,19 +1,9 @@
 CC := gcc
-CFLAGS := -g -O0 -Wall -L./build -Wl,-rpath=./
+CFLAGS := -g -O0 -Wall -L./build -Wl,-rpath=./ -D__BUILD_NUMBER=$$(date +'%s')
 LD_LIBRARY_PATH := build:$(LD_LIBRARY_PATH)
 SHELL := env LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) /bin/bash
 
-# Add an auto-incrementing build number global variable
-BUILD_NUMBER_FILE=build.ver
-BUILD_NUMBER_FLAGS = -D__BUILD_DATE=$$(date +'%Y%m%d')
-BUILD_NUMBER_FLAGS += -D__BUILD_NUMBER=$$(cat $(BUILD_NUMBER_FILE))
-
-all: dirs libopal marc tar $(BUILD_NUMBER_FILE)
-
-# Increment build
-$(BUILD_NUMBER_FILE): libopal marc
-	@if ! test -f $(BUILD_NUMBER_FILE); then echo 1 > $(BUILD_NUMBER_FILE); fi
-	@echo $$(($$(cat $(BUILD_NUMBER_FILE)) + 1)) > $(BUILD_NUMBER_FILE)
+all: dirs libopal marc tar
 
 # Create required directory structure
 dirs:
@@ -21,16 +11,16 @@ dirs:
 
 # Build OPaL library
 libopal: src/opal.c include/opal.h
-	$(CC) $(BUILD_NUMBER_FLAGS) -g -O0 -fPIC -c -Wall src/opal.c -o build/opal.o
+	$(CC) -g -O0 -fPIC -c -Wall src/opal.c -o build/opal.o
 	ld -shared build/opal.o -o build/libopal.so
 
 # Build MARC preprocessor
 marc: libopal src/marc.c
-	$(CC) $(CFLAGS) $(BUILD_NUMBER_FLAGS) src/marc.c -lopal -o build/marc
+	$(CC) $(CFLAGS) src/marc.c -lopal -o build/marc
 
 # Tar all files for release
 tar: libopal marc
-	tar -cvf build/opal_$$(cat $(BUILD_NUMBER_FILE))_$$(date +'%Y%m%d').tar build/libopal.so build/opal.o build/marc
+	tar -cvf build/opal_$$(date +'%s').tar build/libopal.so build/opal.o build/marc
 
 .PHONY: test
 test: clean all
