@@ -298,13 +298,76 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
 short
 proc_includes(FILE *source_fd, FILE *dest_fd)
 {
+    ///Move source_fd to beginning of file.
+    fseek(source_fd, 0, SEEK_SET);
 
-  // TODO: Replace stub implementation
-  logger (DEBUG, "Copy [source_fd] to [dest_fd]");
-  char ch = 0;
-  while ((ch = fgetc (source_fd)) != EOF)
-    fputc (ch, dest_fd);
-  _DONE;
+    ///Copy each character to the destination file, while checking for include files.
+    logger(DEBUG, "Reading file.");
+    char ch = fgetc(source_fd);
+    while (ch != EOF){
+        switch(ch) {
+            case ('EOF'): {
+                logger(DEBUG, "End of file found, done reading file.");
+                break;
+            }
+            case ('#'): {
+                logger(DEBUG, "Found hashtag symbol.");
 
-  return EXIT_SUCCESS;
+                ///Reads in 8 chars to check if they are "include ".
+                char include_buffer[9] = {0};
+                ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8, source_fd);
+
+                ///Rewinds the file pointer.
+                fseek (source_fd, -sz, SEEK_CUR);
+
+                ///If include is found, process the included file.
+                if (strcasecmp(include_buffer, "include ") == 0) {
+                    logger(DEBUG, "Include keyword has been found.");
+
+                    ///Move file pointer to the point after "include "
+                    fseek (source_fd, sz, SEEK_CUR);
+                    char filename_buffer[256] = {0};
+                    int filename_len = 0;
+
+                    ///Get the filename for the include file.
+                    while (ch != '\n' && filename_len < 256){
+                        if (ch != '"' && ch != '#')
+                            filename_buffer[filename_len++] = ch;
+                        ch = fgetc(source_fd);
+                    }
+                    logger(DEBUG, "Finished reading in the filename.");
+
+                    ///Get the absolute path to the file before opening it.
+                    char curr_working_dir[256];
+                    getcwd(curr_working_dir, sizeof(curr_working_dir));
+                    strncat(curr_working_dir, filename_buffer, strlen(filename_buffer));
+                    logger(DEBUG, "Finished appending the filename to the current working directory");
+
+                    ///Open file and get the first character in it.
+                    FILE *include_file = fopen(curr_working_dir, "r");
+                    char ch_2 = fgetc(include_file);
+
+                    if (include_file != NULL)
+                        logger(DEBUG, "Successfully opened the include file.");
+                    else
+                        logger(DEBUG, "Failed to open the include file.");
+
+                    ///Move contents of include file into destination file
+                    while (ch_2 != EOF) {
+                        fputc(ch_2, dest_fd);
+                        ch_2 = fgetc(include_file);
+                    }
+                    fclose(include_file);
+                }
+                continue;
+            }
+            default: {
+                fputc (ch, dest_fd);
+            }
+        }
+        ch = fgetc(source_fd);
+    }
+    _DONE;
+
+    return EXIT_SUCCESS;
 }
