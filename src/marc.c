@@ -9,10 +9,10 @@
 
 #include "../include/opal.h"
 
-/// Get build number and date from compiler
+/// Get build number from compiler
 static void argp_print_version(FILE *stream, struct argp_state *state)
 {
-    fprintf(stream, "Build: %d-%d\n", __BUILD_NUMBER, __BUILD_DATE);
+    fprintf(stream, "Build: %d\n", __BUILD_NUMBER);
 }
 void (*argp_program_version_hook)(FILE *stream, struct argp_state *state) =
     argp_print_version;
@@ -201,7 +201,6 @@ main (int argc, char **argv)
           perror (perror_msg);
           return (errno);
         }
-
     }
   /// Else, destination is STDOUT
   else
