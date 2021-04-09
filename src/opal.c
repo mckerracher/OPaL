@@ -1,4 +1,6 @@
 /// @file opal.c
+/// @authors Damle Kedar, Mckerracher Joshua, Leon Sarah Louise
+///
 #include <stdio.h>
 #include <stdarg.h>             /* variadic functions */
 #include <assert.h>             /* assert() */
@@ -12,7 +14,7 @@
 
 /*
  * ==================================
- * START COMMON FUNCTIONS DEFINITIONS
+ * START COMMON FUNCTION DEFINITIONS
  * ==================================
  */
 
@@ -22,9 +24,10 @@
  * @details     Helper function to log messages. Function writes to global
  * variable log_fd. Usually called by a macro logger. Eg:
  *
- *  logger (ERROR, "Cannot read file: %s", file_name);
- *
- *  logger (DEBUG, "access('%s', F_OK)", source_fn););
+ * ```
+ * logger (ERROR, "Cannot read file: %s", file_name);
+ * logger (DEBUG, "access('%s', F_OK)", source_fn);
+ * ```
  *
  * @param[in]   tag     Log level of message
  * @param[in]   file    Source file name
@@ -55,9 +58,7 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
 
   /**
    * 4. If tag is a result of a system call and current log level is more
-   * than DEBUG, print the message and return.
-   *
-   *   Eg - PASS / FAIL etc
+   * than DEBUG, print the message and return. Eg - PASS / FAIL etc
    */
   if (tag == RESULT && LOG_LEVEL >= DEBUG)
     {
@@ -70,7 +71,9 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
    * 5. If log message is less than current log level, print message with
    * current date, time to log file descriptor. Eg.
    *
-   *   [05/02/2021 20:57:58] [DEBUG]   main() [source_fd] access('input/hello.opl', R_OK) - PASS
+   * ```
+   * [05/02/2021 20:57:58] [DEBUG]   main() [source_fd] access('input/hello.opl', R_OK) - PASS
+   * ```
    */
   if (tag <= LOG_LEVEL)
     {
@@ -87,15 +90,13 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
  *
  * @details     Helper function to show something prominently in the logs Eg:
  *
+ *  ```
  *  [02/04/2021 20:57:58] [DEBUG]         banner()
- *
  *  [02/04/2021 20:57:58] [DEBUG]         banner() ***************************************************************
- *
  *  [02/04/2021 20:57:58] [DEBUG]         banner() MARC start.
- *
  *  [02/04/2021 20:57:58] [DEBUG]         banner() ***************************************************************
- *
  *  [02/04/2021 20:57:58] [DEBUG]         banner()
+ *  ```
  *
  * @param[in]   msg     String to print
  *
@@ -223,13 +224,13 @@ opal_exit (short code)
 
 /*
  * ==================================
- * END COMMON FUNCTIONS DEFINITIONS
+ * END COMMON FUNCTION DEFINITIONS
  * ==================================
  */
 
 /*
  * ==================================
- * MARC FUNCTIONS DECLARATIONS
+ * MARC FUNCTION DEFINITIONS
  * ==================================
  */
 /**
@@ -245,56 +246,83 @@ opal_exit (short code)
 short
 rem_comments (FILE *source_fd, FILE *dest_fd)
 {
-  logger (DEBUG, "Copy [source_fd] to [dest_fd]");
+  logger(DEBUG, "=== START ===");
+
   char ch = 0;
   char charNext = 0;
   bool isComment = false;
-  ///Start reading characters from file
-  while ((ch = fgetc (source_fd)) != EOF){
-    if(ch != '/')
-      { ///not a comment
-        fputc (ch, dest_fd);
-        continue;
-      }
-    else
-      charNext = fgetc (source_fd);
-    if(charNext == '/' || charNext == '*')
-      { ///Comment found
-        isComment = true;
-        logger (DEBUG, "Start of comment");
-      }
-    else
-      { ///Not a comment, write both characters to file
-        fputc (ch, dest_fd);
-        fputc (charNext, dest_fd);
-      }
-    while(isComment)
-      {
-        ch = fgetc (source_fd);
-        if(charNext == '/' && (ch =='\n' || ch == EOF))
-          { ///single line comment
-            logger (DEBUG, "End of comment (single line)");
-            isComment = false;
-            charNext = 0;
-          }
-        if(charNext == '*' && ch =='*')  ///multi-line comment
-          {
-            ch = fgetc (source_fd);
-            if(ch == '/')
-              {
-                logger (DEBUG, "End of comment (multi-line)");
-                isComment = false;
-                charNext = 0;
-              }
-          }
-        if(isComment && ch == EOF) ///missing closure to multi-line comment
-          return EXIT_FAILURE;
-      }
-  }
-  _DONE;
+  int numComments = 0;
 
+  /// Start reading characters from file
+  while ((ch = fgetc (source_fd)) != EOF)
+    {
+      /// If character is not a /, line is not a comment
+      if (ch != '/')
+        {
+          fputc (ch, dest_fd);
+          continue;
+        }
+      /// If character is a /, read next character
+      else
+        charNext = fgetc (source_fd);
+
+      /// If next character is / or *, line is a comment, set flag
+      if (charNext == '/' || charNext == '*')
+        {
+          isComment = true;
+          logger(DEBUG, "Start of comment");
+        }
+      /// else, not a comment, write both characters to file
+      else
+        {
+          fputc (ch, dest_fd);
+          fputc (charNext, dest_fd);
+        }
+
+      /// If comment flag is set, process comment
+      while (isComment)
+        {
+          /// Read next character from file
+          ch = fgetc (source_fd);
+
+          /// If next character is /, process single line comment
+          if (charNext == '/' && (ch == '\n' || ch == EOF))
+            {
+              logger(DEBUG, "End of comment (single line)");
+              isComment = false;
+              numComments++;
+              charNext = 0;
+            }
+
+          /// If next character is *, process multi-line comment
+          if (charNext == '*' && ch == '*')
+            {
+              ch = fgetc (source_fd);
+              if (ch == '\n')
+                numComments++;
+
+              if (ch == '/')
+                {
+                  logger(DEBUG, "End of comment (multi-line)");
+                  isComment = false;
+                  charNext = 0;
+                }
+            }
+
+          /// If end of file in multi-line comment return EXIT_FAILURE
+          if (isComment && ch == EOF)
+            {
+              fprintf(stderr, "Invalid end of file in comment");
+              return EXIT_FAILURE;
+            }
+        }
+    }
+
+  logger(DEBUG, "Removed %d comment lines", numComments);
+  logger(DEBUG, "=== END ===");
   return EXIT_SUCCESS;
 }
+
 /// Read source, process includes, write to destination
 short
 proc_includes(FILE *source_fd, FILE *dest_fd)
