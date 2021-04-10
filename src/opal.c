@@ -339,7 +339,7 @@ proc_includes(FILE *source_fd, FILE *dest_fd)
     char ch = fgetc(source_fd);
     while (ch != EOF){
         switch(ch) {
-            case 'EOF': {
+            case EOF: {
                 logger(DEBUG, "End of file found, done reading file.");
                 break;
             }
