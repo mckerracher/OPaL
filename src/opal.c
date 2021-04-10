@@ -8,6 +8,7 @@
 #include <string.h>             /* memset() */
 #include <errno.h>              /* errno macros and codes */
 #include <stdbool.h>            /* boolean datatypes */
+#include <unistd.h>
 
 #include "../include/opal.h"
 
@@ -331,71 +332,114 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
 short
 proc_includes(FILE *source_fd, FILE *dest_fd)
 {
+
     ///Move source_fd to beginning of file.
-    fseek(source_fd, 0, SEEK_SET);
+    fseek (source_fd, 0, SEEK_SET);
 
     ///Copy each character to the destination file, while checking for include files.
     logger(DEBUG, "Reading file.");
-    char ch = fgetc(source_fd);
-    while (ch != EOF){
-        switch(ch) {
-            case EOF: {
-                logger(DEBUG, "End of file found, done reading file.");
+    char ch = fgetc (source_fd);
+    while (ch != EOF)
+    {
+        switch (ch)
+        {
+            case EOF:
+            {
+                _DONE;
                 break;
             }
-            case ('#'): {
+            case ('#'):
+            {
                 logger(DEBUG, "Found hashtag symbol.");
 
                 ///Reads in 8 chars to check if they are "include ".
-                char include_buffer[9] = {0};
-                ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8, source_fd);
+                char include_buffer[9] =
+                        { 0 };
+                ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8,
+                                    source_fd);
 
                 ///Rewinds the file pointer.
                 fseek (source_fd, -sz, SEEK_CUR);
 
                 ///If include is found, process the included file.
-                if (strcasecmp(include_buffer, "include ") == 0) {
+                if (strcasecmp (include_buffer, "include ") == 0)
+                {
                     logger(DEBUG, "Include keyword has been found.");
 
                     ///Move file pointer to the point after "include "
                     fseek (source_fd, sz, SEEK_CUR);
-                    char filename_buffer[256] = {0};
+                    char filename_buffer[256] =
+                            { 0 };
                     int filename_len = 0;
 
                     ///Get the filename for the include file.
-                    while (ch != '\n' && filename_len < 256){
-                        if (ch != '"' && ch != '#')
+                    ch = fgetc (source_fd);
+                    while (ch != '\n' && filename_len < 256)
+                    {
+                        if (ch != '"')
                             filename_buffer[filename_len++] = ch;
-                        ch = fgetc(source_fd);
+                        ch = fgetc (source_fd);
                     }
                     logger(DEBUG, "Finished reading in the filename.");
 
-                    ///Open file and get the first character in it.
-                    FILE *include_file = fopen(filename_buffer, "r");
-                    char ch_2 = fgetc(include_file);
-
-                    if (include_file != NULL)
-                        logger(DEBUG, "Successfully opened the include file.");
+                    /// If include file does not exist, print error and exit
+                    sprintf (perror_msg, "access('%s', F_OK)", filename_buffer);
+                    logger (DEBUG, perror_msg);
+                    if (access (filename_buffer, F_OK) == EXIT_SUCCESS)
+                        _PASS;
                     else
-                        logger(DEBUG, "Failed to open the include file.");
+                    {
+                        _FAIL;
+                        perror (perror_msg);
+                        return (errno);
+                    }
+
+                    /// If include file can not be read, print error and exit
+                    sprintf (perror_msg, "access('%s', R_OK)", filename_buffer);
+                    logger (DEBUG, perror_msg);
+                    if (access (filename_buffer, R_OK) == EXIT_SUCCESS)
+                        _PASS;
+                    else
+                    {
+                        _FAIL;
+                        perror (perror_msg);
+                        return (errno);
+                    }
+
+                    /// Open include file in read-only mode
+                    sprintf (perror_msg, "include_fd = fopen('%s', 'r')", filename_buffer);
+                    logger (DEBUG, perror_msg);
+                    FILE *include_fd = fopen (filename_buffer, "r");
+                    if (include_fd != NULL)
+                        _PASS;
+                    else
+                    {
+                        _FAIL;
+                        perror (perror_msg);
+                        return (errno);
+                    }
+
+                    char ch_2 = fgetc (include_fd);
 
                     ///Move contents of include file into destination file
-                    while (ch_2 != EOF) {
-                        fputc(ch_2, dest_fd);
-                        ch_2 = fgetc(include_file);
+                    while (ch_2 != EOF)
+                    {
+                        fputc (ch_2, dest_fd);
+                        ch_2 = fgetc (include_fd);
                     }
-                    fclose(include_file);
+                    fflush (include_fd);
+                    fclose (include_fd);
                 }
                 continue;
             }
-            default: {
+            default:
+            {
                 fputc (ch, dest_fd);
             }
         }
-        ch = fgetc(source_fd);
+        ///Gets the next char for the switch case to evaluate.
+        ch = fgetc (source_fd);
     }
-    _DONE;
-
     return EXIT_SUCCESS;
 }
 

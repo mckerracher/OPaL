@@ -1,4 +1,4 @@
-# OPaL - OSU Programmin Language Compiler
+# OPaL - OSU Programming Language Compiler
 This is the repository for code by the team 
 
 ## Class: CS467-400 Spring 2021  Capstone Project
