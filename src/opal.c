@@ -314,6 +314,11 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
               fprintf(stderr, "Invalid end of file in comment");
               return EXIT_FAILURE;
             }
+
+          /// If char is a newline, write to file to preserve line numbers
+          if(ch == '\n'){
+              fputc (ch, dest_fd);
+          }
         }
     }
 
