@@ -1,0 +1,9 @@
+//Single line comment with multi-line open and close /**/
+
+p = 3.14159265
+
+//Single line comment with consecutive slashes // inside
+
+/* Multi-line comment format on one line*/
+
+phi = 1.618033

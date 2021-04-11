@@ -1,0 +1,10 @@
+// Single line comment
+
+/*
+  Multi-line comment containing  
+  //two consecutive slashes
+*/
+
+z = x + y;
+
+//Single line comment on last line
