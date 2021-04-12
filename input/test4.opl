@@ -1,0 +1,10 @@
+
+//Single line comment with multi-line opening /* 
+
+e = 2.71828 //Euler's number
+
+//Single line comment with multi-line ending /*
+
+/* Multi line comment
+on last lines
+of file */
