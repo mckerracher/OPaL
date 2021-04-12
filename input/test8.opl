@@ -1,0 +1,3 @@
+#include "input/_RESTRICT_.hpl"
+
+// MARC should not reach here

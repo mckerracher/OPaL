@@ -12,7 +12,7 @@
 /// Get build number from compiler
 static void argp_print_version(FILE *stream, struct argp_state *state)
 {
-    fprintf(stream, "Build: %d\n", __BUILD_NUMBER);
+    fprintf(stream, "Version: %.2f\n", __VERSION_NUM);
 }
 void (*argp_program_version_hook)(FILE *stream, struct argp_state *state) =
     argp_print_version;

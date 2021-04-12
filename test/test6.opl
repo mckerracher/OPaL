@@ -1,4 +1,8 @@
 
+True = 1;
+False = 0;
+
+
 degrees_of_circle = 360;
 
 

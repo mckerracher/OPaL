@@ -1,3 +1,4 @@
+#include "input/bool.hpl"
 #include "input/math_const.hpl"
 
 print("Circle has ", degrees_of_circle, " degrees.\n");

@@ -1,6 +1,8 @@
 tmp
 build
 log
-.project
-build.ver
 doc
+output
+.*project
+.settings
+
