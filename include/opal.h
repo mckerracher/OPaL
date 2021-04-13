@@ -2,10 +2,10 @@
 #ifndef OPAL_H_
 #define OPAL_H_
 
-/// __BUILD_NUM macro defined during build
-#ifndef __BUILD_NUMBER
-#define __BUILD_NUMBER 0
-#endif  /* __BUILD_NUMBER */
+/// __VERSION_NUM for program
+#ifndef __VERSION_NUM
+#define __VERSION_NUM 1.0
+#endif  /* __VERSION_NUM */
 
 #define TRUE 1          ///< Alias for better code readability
 #define FALSE 0         ///< Alias for better code readability
