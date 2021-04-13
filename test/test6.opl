@@ -3,5 +3,7 @@ True = 1;
 False = 0;
 
 
-print("Meaning of life: ", meaning_of_life, "\n");
+degrees_of_circle = 360;
+
+
 print("Circle has ", degrees_of_circle, " degrees.\n");
