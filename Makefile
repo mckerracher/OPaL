@@ -49,11 +49,12 @@ test: clean all
 	diff -s output/test6.opl test/test6.opl
 	
 	@printf "\n=== Test 7 ===\n"
-	build/marc --debug input/test7.opl; test "$$?" -eq 2
+	@bash test/test7.sh
 	
 	@printf "\n=== Test 8 ===\n"
-	chmod a-r input/_RESTRICTED_.hpl
-	build/marc --debug input/test8.opl || [ $$? -eq 13 ]
+	@chmod -v 000 input/_RESTRICTED_.hpl
+	@bash test/test8.sh
+	@chmod -v 644 input/_RESTRICTED_.hpl
 	
 .PHONY: clean
 clean:
