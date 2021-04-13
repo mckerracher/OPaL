@@ -32,3 +32,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run unit tests with Makefile
         run: make test
+        shell: bash +eo pipefail {0}
