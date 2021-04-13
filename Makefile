@@ -44,6 +44,17 @@ test: clean all
 	build/marc --debug --output=output/test5.opl input/test5.opl
 	diff -s output/test5.opl test/test5.opl
 	
+	@printf "\n=== Test 6 ===\n"
+	build/marc --debug --output=output/test6.opl input/test6.opl
+	diff -s output/test6.opl test/test6.opl
+	
+	@printf "\n=== Test 7 ===\n"
+	build/marc --debug input/test7.opl || [ $$? -eq 2 ]
+	
+	@printf "\n=== Test 8 ===\n"
+	chmod a-r input/_RESTRICTED_.hpl
+	build/marc --debug input/test8.opl || [ $$? -eq 13 ]
+	
 .PHONY: clean
 clean:
 	# Delete binaries
