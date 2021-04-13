@@ -49,7 +49,7 @@ test: clean all
 	diff -s output/test6.opl test/test6.opl
 	
 	@printf "\n=== Test 7 ===\n"
-	build/marc --debug input/test7.opl || [ $$? -eq 2 ]
+	build/marc --debug input/test7.opl; test "$$?" -eq 2
 	
 	@printf "\n=== Test 8 ===\n"
 	chmod a-r input/_RESTRICTED_.hpl
