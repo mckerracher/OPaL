@@ -1,9 +1,8 @@
 #!/bin/bash
 
 export LD_LIBRARY_PATH=build/
-if build/marc; then
-	echo Test 9 failed.
-	exit 1
-else
-	exit 0
+build/marc
+if [[ $? -ne 2 ]] ; then
+  exit 1
 fi
+exit 0

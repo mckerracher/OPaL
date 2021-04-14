@@ -1,9 +1,8 @@
 #!/bin/bash
 
 export LD_LIBRARY_PATH=build/
-if build/marc output=tmp.bin input/test2.opl; then
-	exit 0
-else
-	echo Test 13 failed.
-	exit 1
+build/marc --invalid_flag --output=test.tmp input/test2.opl
+if [[ $? -ne 2 ]] ; then
+  exit 1
 fi
+exit 0
