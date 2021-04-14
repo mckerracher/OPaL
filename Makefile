@@ -3,7 +3,7 @@ CFLAGS := -g -O0 -Wall -L./build -Wl,-rpath=./
 LD_LIBRARY_PATH := build:$(LD_LIBRARY_PATH)
 SHELL := env LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) /bin/bash
 
-all: dirs libopal marc tar
+all: dirs libopal marc alex tar
 
 # Create required directory structure
 dirs:
@@ -18,15 +18,21 @@ libopal: src/opal.c include/opal.h
 marc: libopal src/marc.c
 	$(CC) $(CFLAGS) src/marc.c -lopal -o build/marc
 
+# Build ALEX preprocessor
+alex: libopal src/alex.c
+	$(CC) $(CFLAGS) src/alex.c -lopal -o build/alex
+
 # Tar all files for release
-tar: libopal marc
-	tar -cvf build/opal.tar build/libopal.so build/opal.o build/marc
+tar: libopal marc alex
+	tar -cvf build/opal.tar build/libopal.so build/opal.o build/marc build/alex
 
 .PHONY: test
 test: clean all
 	@printf "\n=== Test 1 ===\n"
 	build/marc --debug --output=output/test1.opl input/test1.opl
 	diff -s output/test1.opl test/test1.opl
+	build/alex --debug --output=output/test1.lst output/test1.opl
+	diff -s output/test1.lst test/test1.lst
 	
 	@printf "\n=== Test 2 ===\n"
 	build/marc --debug --output=output/test2.opl input/test2.opl
