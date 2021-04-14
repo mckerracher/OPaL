@@ -31,8 +31,6 @@ test: clean all
 	@printf "\n=== Test 1 ===\n"
 	build/marc --debug --output=output/test1.opl input/test1.opl
 	diff -s output/test1.opl test/test1.opl
-	build/alex --debug --output=output/test1.lst output/test1.opl
-	diff -s output/test1.lst test/test1.lst
 	
 	@printf "\n=== Test 2 ===\n"
 	build/marc --debug --output=output/test2.opl input/test2.opl
