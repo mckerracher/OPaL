@@ -45,10 +45,11 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
 {
 
   /// 1. Assert log file descriptor is not null
-  assert (log_fd != NULL);
+  assert(log_fd != NULL);
 
   /// 2. Allocate buffer to hold message to log
-  char buf[1024] = { 0 };
+  char buf[1024] =
+    { 0 };
 
   /// 3. Read formatted user message string into the buffer
   va_list ap;
@@ -77,8 +78,7 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
    */
   if (tag <= LOG_LEVEL)
     {
-      fprintf (log_fd, "\n[%s %s] %10s:%4d %14s() %s", __DATE__, __TIME__,
-               file, line, func, buf);
+      fprintf (log_fd, "\n[%10s:%4d] %20s() %s", file, line, func, buf);
     }
 
   /// 6. Flush message to log file
@@ -108,15 +108,16 @@ void
 banner (const char *msg)
 {
   /// Create buffer of 64 characters size and fill with 63 stars
-  char stars[64] = { 0 };
+  char stars[64] =
+    { 0 };
   memset (stars, '*', 63 * sizeof(char));
 
   /// Call logger macro to print newline, 63 stars, string, 63 stars & newline
-  logger (DEBUG, "");
-  logger (DEBUG, "%s", stars);
-  logger (DEBUG, msg);
-  logger (DEBUG, "%s", stars);
-  logger (DEBUG, "");
+  logger(DEBUG, "");
+  logger(DEBUG, "%s", stars);
+  logger(DEBUG, msg);
+  logger(DEBUG, "%s", stars);
+  logger(DEBUG, "");
 }
 
 /**
@@ -135,12 +136,12 @@ short
 opal_exit (short code)
 {
 
-  logger (DEBUG, "=== START ===");
-  logger (DEBUG, "Exit program with code: %d", code);
+  logger(DEBUG, "=== START ===");
+  logger(DEBUG, "Exit program with code: %d", code);
 
   /// Flush stdout
   sprintf (perror_msg, "fflush(stdout)");
-  logger (DEBUG, perror_msg);
+  logger(DEBUG, perror_msg);
   if (fflush (stdout) == EXIT_SUCCESS)
     _PASS;
   else
@@ -154,7 +155,7 @@ opal_exit (short code)
   if (source_fd && source_fd != stdin)
     {
       sprintf (perror_msg, "fclose(source_fd)");
-      logger (DEBUG, perror_msg);
+      logger(DEBUG, perror_msg);
       if (fclose (source_fd) == EXIT_SUCCESS)
         _PASS;
       else
@@ -169,7 +170,7 @@ opal_exit (short code)
   if (dest_fd && dest_fd != stdout)
     {
       sprintf (perror_msg, "fflush(dest_fd)");
-      logger (DEBUG, perror_msg);
+      logger(DEBUG, perror_msg);
       if (fflush (dest_fd) == EXIT_SUCCESS)
         _PASS;
       else
@@ -180,7 +181,7 @@ opal_exit (short code)
         }
 
       sprintf (perror_msg, "fclose(dest_fd)");
-      logger (DEBUG, perror_msg);
+      logger(DEBUG, perror_msg);
       if (fclose (dest_fd) == EXIT_SUCCESS)
         _PASS;
       else
@@ -194,10 +195,10 @@ opal_exit (short code)
   /// Flush and close log file
   if (log_fd && log_fd != stdout)
     {
-      logger (DEBUG, "=== END ===");
+      logger(DEBUG, "=== END ===");
 
       sprintf (perror_msg, "fflush(log_fd)");
-      logger (DEBUG, perror_msg);
+      logger(DEBUG, perror_msg);
       if (fflush (log_fd) == EXIT_SUCCESS)
         _PASS;
       else
@@ -208,8 +209,8 @@ opal_exit (short code)
         }
 
       sprintf (perror_msg, "fclose(log_fd)");
-      logger (DEBUG, perror_msg);
-      logger (DEBUG, "\n");
+      logger(DEBUG, perror_msg);
+      logger(DEBUG, "\n");
       if (fclose (log_fd) != EXIT_SUCCESS)
         {
           perror (perror_msg);
@@ -217,7 +218,7 @@ opal_exit (short code)
         }
     }
   else
-    logger (DEBUG, "=== END ===\n\n");
+    logger(DEBUG, "=== END ===\n\n");
 
   return (code);
 }
@@ -230,23 +231,37 @@ opal_exit (short code)
 
 /*
  * ==================================
- * MARC FUNCTION DEFINITIONS
+ * START MARC FUNCTION DEFINITIONS
  * ==================================
  */
+
 /**
  * @brief       Function to read from source, remove comments, and write to destination
  *
  * @param[in]   source_fd     Source to be read from
  * @param[in]   dest_fd       Destination to written to
  *
+ * @return      The error return code of the function.
+ *
  * @retval      EXIT_SUCCESS    On success
  * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
  *
  */
 short
 rem_comments (FILE *source_fd, FILE *dest_fd)
 {
   logger(DEBUG, "=== START ===");
+
+  /// Check if source file descriptor is not NULL
+  logger(DEBUG, "assert(source_fd)");
+  assert(source_fd);
+  _PASS;
+
+  /// Check if destination file descriptor is not NULL
+  logger(DEBUG, "assert(dest_fd)");
+  assert(dest_fd);
+  _PASS;
 
   char ch = 0;
   char charNext = 0;
@@ -312,14 +327,15 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
           /// If end of file in multi-line comment return EXIT_FAILURE
           if (isComment && ch == EOF)
             {
-              fprintf(stderr, "Invalid end of file in comment");
+              fprintf (stderr, "Invalid end of file in comment");
               return EXIT_FAILURE;
             }
 
           /// If char is a newline, write to file to preserve line numbers
-          if(ch == '\n'){
+          if (ch == '\n')
+            {
               fputc (ch, dest_fd);
-          }
+            }
         }
     }
 
@@ -328,123 +344,267 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
   return EXIT_SUCCESS;
 }
 
-/// Read source, process includes, write to destination
+/**
+ * @brief       Read source, process includes, write to destination
+ *
+ * @param[in]   source_fd     Source to be read from
+ * @param[in]   dest_fd       Destination to written to
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+
 short
-proc_includes(FILE *source_fd, FILE *dest_fd)
+proc_includes (FILE *source_fd, FILE *dest_fd)
 {
+  logger(DEBUG, "=== START ===");
 
-    ///Move source_fd to beginning of file.
-    fseek (source_fd, 0, SEEK_SET);
+  /// Assert source file descriptor is not NULL
+  logger(DEBUG, "assert(source_fd)");
+  assert(source_fd);
+  _PASS;
 
-    ///Copy each character to the destination file, while checking for include files.
-    logger(DEBUG, "Reading file.");
-    char ch = fgetc (source_fd);
-    while (ch != EOF)
+  /// Assert destination file descriptor is not NULL
+  logger(DEBUG, "assert(dest_fd)");
+  assert(dest_fd);
+  _PASS;
+
+  /// Move source_fd to beginning of file.
+  fseek (source_fd, 0, SEEK_SET);
+
+  /// Copy each character to the destination file, while checking for include files.
+  logger(DEBUG, "Reading file.");
+  char ch = fgetc (source_fd);
+  while (ch != EOF)
     {
-        switch (ch)
+      switch (ch)
         {
-            case EOF:
-            {
-                _DONE;
-                break;
-            }
-            case ('#'):
-            {
-                logger(DEBUG, "Found hashtag symbol.");
+        case EOF:
+          {
+            _DONE;
+            break;
+          }
+        case ('#'):
+          {
+            logger(DEBUG, "Found hashtag symbol.");
 
-                ///Reads in 8 chars to check if they are "include ".
-                char include_buffer[9] =
-                        { 0 };
-                ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8,
-                                    source_fd);
+            ///Reads in 8 chars to check if they are "include ".
+            char include_buffer[9] =
+              { 0 };
+            ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8,
+                                source_fd);
 
-                ///Rewinds the file pointer.
-                fseek (source_fd, -sz, SEEK_CUR);
+            /// Rewinds the file pointer.
+            fseek (source_fd, -sz, SEEK_CUR);
 
-                ///If include is found, process the included file.
-                if (strcasecmp (include_buffer, "include ") == 0)
-                {
-                    logger(DEBUG, "Include keyword has been found.");
+            /// If include is found, process the included file.
+            if (strcasecmp (include_buffer, "include ") == 0)
+              {
+                logger(DEBUG, "Include keyword has been found.");
 
-                    ///Move file pointer to the point after "include "
-                    fseek (source_fd, sz, SEEK_CUR);
-                    char filename_buffer[256] =
-                            { 0 };
-                    int filename_len = 0;
+                /// Move file pointer to the point after "include "
+                fseek (source_fd, sz, SEEK_CUR);
+                char filename_buffer[256] =
+                  { 0 };
+                int filename_len = 0;
 
-                    ///Get the filename for the include file.
+                /// Get the filename for the include file.
+                ch = fgetc (source_fd);
+                while (ch != '\n' && filename_len < 256)
+                  {
+                    if (ch != '"')
+                      filename_buffer[filename_len++] = ch;
                     ch = fgetc (source_fd);
-                    while (ch != '\n' && filename_len < 256)
-                    {
-                        if (ch != '"')
-                            filename_buffer[filename_len++] = ch;
-                        ch = fgetc (source_fd);
-                    }
-                    logger(DEBUG, "Finished reading in the filename.");
+                  }
+                logger(DEBUG, "Finished reading in the filename.");
 
-                    /// If include file does not exist, print error and exit
-                    sprintf (perror_msg, "access('%s', F_OK)", filename_buffer);
-                    logger (DEBUG, perror_msg);
-                    if (access (filename_buffer, F_OK) == EXIT_SUCCESS)
-                        _PASS;
-                    else
-                    {
-                        _FAIL;
-                        perror (perror_msg);
-                        return (errno);
-                    }
+                /// If include file does not exist, print error and exit
+                sprintf (perror_msg, "access('%s', F_OK)", filename_buffer);
+                logger(DEBUG, perror_msg);
+                if (access (filename_buffer, F_OK) == EXIT_SUCCESS)
+                  _PASS;
+                else
+                  {
+                    _FAIL;
+                    perror (perror_msg);
+                    return (errno);
+                  }
 
-                    /// If include file can not be read, print error and exit
-                    sprintf (perror_msg, "access('%s', R_OK)", filename_buffer);
-                    logger (DEBUG, perror_msg);
-                    if (access (filename_buffer, R_OK) == EXIT_SUCCESS)
-                        _PASS;
-                    else
-                    {
-                        _FAIL;
-                        perror (perror_msg);
-                        return (errno);
-                    }
+                /// If include file can not be read, print error and exit
+                sprintf (perror_msg, "access('%s', R_OK)", filename_buffer);
+                logger(DEBUG, perror_msg);
+                if (access (filename_buffer, R_OK) == EXIT_SUCCESS)
+                  _PASS;
+                else
+                  {
+                    _FAIL;
+                    perror (perror_msg);
+                    return (errno);
+                  }
 
-                    /// Open include file in read-only mode
-                    sprintf (perror_msg, "include_fd = fopen('%s', 'r')", filename_buffer);
-                    logger (DEBUG, perror_msg);
-                    FILE *include_fd = fopen (filename_buffer, "r");
-                    if (include_fd != NULL)
-                        _PASS;
-                    else
-                    {
-                        _FAIL;
-                        perror (perror_msg);
-                        return (errno);
-                    }
+                /// Open include file in read-only mode
+                sprintf (perror_msg, "include_fd = fopen('%s', 'r')",
+                         filename_buffer);
+                logger(DEBUG, perror_msg);
+                FILE *include_fd = fopen (filename_buffer, "r");
+                if (include_fd != NULL)
+                  _PASS;
+                else
+                  {
+                    _FAIL;
+                    perror (perror_msg);
+                    return (errno);
+                  }
 
-                    char ch_2 = fgetc (include_fd);
+                char ch_2 = fgetc (include_fd);
 
-                    ///Move contents of include file into destination file
-                    while (ch_2 != EOF)
-                    {
-                        fputc (ch_2, dest_fd);
-                        ch_2 = fgetc (include_fd);
-                    }
-                    fflush (include_fd);
-                    fclose (include_fd);
-                }
-                continue;
-            }
-            default:
-            {
-                fputc (ch, dest_fd);
-            }
+                /// Move contents of include file into destination file
+                logger(DEBUG, "Copy contents of %s into destination file",
+                       filename_buffer);
+                while (ch_2 != EOF)
+                  {
+                    fputc (ch_2, dest_fd);
+                    ch_2 = fgetc (include_fd);
+                  }
+                _DONE;
+
+                /// Flush destination file contents to disk
+                sprintf (perror_msg, "fflush(dest_fd)");
+                logger(DEBUG, perror_msg);
+                if (fflush (dest_fd) == EXIT_SUCCESS)
+                  _PASS;
+                else
+                  {
+                    _FAIL;
+                    perror (perror_msg);
+                    return (errno);
+                  }
+
+                /// Close include file descriptor
+                sprintf (perror_msg, "fclose (include_fd)");
+                logger(DEBUG, perror_msg);
+                if (fclose (include_fd) == EXIT_SUCCESS)
+                  _PASS;
+                else
+                  {
+                    _FAIL;
+                    perror (perror_msg);
+                    return (errno);
+                  }
+              }
+            continue;
+          }
+        default:
+          {
+            fputc (ch, dest_fd);
+          }
         }
-        ///Gets the next char for the switch case to evaluate.
-        ch = fgetc (source_fd);
+      /// Gets the next char for the switch case to evaluate.
+      ch = fgetc (source_fd);
     }
-    return EXIT_SUCCESS;
+
+  logger(DEBUG, "=== END ===");
+  return EXIT_SUCCESS;
 }
 
 /*
  * ==================================
  * END MARC FUNCTION DEFINITIONS
+ * ==================================
+ */
+
+/*
+ * ==================================
+ * START ALEX FUNCTION DEFINITIONS
+ * ==================================
+ */
+
+/**
+ * @brief       Populate symbol table with lexemes in source file descriptor
+ *
+ * @details     TODO
+ *
+ * @param[in/out]   symbol_table    Log level of message
+ * @param[in/out]   symbol_count    Source file name
+ * @param[in/out]   source_fd       Source file line number
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+
+short
+build_symbol_table (lexeme_s *symbol_table, int *symbol_count, FILE *source_fd)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert symbol table pointer is not NULL
+  logger(DEBUG, "assert(symbol_table)");
+  assert(symbol_table);
+  _PASS;
+
+  /// Assert symbol table count pointer is not NULL
+  logger(DEBUG, "assert(symbol_count)");
+  assert(symbol_count);
+  _PASS;
+
+  // TODO: Replace stub implementation next
+  logger(DEBUG, "STUB IMPLEMENTATION: Building symbol table");
+  _DONE;
+  *symbol_count = 1;
+
+  logger(DEBUG, "=== END ===");
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief       Print symbol table to destination file descriptor
+ *
+ * @details     TODO
+ *
+ * @param[in/out]   symbol_table    Log level of message
+ * @param[in/out]   source_fd       Source file line number
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+
+short
+print_symbol_table (lexeme_s *symbol_table, FILE *dest_fd)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert symbol table pointer is not NULL
+  logger(DEBUG, "assert(symbol_table)");
+  assert(symbol_table);
+  _PASS;
+
+  /// Assert destination file descriptor is not NULL
+  logger(DEBUG, "assert(dest_fd)");
+  assert(dest_fd);
+  _PASS;
+
+  // TODO: Replace stub implementation next
+  logger(DEBUG, "STUB IMPLEMENTATION: Printing symbol table");
+  _DONE;
+
+  logger(DEBUG, "=== END ===");
+  return EXIT_SUCCESS;
+}
+
+/*
+ * ==================================
+ * END ALEX FUNCTION DEFINITIONS
  * ==================================
  */
