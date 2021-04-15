@@ -62,14 +62,14 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
     case ARGP_KEY_ARG:
       if (state->arg_num >= 2)      // Too many arguments
-        argp_usage (state);
+          argp_usage (state);
       arguments->args[state->arg_num] = arg;
-      break;
+      return ARGP_ERR_UNKNOWN;
 
     case ARGP_KEY_END:
       if (state->arg_num < 1)       // Not enough arguments
         argp_usage (state);
-      break;
+      return ARGP_ERR_UNKNOWN;
 
     default:
       return ARGP_ERR_UNKNOWN;
@@ -106,7 +106,9 @@ main (int argc, char **argv)
     };
 
   /// Parse arguments
-  argp_parse (&argp, argc, argv, 0, 0, &arguments);
+  error_t argp_parse_ret = argp_parse (&argp, argc, argv, 0, 0, &arguments);
+  if (argp_parse_ret != EXIT_SUCCESS)
+    return argp_parse_ret;
 
   /// Populate variables for source, destination, log file
   source_fn = strdup (arguments.args[0]);
