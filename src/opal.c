@@ -9,6 +9,7 @@
 #include <errno.h>              /* errno macros and codes */
 #include <stdbool.h>            /* boolean datatypes */
 #include <unistd.h>
+#include <ctype.h>              /* isspace(), isalnum() */
 
 #include "../include/opal.h"
 
@@ -221,6 +222,43 @@ opal_exit (short code)
     logger(DEBUG, "=== END ===\n\n");
 
   return (code);
+}
+
+/**
+ * @brief       Function to read next character from the source file descriptor
+ *
+ * @return      Character read
+ *
+ * @retval      Next character read from FILE *stream source_fd
+ * @retval      errno           On system call failure
+ *
+ */
+
+int
+read_next_char (void)
+{
+  /// Read character from source file descriptor
+  next_char = getc (source_fd);
+
+  /// getc() sets the errno in the event of an error
+  if (errno != 0)
+    {
+      perror (perror_msg);
+      opal_exit (errno);
+    }
+
+  /// Increment the column number of the character
+  ++char_col;
+
+  /// If character is a newline, increment line number and reset column number
+  if (next_char == '\n')
+    {
+      ++char_line;
+      char_col = 0;
+    }
+
+  /// Return the character read
+  return next_char;
 }
 
 /*
@@ -524,13 +562,185 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
  */
 
 /**
+ * @brief       Get lexeme for a string literal
+ *
+ * @return      Next lexeme struct with values populated
+ *
+ * @retval      struct lexeme
+ *
+ */
+
+lexeme_s
+get_string_literal_lexeme(int char_line, int char_col)
+{
+
+  // TODO: Replace stub implementation
+  lexeme_s retVal = { 0 };
+  return retVal;
+}
+
+/**
+ * @brief       Get lexeme for binary or unary operator
+ *
+ * @return      Next lexeme struct with values populated
+ *
+ * @retval      enum lexeme type
+ *
+ */
+
+lexeme_type_e
+binary_unary (char compound_char, lexeme_type_e compound_type,
+              lexeme_type_e simple_type, int char_line, int char_col)
+{
+
+  // TODO: Replace stub implementation
+  lexeme_type_e retVal = lx_NOP;
+  return retVal;
+}
+
+lexeme_s
+get_identifier_lexeme (int char_line, int char_col)
+{
+
+  // TODO: Replace stub implementation
+  lexeme_s retVal =
+      { 0 };
+  return retVal;
+}
+
+/**
+ * @brief       Get the next lexeme based on the next character
+ *
+ * @return      Next lexeme struct with values populated
+ *
+ * @retval      struct lexeme
+ *
+ */
+
+lexeme_s
+get_next_lexeme (void)
+{
+
+  /// Create a empty struct to populate and return
+  lexeme_s retVal =
+    { 0 };
+
+  /// Call read_next_char() to get the next character from source
+  while (isspace (next_char))
+    {
+      read_next_char ();
+    }
+
+  /// Popoulate lexeme line and column number
+  retVal.line = char_line;
+  retVal.column = char_col;
+
+  /// Get the lexeme type based on the next character
+  switch (next_char)
+    {
+    case '{':
+      retVal.type = lx_Lbrace;
+      break;
+    case '}':
+      retVal.type = lx_Rbrace;
+      break;
+    case '(':
+      retVal.type = lx_Lparen;
+      break;
+    case ')':
+      retVal.type = lx_Rparen;
+      break;
+    case '/':
+      retVal.type = lx_Div;
+      break;
+    case '*':
+      retVal.type = lx_Mul;
+      break;
+    case '%':
+      retVal.type = lx_Mod;
+      break;
+    case ';':
+      retVal.type = lx_Semi;
+      break;
+    case ',':
+      retVal.type = lx_Comma;
+      break;
+    case '+':
+      retVal.type = lx_Add;
+      break;
+    case '-':
+      retVal.type = lx_Sub;
+      break;
+    case '<':
+      retVal.type = binary_unary ('=', lx_Leq, lx_Lss, char_line, char_col);
+      return retVal;
+    case '>':
+      retVal.type = binary_unary ('=', lx_Geq, lx_Gtr, char_line, char_col);
+      return retVal;
+    case '=':
+      retVal.type = binary_unary ('=', lx_Eq, lx_Assign, char_line, char_col);
+      return retVal;
+    case '!':
+      retVal.type = binary_unary ('=', lx_Neq, lx_Not, char_line, char_col);
+      return retVal;
+    case '&':
+      retVal.type = binary_unary ('&', lx_And, lx_EOF, char_line, char_col);
+      return retVal;
+    case '|':
+      retVal.type = binary_unary ('|', lx_Or, lx_EOF, char_line, char_col);
+      return retVal;
+    case '"':
+      return get_string_literal_lexeme (char_line, char_col);
+    case EOF:
+      retVal.type = lx_EOF;
+      break;
+    default:
+      return get_identifier_lexeme (char_line, char_col);
+    }
+
+  read_next_char ();
+  return retVal;
+}
+
+/**
+ * @brief       Get lexeme string format
+ *
+ * @param[in]       lexeme_s    Lexeme to stringify
+ * @param[in/out]   buffer      Buffer to store string value of lexeme
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+short
+get_lexeme_str (lexeme_s lexeme, char *buffer)
+{
+
+  /// Assert buffer is not NULL
+  logger(DEBUG, "assert(buffer)");
+  assert (buffer);
+  _PASS;
+
+  /// Empty out the string buffer
+  memset(buffer, 0, 1024 * sizeof(char));
+
+  /// Populate the buffer with values from the struct
+  sprintf (buffer, "{line: % 3d, col: % 3d, lx_type: %s, val: '%s'}",
+           lexeme.line, lexeme.column,
+           op_name[lexeme.type], lexeme.char_val ? lexeme.char_val : "");
+
+  return EXIT_SUCCESS;
+}
+
+/**
  * @brief       Populate symbol table with lexemes in source file descriptor
  *
- * @details     TODO
- *
- * @param[in/out]   symbol_table    Log level of message
- * @param[in/out]   symbol_count    Source file name
- * @param[in/out]   source_fd       Source file line number
+ * @param[in/out]   symbol_table    Symbol table linked list to populate
+ * @param[in/out]   symbol_count    Pointer to count of lexemes found
+ * @param[in/out]   source_fd       Source file descriptor
  *
  * @return      The error return code of the function.
  *
@@ -541,7 +751,7 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
  */
 
 short
-build_symbol_table (lexeme_s *symbol_table, int *symbol_count, FILE *source_fd)
+build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
 {
   logger(DEBUG, "=== START ===");
 
@@ -555,9 +765,25 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count, FILE *source_fd)
   assert(symbol_count);
   _PASS;
 
-  // TODO: Replace stub implementation next
-  logger(DEBUG, "STUB IMPLEMENTATION: Building symbol table");
-  _DONE;
+  /// Get lexemes in a loop until we get a EOF lexeme
+  logger(DEBUG, "Get lexemes and print to standard out");
+
+  do
+    {
+      /// Call get_next_lexeme() to populate next_lexeme
+      next_lexeme = get_next_lexeme ();
+
+      /// Call get_lexeme_str() to stringify next_lexeme
+      if (get_lexeme_str (next_lexeme, next_lexeme_str) != EXIT_SUCCESS)
+        return (EXIT_FAILURE);
+
+      /// Print lexeme to standard out
+      logger(DEBUG, "Append lexeme %s", next_lexeme_str);
+
+    }
+  while (next_lexeme.type != lx_EOF);
+
+  /// STUB IMPLEMENTATION: Increment symbol count to non-zero for now
   *symbol_count = 1;
 
   logger(DEBUG, "=== END ===");
@@ -567,10 +793,8 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count, FILE *source_fd)
 /**
  * @brief       Print symbol table to destination file descriptor
  *
- * @details     TODO
- *
- * @param[in/out]   symbol_table    Log level of message
- * @param[in/out]   source_fd       Source file line number
+ * @param[in/out]   symbol_table    Symbol table to print
+ * @param[in/out]   dest_fd         Destination file descriptor
  *
  * @return      The error return code of the function.
  *

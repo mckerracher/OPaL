@@ -16,11 +16,11 @@ libopal: src/opal.c include/opal.h
 
 # Build MARC preprocessor
 marc: libopal src/marc.c
-	$(CC) $(CFLAGS) src/marc.c -lopal -o build/marc
+	$(CC) $(CFLAGS) src/marc.c -g -lopal -o build/marc
 
-# Build ALEX preprocessor
+# Build ALEX lexican analyzer
 alex: libopal src/alex.c
-	$(CC) $(CFLAGS) src/alex.c -lopal -o build/alex
+	$(CC) $(CFLAGS) src/alex.c -g -lopal -o build/alex
 
 # Tar all files for release
 tar: libopal marc alex
