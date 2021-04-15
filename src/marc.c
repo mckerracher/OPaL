@@ -63,17 +63,13 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
     case ARGP_KEY_ARG:
       if (state->arg_num >= 1)      // Too many arguments
-        {
-          argp_usage (state);
-        }
+        argp_usage (state);
       arguments->args[state->arg_num] = arg;
       break;
 
     case ARGP_KEY_END:
       if (state->arg_num < 1)       // Not enough arguments
-        {
-          argp_usage (state);
-        }
+        argp_usage (state);
       break;
 
     default:
