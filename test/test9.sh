@@ -1,5 +1,4 @@
-#!/bin/bash
-
+printf "build/marc\n";
 export LD_LIBRARY_PATH=build/
 build/marc
 if [[ $? -ne 64 ]] ; then

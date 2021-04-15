@@ -51,15 +51,37 @@ test: clean all
 	@printf "\n=== Test 6 ===\n"
 	build/marc --debug --output=output/test6.opl input/test6.opl
 	diff -s output/test6.opl test/test6.opl
+
+all_tests: test
+	@printf "\n=== Test 7 ===\n"
+	@bash test/test7.sh
 	
-	@#printf "\n=== Test 7 ===\n"
-	@#bash test/test7.sh || true
+	@printf "\n=== Test 8 ===\n"
+	@chmod 000 input/_RESTRICTED_.hpl
+	@bash test/test8.sh
+	@chmod 644 input/_RESTRICTED_.hpl
 	
-	@#printf "\n=== Test 8 ===\n"
-	@#chmod -v 000 input/_RESTRICTED_.hpl
-	@#bash test/test8.sh
-	@#chmod -v 644 input/_RESTRICTED_.hpl
+	@printf "\n=== Test 9 ===\n"
+	@bash test/test9.sh
 	
+	@printf "\n=== Test 10 ===\n"
+	@bash test/test10.sh
+	
+	@printf "\n=== Test 11 ===\n"
+	@bash test/test11.sh
+	
+	@printf "\n=== Test 12 ===\n"
+	@bash test/test12.sh
+	
+	@printf "\n=== Test 13 ===\n"
+	@bash test/test13.sh
+	
+	@printf "\n=== Test 14 ===\n"
+	@bash test/test14.sh
+	
+	@printf "\n=== Test 15 ===\n"
+	@bash test/test15.sh
+
 .PHONY: clean
 clean:
 	# Delete binaries
