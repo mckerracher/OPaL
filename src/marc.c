@@ -20,13 +20,14 @@ void (*argp_program_version_hook)(FILE *stream, struct argp_state *state) =
 const char *argp_program_bug_address =
     "https://github.com/mckerracher/OPaL/issues";
 
-static char doc[] = "marc - OPaL Compiler preprocessor";   ///< Program documentation
+/// Program documentation
+static char doc[] = "marc - OPaL Compiler preprocessor";
 static char args_doc[] = "FILE";            ///< Arguments we accept
 static struct argp_option options[] =       ///< The options we understand
   {
     { "debug", 'd', 0, 0, "Log debug messages" },
-    { "log", 'l', "<file>", 0, "Save log messages to <file> [Default: log/oc_log]" },
-    { "output", 'o', "<file>", 0, "Place the output into <file> [Default: STDOUT]" },
+    { "log", 'l', "FILE", 0, "Save log to FILE instead of 'log/oc_log'" },
+    { "output", 'o', "FILE", 0, "Output to FILE instead of standard ouput" },
     { 0 }
   };
 
@@ -61,7 +62,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
       break;
 
     case ARGP_KEY_ARG:
-      if (state->arg_num >= 2)      // Too many arguments
+      if (state->arg_num >= 1)      // Too many arguments
         argp_usage (state);
       arguments->args[state->arg_num] = arg;
       break;
@@ -74,6 +75,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
     default:
       return ARGP_ERR_UNKNOWN;
     }
+
   return EXIT_SUCCESS;
 }
 
