@@ -16,7 +16,8 @@
  * function, followed the formatted string & status like PASS, FAIL etc
  * ==================================
  */
-#define logger(tag, ...) opal_log(tag, __FILE__, __LINE__, __func__, __VA_ARGS__)
+#define logger(tag, ...) \
+  opal_log(tag, __FILE__, __LINE__, __func__, __VA_ARGS__)
 #define _PASS (logger(RESULT, " - PASS"))   ///< Macro function to log PASS
 #define _FAIL (logger(RESULT, " - FAIL"))   ///< Macro function to log FAIL
 #define _DONE (logger(RESULT, " .. DONE"))  ///< Macro function to log DONE
@@ -36,6 +37,10 @@ FILE *dest_fd = NULL;           ///< Destination file pointer
 FILE *log_fd = NULL;            ///< Log file pointer
 
 short retVal = 0;               ///< Function return value
+
+int next_char = ' ';            ///< Next character in source file descriptor
+int char_col = 0;               ///< Column number of character in source file
+int char_line = 0;              ///< Line number of character in source file
 
 /// Log level name enum for opal_log function
 typedef enum log_level
@@ -60,7 +65,6 @@ typedef enum lexeme_type
   lx_Ident,
   lx_Integer,
   lx_String,
-  lx_Char,
   lx_Assign,
   lx_Add,
   lx_Sub,
@@ -84,13 +88,21 @@ typedef enum lexeme_type
   lx_Rparen,
   lx_Lbrace,
   lx_Rbrace,
-  lx_LSqBr,
-  lx_RSqBr,
   lx_Semi,
   lx_Comma,
   lx_Print,
   lx_Input
 } lexeme_type_e;
+
+/// Lexeme type names for logging
+const char op_name[][16] =
+  { "No_operation", "End_of_file", "Identifier", "Integer", "String",
+      "Op_Assign", "Op_Add", "Op_Subtract", "Op_Negate", "Op_Multiply",
+      "Op_Divide", "Op_Mod", "Op_Equal", "Op_NotEqual", "Op_Less", "Op_Greater",
+      "Op_LessEqual", "Op_GreaterEqual", "Op_And", "Op_Or", "Op_Not",
+      "Keyword_If", "Keyword_Else", "Keyword_While", "LeftParen", "RightParen",
+      "LeftBrace", "RightBrace", "Semicolon", "Comma", "Keyword_print",
+      "Keyword_input" };
 
 /// Struct for lexeme in the symbol table linked list
 typedef struct lexeme
@@ -103,6 +115,12 @@ typedef struct lexeme
   struct lexeme *next;
 } lexeme_s;
 
+/// Struct to hold next lexeme
+lexeme_s next_lexeme = { 0 };
+
+/// A buffer to hold string value of lexeme
+char next_lexeme_str[1024] = { 0 };
+
 /*
  * ==================================
  * COMMON FUNCTION DECLARATIONS
@@ -114,6 +132,8 @@ void opal_log (log_level_e, const char*, int, const char*, const char*, ...);
 void banner (const char*);
 /// Close open files, flush buffers and exit
 short opal_exit (short);
+/// Read next character from source file
+int read_next_char();
 
 /*
  * ==================================
@@ -130,10 +150,19 @@ short proc_includes(FILE*, FILE*);
  * ALEX FUNCTION DECLARATIONS
  * ==================================
  */
+/// Get lexeme for a string literal
+lexeme_s get_string_literal_lexeme(int, int);
+/// Get lexeme for binary or unary operator
+lexeme_type_e binary_unary (char, lexeme_type_e, lexeme_type_e, int, int);
+/// Get identifier lexeme
+lexeme_s get_identifier_lexeme (int, int);
+/// Get the next lexeme
+lexeme_s get_next_lexeme(void);
+/// Stringify lexeme
+short get_lexeme_str(lexeme_s, char*);
 /// Populate symbol table with lexemes in source file descriptor
-short build_symbol_table (lexeme_s*, int*, FILE*);
+short build_symbol_table (lexeme_s*, int*);
 /// Print symbol table to destination file descriptor
 short print_symbol_table (lexeme_s*, FILE*);
-
 
 #endif /* OPAL_H_ */

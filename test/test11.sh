@@ -1,4 +1,4 @@
-#!/bin/bash
+printf "build/marc --invalid_flag --output=test.tmp\n"
 
 export LD_LIBRARY_PATH=build/
 build/marc --invalid_flag --output=test.tmp

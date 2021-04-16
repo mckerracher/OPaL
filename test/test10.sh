@@ -1,4 +1,4 @@
-#!/bin/bash
+printf "build/marc --debug --output=test.tmp\n";
 
 export LD_LIBRARY_PATH=build/
 build/marc --debug --output=test.tmp
