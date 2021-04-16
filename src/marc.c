@@ -113,7 +113,8 @@ main (int argc, char **argv)
   /// Populate variables for source, destination, log file
   source_fn = strdup (arguments.args[0]);
   dest_fn = arguments.destfile ? strdup (arguments.destfile) : NULL;
-  log_fn = arguments.logfile ? strdup (arguments.logfile) : "log/oc_log";
+  log_fn =
+      arguments.logfile ? strdup (arguments.logfile) : strdup ("log/oc_log");
 
   /// Open log file in append mode, else exit program
   sprintf (perror_msg, "log_fd = fopen(%s, 'a')", log_fn);

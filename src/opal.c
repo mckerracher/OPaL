@@ -46,7 +46,7 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
 {
 
   /// 1. Assert log file descriptor is not null
-  assert(log_fd != NULL);
+  assert(log_fd);
 
   /// 2. Allocate buffer to hold message to log
   char buf[1024] =
@@ -167,6 +167,13 @@ opal_exit (short code)
         }
     }
 
+  if (source_fn)
+    {
+      logger(DEBUG, "free (source_fn)");
+      free (source_fn);
+      source_fn = NULL;
+    }
+
   /// Flush and close destination file
   if (dest_fd && dest_fd != stdout)
     {
@@ -191,6 +198,46 @@ opal_exit (short code)
           perror (perror_msg);
           return (errno);
         }
+    }
+
+  if (dest_fn)
+    {
+      logger(DEBUG, "free (dest_fn)");
+      free (dest_fn);
+      dest_fn = NULL;
+    }
+
+  /// Flush and close report file
+  if (report_fd)
+    {
+      sprintf (perror_msg, "fflush(report_fd)");
+      logger(DEBUG, perror_msg);
+      if (fflush (report_fd) == EXIT_SUCCESS)
+        _PASS;
+      else
+        {
+          _FAIL;
+          perror (perror_msg);
+          return (errno);
+        }
+
+      sprintf (perror_msg, "fclose(report_fd)");
+      logger(DEBUG, perror_msg);
+      if (fclose (report_fd) == EXIT_SUCCESS)
+        _PASS;
+      else
+        {
+          _FAIL;
+          perror (perror_msg);
+          return (errno);
+        }
+    }
+
+  if (report_fn)
+    {
+      logger(DEBUG, "free(report_fn)");
+      free(report_fn);
+      report_fn = NULL;
     }
 
   /// Flush and close log file
@@ -220,6 +267,12 @@ opal_exit (short code)
     }
   else
     logger(DEBUG, "=== END ===\n\n");
+
+  if (log_fn)
+    {
+      free(log_fn);
+      log_fn = NULL;
+    }
 
   return (code);
 }
@@ -261,6 +314,78 @@ read_next_char (void)
   return next_char;
 }
 
+/**
+ * @brief   Initialize HTML report file
+ *
+ * @param[int/out] report_fd    Report file descriptor
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+
+short
+init_report (FILE *report_fd)
+{
+
+  logger(DEBUG, "=== START ===");
+
+  /// Assert report file descriptor is not NULL
+  assert(report_fd);
+
+  /// Write HTML head tag to the report
+  logger (DEBUG, "Writing HTML head tag to report");
+  fprintf (report_fd, "<!DOCTYPE html>\n"
+           "<html>\n"
+           "<head>\n"
+           "<title>OPaL compilation report</title>\n"
+           "<style>\n"
+           "</style>\n"
+           "</head>\n");
+
+  /// Start HTML body tag
+  fprintf (report_fd, "<body>\n");
+
+  /// Open textarea tag for source file
+  fprintf (report_fd, "<h2>Compilation steps report </h2>\n"
+           "<h3>Original source file: <code>%s</code></h3>\n<hr>\n"
+           "<textarea style='resize: none;' readonly rows='25' cols='80'>\n",
+           source_fn);
+
+  /// Append source file to HTML report and close textarea tag
+  char ch = 0;
+  logger (DEBUG, "Copying source file to HTML report");
+  while ((ch = fgetc (source_fd)) != EOF)
+    fputc (ch, report_fd);
+  _DONE;
+
+  fprintf (report_fd, "\n</textarea>\n");
+  fflush (report_fd);
+
+  /// Rewind source file descriptor
+  sprintf (perror_msg, "rewind('%s')", source_fn);
+  logger(DEBUG, perror_msg);
+  rewind (source_fd);
+
+  /// If current value of source file position not 0, print error and exit
+  if (ftell (source_fd) == 0)
+    {
+      _DONE;
+    }
+  else
+    {
+      _FAIL;
+      perror (perror_msg);
+      return (errno);
+    }
+
+  logger(DEBUG, "=== END ===");
+  return EXIT_SUCCESS;
+}
+
 /*
  * ==================================
  * END COMMON FUNCTION DEFINITIONS
@@ -286,6 +411,7 @@ read_next_char (void)
  * @retval      errno           On system call failure
  *
  */
+
 short
 rem_comments (FILE *source_fd, FILE *dest_fd)
 {
@@ -720,17 +846,15 @@ get_lexeme_str (lexeme_s lexeme, char *buffer)
 {
 
   /// Assert buffer is not NULL
-  logger(DEBUG, "assert(buffer)");
-  assert (buffer);
-  _PASS;
+  assert(buffer);
 
   /// Empty out the string buffer
-  memset(buffer, 0, 1024 * sizeof(char));
+  memset (buffer, 0, 1024 * sizeof(char));
 
   /// Populate the buffer with values from the struct
   sprintf (buffer, "{line: % 3d, col: % 3d, lx_type: %s, val: '%s'}",
-           lexeme.line, lexeme.column,
-           op_name[lexeme.type], lexeme.char_val ? lexeme.char_val : "");
+           lexeme.line, lexeme.column, op_name[lexeme.type],
+           lexeme.char_val ? lexeme.char_val : "");
 
   return EXIT_SUCCESS;
 }
