@@ -158,7 +158,10 @@ opal_exit (short code)
       sprintf (perror_msg, "fclose(source_fd)");
       logger(DEBUG, perror_msg);
       if (fclose (source_fd) == EXIT_SUCCESS)
-        _PASS;
+        {
+          _PASS;
+          source_fd = NULL;
+        }
       else
         {
           _FAIL;
@@ -191,7 +194,10 @@ opal_exit (short code)
       sprintf (perror_msg, "fclose(dest_fd)");
       logger(DEBUG, perror_msg);
       if (fclose (dest_fd) == EXIT_SUCCESS)
-        _PASS;
+        {
+          _PASS;
+          dest_fd = NULL;
+        }
       else
         {
           _FAIL;
@@ -224,7 +230,10 @@ opal_exit (short code)
       sprintf (perror_msg, "fclose(report_fd)");
       logger(DEBUG, perror_msg);
       if (fclose (report_fd) == EXIT_SUCCESS)
-        _PASS;
+        {
+          _PASS;
+          report_fd = NULL;
+        }
       else
         {
           _FAIL;
@@ -243,7 +252,7 @@ opal_exit (short code)
   /// Flush and close log file
   if (log_fd && log_fd != stdout)
     {
-      logger(DEBUG, "=== END ===");
+
 
       sprintf (perror_msg, "fflush(log_fd)");
       logger(DEBUG, perror_msg);
@@ -258,12 +267,14 @@ opal_exit (short code)
 
       sprintf (perror_msg, "fclose(log_fd)");
       logger(DEBUG, perror_msg);
+      logger(DEBUG, "=== END ===");
       logger(DEBUG, "\n");
       if (fclose (log_fd) != EXIT_SUCCESS)
         {
           perror (perror_msg);
           return (errno);
         }
+      log_fd = NULL;
     }
   else
     logger(DEBUG, "=== END ===\n\n");

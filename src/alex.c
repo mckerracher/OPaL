@@ -27,14 +27,14 @@ const char *argp_program_bug_address =
 static char doc[] = "alex - OPaL Compiler preprocessor";
 static char args_doc[] = "FILE";            ///< Arguments we accept
 static struct argp_option options[] =       ///< The options we understand
-      {
-        { "debug", 'd', 0, 0, "Log debug messages" },
-        { "log", 'l', "FILE", 0, "Save log to FILE instead of 'log/oc_log'" },
-            { "output", 'o', "FILE", 0,
-                "Output to FILE instead of standard ouput" },
-            { "report", 'r', "FILE", 0,
-                "Output report to FILE instead of 'report/oc_report.html'" },
-            { 0 } };
+  {
+    { "debug", 'd', 0, 0, "Log debug messages" },
+    { "log", 'l', "FILE", 0, "Save log to FILE instead of 'log/oc_log'" },
+    { "output", 'o', "FILE", 0, "Output to FILE instead of standard ouput" },
+    { "report", 'r', "FILE", 0,
+        "Output report to FILE instead of 'report/oc_report.html'" },
+    { 0 }
+  };
 
 struct arguments
 {
@@ -284,7 +284,10 @@ main (int argc, char **argv)
   if (source_fd)
     {
       if (fclose (source_fd) == EXIT_SUCCESS)
-        _PASS;
+        {
+          _PASS;
+          source_fd = NULL;
+        }
       else
         {
           _FAIL;
@@ -299,7 +302,10 @@ main (int argc, char **argv)
   if (rc_fd)
     {
       if (fclose (rc_fd) == EXIT_SUCCESS)
-        _PASS;
+        {
+          _PASS;
+          rc_fd = NULL;
+        }
       else
         {
           _FAIL;
@@ -352,7 +358,10 @@ main (int argc, char **argv)
       logger(DEBUG, perror_msg);
 
       if (fclose (rc_fd) == EXIT_SUCCESS)
-        _PASS;
+        {
+          _PASS;
+          rc_fd = NULL;
+        }
       else
         {
           _FAIL;
@@ -368,7 +377,10 @@ main (int argc, char **argv)
       logger(DEBUG, perror_msg);
 
       if (fclose (pi_fd) == EXIT_SUCCESS)
-        _PASS;
+        {
+          _PASS;
+          pi_fd = NULL;
+        }
       else
         {
           _FAIL;
@@ -414,7 +426,10 @@ main (int argc, char **argv)
   sprintf (perror_msg, "fclose(pi_fd)");
   logger(DEBUG, perror_msg);
   if (fclose (pi_fd) == EXIT_SUCCESS)
-    _PASS;
+    {
+      _PASS;
+      pi_fd = NULL;
+    }
   else
     {
       _FAIL;
@@ -426,7 +441,10 @@ main (int argc, char **argv)
   sprintf (perror_msg, "fclose(rc_fd)");
   logger(DEBUG, perror_msg);
   if (fclose (rc_fd) == EXIT_SUCCESS)
-    _PASS;
+    {
+      _PASS;
+      rc_fd = NULL;
+    }
   else
     {
       _FAIL;
@@ -460,11 +478,26 @@ main (int argc, char **argv)
 
   fprintf (report_fd, "\n</textarea>\n");
 
+  // Flush contents of report to disk
+  sprintf (perror_msg, "fflush(report_fd)");
+  logger(DEBUG, perror_msg);
+  if (fflush (report_fd) == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      _FAIL;
+      perror (perror_msg);
+      return (errno);
+    }
+
   /// Close rem_comments() temp file descriptor, else print error and exit
   sprintf (perror_msg, "fclose(rc_fd)");
   logger(DEBUG, perror_msg);
   if (fclose (rc_fd) == EXIT_SUCCESS)
-    _PASS;
+    {
+      _PASS;
+      rc_fd = NULL;
+    }
   else
     {
       _FAIL;
