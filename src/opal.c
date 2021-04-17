@@ -23,7 +23,7 @@
  * @brief       Print formatted message to log file
  *
  * @details     Helper function to log messages. Function writes to global
- * variable log_fd. Usually called by a macro logger. Eg:
+ * variable log_fp. Usually called by a macro logger. Eg:
  *
  * ```
  * logger (ERROR, "Cannot read file: %s", file_name);
@@ -45,8 +45,8 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
           const char *fmt, ...)
 {
 
-  /// 1. Assert log file descriptor is not null
-  assert(log_fd);
+  /// 1. Assert log file pointer is not null
+  assert(log_fp);
 
   /// 2. Allocate buffer to hold message to log
   char buf[1024] =
@@ -64,26 +64,26 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
    */
   if (tag == RESULT && LOG_LEVEL >= DEBUG)
     {
-      fprintf (log_fd, "%s", buf);
-      fflush (log_fd);
+      fprintf (log_fp, "%s", buf);
+      fflush (log_fp);
       return;
     }
 
   /**
    * 5. If log message is less than current log level, print message with
-   * current date, time to log file descriptor. Eg.
+   * current date, time to log file pointer. Eg.
    *
    * ```
-   * [05/02/2021 20:57:58] [DEBUG]   main() [source_fd] access('input/hello.opl', R_OK) - PASS
+   * [05/02/2021 20:57:58] [DEBUG]   main() [source_fp] access('input/hello.opl', R_OK) - PASS
    * ```
    */
   if (tag <= LOG_LEVEL)
     {
-      fprintf (log_fd, "\n[%10s:%4d] %20s() %s", file, line, func, buf);
+      fprintf (log_fp, "\n[%10s:%4d] %20s() %s", file, line, func, buf);
     }
 
   /// 6. Flush message to log file
-  fflush (log_fd);
+  fflush (log_fp);
 }
 
 /**
@@ -153,14 +153,14 @@ opal_exit (short code)
     }
 
   /// Close source file
-  if (source_fd && source_fd != stdin)
+  if (source_fp && source_fp != stdin)
     {
-      sprintf (perror_msg, "fclose(source_fd)");
+      sprintf (perror_msg, "fclose(source_fp)");
       logger(DEBUG, perror_msg);
-      if (fclose (source_fd) == EXIT_SUCCESS)
+      if (fclose (source_fp) == EXIT_SUCCESS)
         {
           _PASS;
-          source_fd = NULL;
+          source_fp = NULL;
         }
       else
         {
@@ -178,11 +178,11 @@ opal_exit (short code)
     }
 
   /// Flush and close destination file
-  if (dest_fd && dest_fd != stdout)
+  if (dest_fp && dest_fp != stdout)
     {
-      sprintf (perror_msg, "fflush(dest_fd)");
+      sprintf (perror_msg, "fflush(dest_fp)");
       logger(DEBUG, perror_msg);
-      if (fflush (dest_fd) == EXIT_SUCCESS)
+      if (fflush (dest_fp) == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -191,12 +191,12 @@ opal_exit (short code)
           return (errno);
         }
 
-      sprintf (perror_msg, "fclose(dest_fd)");
+      sprintf (perror_msg, "fclose(dest_fp)");
       logger(DEBUG, perror_msg);
-      if (fclose (dest_fd) == EXIT_SUCCESS)
+      if (fclose (dest_fp) == EXIT_SUCCESS)
         {
           _PASS;
-          dest_fd = NULL;
+          dest_fp = NULL;
         }
       else
         {
@@ -214,11 +214,11 @@ opal_exit (short code)
     }
 
   /// Flush and close report file
-  if (report_fd)
+  if (report_fp)
     {
-      sprintf (perror_msg, "fflush(report_fd)");
+      sprintf (perror_msg, "fflush(report_fp)");
       logger(DEBUG, perror_msg);
-      if (fflush (report_fd) == EXIT_SUCCESS)
+      if (fflush (report_fp) == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -227,12 +227,12 @@ opal_exit (short code)
           return (errno);
         }
 
-      sprintf (perror_msg, "fclose(report_fd)");
+      sprintf (perror_msg, "fclose(report_fp)");
       logger(DEBUG, perror_msg);
-      if (fclose (report_fd) == EXIT_SUCCESS)
+      if (fclose (report_fp) == EXIT_SUCCESS)
         {
           _PASS;
-          report_fd = NULL;
+          report_fp = NULL;
         }
       else
         {
@@ -250,13 +250,13 @@ opal_exit (short code)
     }
 
   /// Flush and close log file
-  if (log_fd && log_fd != stdout)
+  if (log_fp && log_fp != stdout)
     {
 
 
-      sprintf (perror_msg, "fflush(log_fd)");
+      sprintf (perror_msg, "fflush(log_fp)");
       logger(DEBUG, perror_msg);
-      if (fflush (log_fd) == EXIT_SUCCESS)
+      if (fflush (log_fp) == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -265,16 +265,16 @@ opal_exit (short code)
           return (errno);
         }
 
-      sprintf (perror_msg, "fclose(log_fd)");
+      sprintf (perror_msg, "fclose(log_fp)");
       logger(DEBUG, perror_msg);
       logger(DEBUG, "=== END ===");
       logger(DEBUG, "\n");
-      if (fclose (log_fd) != EXIT_SUCCESS)
+      if (fclose (log_fp) != EXIT_SUCCESS)
         {
           perror (perror_msg);
           return (errno);
         }
-      log_fd = NULL;
+      log_fp = NULL;
     }
   else
     logger(DEBUG, "=== END ===\n\n");
@@ -289,11 +289,11 @@ opal_exit (short code)
 }
 
 /**
- * @brief       Function to read next character from the source file descriptor
+ * @brief       Function to read next character from the source file pointer
  *
  * @return      Character read
  *
- * @retval      Next character read from FILE *stream source_fd
+ * @retval      Next character read from FILE *stream source_fp
  * @retval      errno           On system call failure
  *
  */
@@ -301,8 +301,8 @@ opal_exit (short code)
 int
 read_next_char (void)
 {
-  /// Read character from source file descriptor
-  next_char = getc (source_fd);
+  /// Read character from source file pointer
+  next_char = getc (source_fp);
 
   /// getc() sets the errno in the event of an error
   if (errno != 0)
@@ -328,7 +328,7 @@ read_next_char (void)
 /**
  * @brief   Initialize HTML report file
  *
- * @param[int/out] report_fd    Report file descriptor
+ * @param[int/out] report_fp    Report file pointer
  *
  * @return      The error return code of the function.
  *
@@ -339,17 +339,17 @@ read_next_char (void)
  */
 
 short
-init_report (FILE *report_fd)
+init_report (FILE *report_fp)
 {
 
   logger(DEBUG, "=== START ===");
 
-  /// Assert report file descriptor is not NULL
-  assert(report_fd);
+  /// Assert report file pointer is not NULL
+  assert(report_fp);
 
   /// Write HTML head tag to the report
   logger (DEBUG, "Writing HTML head tag to report");
-  fprintf (report_fd, "<!DOCTYPE html>\n"
+  fprintf (report_fp, "<!DOCTYPE html>\n"
            "<html>\n"
            "<head>\n"
            "<title>OPaL compilation report</title>\n"
@@ -358,10 +358,10 @@ init_report (FILE *report_fd)
            "</head>\n");
 
   /// Start HTML body tag
-  fprintf (report_fd, "<body>\n");
+  fprintf (report_fp, "<body>\n");
 
   /// Open textarea tag for source file
-  fprintf (report_fd, "<h2>Compilation steps report </h2>\n"
+  fprintf (report_fp, "<h2>Compilation steps report </h2>\n"
            "<h3>Original source file: <code>%s</code></h3>\n<hr>\n"
            "<textarea style='resize: none;' readonly rows='25' cols='80'>\n",
            source_fn);
@@ -369,20 +369,20 @@ init_report (FILE *report_fd)
   /// Append source file to HTML report and close textarea tag
   char ch = 0;
   logger (DEBUG, "Copying source file to HTML report");
-  while ((ch = fgetc (source_fd)) != EOF)
-    fputc (ch, report_fd);
+  while ((ch = fgetc (source_fp)) != EOF)
+    fputc (ch, report_fp);
   _DONE;
 
-  fprintf (report_fd, "\n</textarea>\n");
-  fflush (report_fd);
+  fprintf (report_fp, "\n</textarea>\n");
+  fflush (report_fp);
 
-  /// Rewind source file descriptor
+  /// Rewind source file pointer
   sprintf (perror_msg, "rewind('%s')", source_fn);
   logger(DEBUG, perror_msg);
-  rewind (source_fd);
+  rewind (source_fp);
 
   /// If current value of source file position not 0, print error and exit
-  if (ftell (source_fd) == 0)
+  if (ftell (source_fp) == 0)
     {
       _DONE;
     }
@@ -412,8 +412,8 @@ init_report (FILE *report_fd)
 /**
  * @brief       Function to read from source, remove comments, and write to destination
  *
- * @param[in]   source_fd     Source to be read from
- * @param[in]   dest_fd       Destination to written to
+ * @param[in]   source_fp     Source to be read from
+ * @param[in]   dest_fp       Destination to written to
  *
  * @return      The error return code of the function.
  *
@@ -424,18 +424,18 @@ init_report (FILE *report_fd)
  */
 
 short
-rem_comments (FILE *source_fd, FILE *dest_fd)
+rem_comments (FILE *source_fp, FILE *dest_fp)
 {
   logger(DEBUG, "=== START ===");
 
-  /// Check if source file descriptor is not NULL
-  logger(DEBUG, "assert(source_fd)");
-  assert(source_fd);
+  /// Check if source file pointer is not NULL
+  logger(DEBUG, "assert(source_fp)");
+  assert(source_fp);
   _PASS;
 
-  /// Check if destination file descriptor is not NULL
-  logger(DEBUG, "assert(dest_fd)");
-  assert(dest_fd);
+  /// Check if destination file pointer is not NULL
+  logger(DEBUG, "assert(dest_fp)");
+  assert(dest_fp);
   _PASS;
 
   char ch = 0;
@@ -444,17 +444,17 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
   int numComments = 0;
 
   /// Start reading characters from file
-  while ((ch = fgetc (source_fd)) != EOF)
+  while ((ch = fgetc (source_fp)) != EOF)
     {
       /// If character is not a /, line is not a comment
       if (ch != '/')
         {
-          fputc (ch, dest_fd);
+          fputc (ch, dest_fp);
           continue;
         }
       /// If character is a /, read next character
       else
-        charNext = fgetc (source_fd);
+        charNext = fgetc (source_fp);
 
       /// If next character is / or *, line is a comment, set flag
       if (charNext == '/' || charNext == '*')
@@ -465,15 +465,15 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
       /// else, not a comment, write both characters to file
       else
         {
-          fputc (ch, dest_fd);
-          fputc (charNext, dest_fd);
+          fputc (ch, dest_fp);
+          fputc (charNext, dest_fp);
         }
 
       /// If comment flag is set, process comment
       while (isComment)
         {
           /// Read next character from file
-          ch = fgetc (source_fd);
+          ch = fgetc (source_fp);
 
           /// If next character is /, process single line comment
           if (charNext == '/' && (ch == '\n' || ch == EOF))
@@ -487,7 +487,7 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
           /// If next character is *, process multi-line comment
           if (charNext == '*' && ch == '*')
             {
-              ch = fgetc (source_fd);
+              ch = fgetc (source_fp);
               if (ch == '\n')
                 numComments++;
 
@@ -509,7 +509,7 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
           /// If char is a newline, write to file to preserve line numbers
           if (ch == '\n')
             {
-              fputc (ch, dest_fd);
+              fputc (ch, dest_fp);
             }
         }
     }
@@ -522,8 +522,8 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
 /**
  * @brief       Read source, process includes, write to destination
  *
- * @param[in]   source_fd     Source to be read from
- * @param[in]   dest_fd       Destination to written to
+ * @param[in]   source_fp     Source to be read from
+ * @param[in]   dest_fp       Destination to written to
  *
  * @return      The error return code of the function.
  *
@@ -534,26 +534,26 @@ rem_comments (FILE *source_fd, FILE *dest_fd)
  */
 
 short
-proc_includes (FILE *source_fd, FILE *dest_fd)
+proc_includes (FILE *source_fp, FILE *dest_fp)
 {
   logger(DEBUG, "=== START ===");
 
-  /// Assert source file descriptor is not NULL
-  logger(DEBUG, "assert(source_fd)");
-  assert(source_fd);
+  /// Assert source file pointer is not NULL
+  logger(DEBUG, "assert(source_fp)");
+  assert(source_fp);
   _PASS;
 
-  /// Assert destination file descriptor is not NULL
-  logger(DEBUG, "assert(dest_fd)");
-  assert(dest_fd);
+  /// Assert destination file pointer is not NULL
+  logger(DEBUG, "assert(dest_fp)");
+  assert(dest_fp);
   _PASS;
 
-  /// Move source_fd to beginning of file.
-  fseek (source_fd, 0, SEEK_SET);
+  /// Move source_fp to beginning of file.
+  fseek (source_fp, 0, SEEK_SET);
 
   /// Copy each character to the destination file, while checking for include files.
   logger(DEBUG, "Reading file.");
-  char ch = fgetc (source_fd);
+  char ch = fgetc (source_fp);
   while (ch != EOF)
     {
       switch (ch)
@@ -571,10 +571,10 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
             char include_buffer[9] =
               { 0 };
             ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8,
-                                source_fd);
+                                source_fp);
 
             /// Rewinds the file pointer.
-            fseek (source_fd, -sz, SEEK_CUR);
+            fseek (source_fp, -sz, SEEK_CUR);
 
             /// If include is found, process the included file.
             if (strcasecmp (include_buffer, "include ") == 0)
@@ -582,18 +582,18 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
                 logger(DEBUG, "Include keyword has been found.");
 
                 /// Move file pointer to the point after "include "
-                fseek (source_fd, sz, SEEK_CUR);
+                fseek (source_fp, sz, SEEK_CUR);
                 char filename_buffer[256] =
                   { 0 };
                 int filename_len = 0;
 
                 /// Get the filename for the include file.
-                ch = fgetc (source_fd);
+                ch = fgetc (source_fp);
                 while (ch != '\n' && filename_len < 256)
                   {
                     if (ch != '"')
                       filename_buffer[filename_len++] = ch;
-                    ch = fgetc (source_fd);
+                    ch = fgetc (source_fp);
                   }
                 logger(DEBUG, "Finished reading in the filename.");
 
@@ -622,11 +622,11 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
                   }
 
                 /// Open include file in read-only mode
-                sprintf (perror_msg, "include_fd = fopen('%s', 'r')",
+                sprintf (perror_msg, "include_fp = fopen('%s', 'r')",
                          filename_buffer);
                 logger(DEBUG, perror_msg);
-                FILE *include_fd = fopen (filename_buffer, "r");
-                if (include_fd != NULL)
+                FILE *include_fp = fopen (filename_buffer, "r");
+                if (include_fp != NULL)
                   _PASS;
                 else
                   {
@@ -635,22 +635,22 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
                     return (errno);
                   }
 
-                char ch_2 = fgetc (include_fd);
+                char ch_2 = fgetc (include_fp);
 
                 /// Move contents of include file into destination file
                 logger(DEBUG, "Copy contents of %s into destination file",
                        filename_buffer);
                 while (ch_2 != EOF)
                   {
-                    fputc (ch_2, dest_fd);
-                    ch_2 = fgetc (include_fd);
+                    fputc (ch_2, dest_fp);
+                    ch_2 = fgetc (include_fp);
                   }
                 _DONE;
 
                 /// Flush destination file contents to disk
-                sprintf (perror_msg, "fflush(dest_fd)");
+                sprintf (perror_msg, "fflush(dest_fp)");
                 logger(DEBUG, perror_msg);
-                if (fflush (dest_fd) == EXIT_SUCCESS)
+                if (fflush (dest_fp) == EXIT_SUCCESS)
                   _PASS;
                 else
                   {
@@ -659,10 +659,10 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
                     return (errno);
                   }
 
-                /// Close include file descriptor
-                sprintf (perror_msg, "fclose (include_fd)");
+                /// Close include file pointer
+                sprintf (perror_msg, "fclose (include_fp)");
                 logger(DEBUG, perror_msg);
-                if (fclose (include_fd) == EXIT_SUCCESS)
+                if (fclose (include_fp) == EXIT_SUCCESS)
                   _PASS;
                 else
                   {
@@ -675,11 +675,11 @@ proc_includes (FILE *source_fd, FILE *dest_fd)
           }
         default:
           {
-            fputc (ch, dest_fd);
+            fputc (ch, dest_fp);
           }
         }
       /// Gets the next char for the switch case to evaluate.
-      ch = fgetc (source_fd);
+      ch = fgetc (source_fp);
     }
 
   logger(DEBUG, "=== END ===");
@@ -871,11 +871,11 @@ get_lexeme_str (lexeme_s lexeme, char *buffer)
 }
 
 /**
- * @brief       Populate symbol table with lexemes in source file descriptor
+ * @brief       Populate symbol table with lexemes in source file pointer
  *
  * @param[in/out]   symbol_table    Symbol table linked list to populate
  * @param[in/out]   symbol_count    Pointer to count of lexemes found
- * @param[in/out]   source_fd       Source file descriptor
+ * @param[in/out]   source_fp       Source file pointer
  *
  * @return      The error return code of the function.
  *
@@ -926,10 +926,10 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
 }
 
 /**
- * @brief       Print symbol table to destination file descriptor
+ * @brief       Print symbol table to destination file pointer
  *
  * @param[in/out]   symbol_table    Symbol table to print
- * @param[in/out]   dest_fd         Destination file descriptor
+ * @param[in/out]   dest_fp         Destination file pointer
  *
  * @return      The error return code of the function.
  *
@@ -940,7 +940,7 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
  */
 
 short
-print_symbol_table (lexeme_s *symbol_table, FILE *dest_fd)
+print_symbol_table (lexeme_s *symbol_table, FILE *dest_fp)
 {
   logger(DEBUG, "=== START ===");
 
@@ -949,9 +949,9 @@ print_symbol_table (lexeme_s *symbol_table, FILE *dest_fd)
   assert(symbol_table);
   _PASS;
 
-  /// Assert destination file descriptor is not NULL
-  logger(DEBUG, "assert(dest_fd)");
-  assert(dest_fd);
+  /// Assert destination file pointer is not NULL
+  logger(DEBUG, "assert(dest_fp)");
+  assert(dest_fp);
   _PASS;
 
   // TODO: Replace stub implementation next

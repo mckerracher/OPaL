@@ -33,10 +33,10 @@ char *dest_fn = NULL;           ///< Destination file name
 char *log_fn = NULL;            ///< Log file name
 char *report_fn = NULL;         ///< Report file name
 
-FILE *source_fd = NULL;         ///< Source file descriptor
-FILE *dest_fd = NULL;           ///< Destination file descriptor
-FILE *log_fd = NULL;            ///< Log file descriptor
-FILE *report_fd = NULL;         ///< Report file descriptor
+FILE *source_fp = NULL;         ///< Source file pointer
+FILE *dest_fp = NULL;           ///< Destination file pointer
+FILE *log_fp = NULL;            ///< Log file pointer
+FILE *report_fp = NULL;         ///< Report file pointer
 
 short retVal = 0;               ///< Function return value
 
@@ -164,9 +164,9 @@ lexeme_s get_identifier_lexeme (int, int);
 lexeme_s get_next_lexeme(void);
 /// Stringify lexeme
 short get_lexeme_str(lexeme_s, char*);
-/// Populate symbol table with lexemes in source file descriptor
+/// Populate symbol table with lexemes in source file pointer
 short build_symbol_table (lexeme_s*, int*);
-/// Print symbol table to destination file descriptor
+/// Print symbol table to destination file pointer
 short print_symbol_table (lexeme_s*, FILE*);
 
 #endif /* OPAL_H_ */

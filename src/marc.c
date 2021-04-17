@@ -117,9 +117,9 @@ main (int argc, char **argv)
       arguments.logfile ? strdup (arguments.logfile) : strdup ("log/oc_log");
 
   /// Open log file in append mode, else exit program
-  sprintf (perror_msg, "log_fd = fopen(%s, 'a')", log_fn);
-  log_fd = fopen (log_fn, "a");
-  if (log_fd == NULL)
+  sprintf (perror_msg, "log_fp = fopen(%s, 'a')", log_fn);
+  log_fp = fopen (log_fn, "a");
+  if (log_fp == NULL)
     {
       _FAIL;
       perror (perror_msg);
@@ -155,10 +155,10 @@ main (int argc, char **argv)
     }
 
   /// Open source file in read-only mode
-  sprintf (perror_msg, "source_fd = fopen('%s', 'r')", source_fn);
+  sprintf (perror_msg, "source_fp = fopen('%s', 'r')", source_fn);
   logger (DEBUG, perror_msg);
-  source_fd = fopen (source_fn, "r");
-  if (source_fd != NULL)
+  source_fp = fopen (source_fn, "r");
+  if (source_fp != NULL)
     _PASS;
   else
     {
@@ -193,10 +193,10 @@ main (int argc, char **argv)
         }
 
       /// Open destination file in 'wb' mode
-      sprintf (perror_msg, "dest_fd = fopen('%s', 'wb')", dest_fn);
+      sprintf (perror_msg, "dest_fp = fopen('%s', 'wb')", dest_fn);
       logger (DEBUG, perror_msg);
-      dest_fd = fopen (dest_fn, "wb");
-      if (dest_fd)
+      dest_fp = fopen (dest_fn, "wb");
+      if (dest_fp)
         _PASS;
       else
         {
@@ -209,7 +209,7 @@ main (int argc, char **argv)
   else
     {
       logger (DEBUG, "Destination: STDOUT");
-      dest_fd = stdout;
+      dest_fp = stdout;
     }
 
   /// Create and open temp destination file for remove_comments()
@@ -217,10 +217,10 @@ main (int argc, char **argv)
   logger (DEBUG, "rc_tmp: '%s'", rc_tmp);
 
   /// If temp file can not be written, print error and exit
-  sprintf (perror_msg, "rc_fd = fopen('%s', 'wb')", rc_tmp);
+  sprintf (perror_msg, "rc_fp = fopen('%s', 'wb')", rc_tmp);
   logger (DEBUG, perror_msg);
-  FILE *rc_fd = fopen (rc_tmp, "wb");
-  if (rc_fd != NULL)
+  FILE *rc_fp = fopen (rc_tmp, "wb");
+  if (rc_fp != NULL)
     _PASS;
   else
     {
@@ -230,16 +230,16 @@ main (int argc, char **argv)
     }
 
   /// Remove comments from source with rem_comments(), write to rc_tmp
-  retVal = rem_comments (source_fd, rc_fd);
+  retVal = rem_comments (source_fp, rc_fp);
   if (retVal != EXIT_SUCCESS)
       return (opal_exit (retVal));
 
-  /// Close rem_comments temp file descriptor rc_fd if not NULL
-  sprintf (perror_msg, "fclose(rc_fd)");
+  /// Close rem_comments temp file pointer rc_fp if not NULL
+  sprintf (perror_msg, "fclose(rc_fp)");
   logger (DEBUG, perror_msg);
-  if (rc_fd)
+  if (rc_fp)
     {
-      if (fclose (rc_fd) == EXIT_SUCCESS)
+      if (fclose (rc_fp) == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -250,10 +250,10 @@ main (int argc, char **argv)
     }
 
   /// Open rem_comments temp file in read mode, else print error and exit
-  sprintf (perror_msg, "rc_fd = fopen('%s', 'r')", rc_tmp);
+  sprintf (perror_msg, "rc_fp = fopen('%s', 'r')", rc_tmp);
   logger (DEBUG, perror_msg);
-  rc_fd = fopen (rc_tmp, "r");
-  if (rc_fd != NULL)
+  rc_fp = fopen (rc_tmp, "r");
+  if (rc_fp != NULL)
     _PASS;
   else
     {
@@ -267,10 +267,10 @@ main (int argc, char **argv)
   logger (DEBUG, "pi_tmp: '%s'", pi_tmp);
 
   /// If temp file can not be written, print error and exit
-  sprintf (perror_msg, "pi_fd = fopen('%s', 'wb')", pi_tmp);
+  sprintf (perror_msg, "pi_fp = fopen('%s', 'wb')", pi_tmp);
   logger (DEBUG, perror_msg);
-  FILE *pi_fd = fopen (pi_tmp, "wb");
-  if (pi_fd != NULL)
+  FILE *pi_fp = fopen (pi_tmp, "wb");
+  if (pi_fp != NULL)
     _PASS;
   else
     {
@@ -280,19 +280,19 @@ main (int argc, char **argv)
     }
 
   /// Process #include directives from source with proc_includes()
-  retVal = proc_includes (rc_fd, pi_fd);
+  retVal = proc_includes (rc_fp, pi_fp);
   if (retVal != EXIT_SUCCESS)
     {
       return (opal_exit (retVal));
     }
 
-  /// Close rem_comments temp file descriptor if not NULL
-  if (rc_fd)
+  /// Close rem_comments temp file pointer if not NULL
+  if (rc_fp)
     {
-      sprintf (perror_msg, "fclose(rc_fd)");
+      sprintf (perror_msg, "fclose(rc_fp)");
       logger (DEBUG, perror_msg);
 
-      if (fclose (rc_fd) == EXIT_SUCCESS)
+      if (fclose (rc_fp) == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -302,13 +302,13 @@ main (int argc, char **argv)
         }
     }
 
-  /// Close proc_includes temp file descriptor if not NULL
-  if (pi_fd)
+  /// Close proc_includes temp file pointer if not NULL
+  if (pi_fp)
     {
-      sprintf (perror_msg, "fclose(pi_fd)");
+      sprintf (perror_msg, "fclose(pi_fp)");
       logger (DEBUG, perror_msg);
 
-      if (fclose (pi_fd) == EXIT_SUCCESS)
+      if (fclose (pi_fp) == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -319,10 +319,10 @@ main (int argc, char **argv)
     }
 
   /// Open proc_includes temp file in read mode, else print error and exit
-  sprintf (perror_msg, "pi_fd = fopen('%s', 'r')", pi_tmp);
+  sprintf (perror_msg, "pi_fp = fopen('%s', 'r')", pi_tmp);
   logger (DEBUG, perror_msg);
-  pi_fd = fopen (pi_tmp, "r");
-  if (pi_fd != NULL)
+  pi_fp = fopen (pi_tmp, "r");
+  if (pi_fp != NULL)
     _PASS;
   else
     {
@@ -332,16 +332,16 @@ main (int argc, char **argv)
     }
 
   /// Remove comments included file with rem_comments(), write to destination
-  retVal = rem_comments (pi_fd, dest_fd);
+  retVal = rem_comments (pi_fp, dest_fp);
   if (retVal != EXIT_SUCCESS)
     {
       return (opal_exit (retVal));
     }
 
-  /// Close proc_includes temp file descriptor
-  sprintf (perror_msg, "fclose(pi_fd)");
+  /// Close proc_includes temp file pointer
+  sprintf (perror_msg, "fclose(pi_fp)");
   logger (DEBUG, perror_msg);
-  if (fclose (pi_fd) == EXIT_SUCCESS)
+  if (fclose (pi_fp) == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -350,7 +350,7 @@ main (int argc, char **argv)
       return (errno);
     }
 
-  /// source_fd and dest_fd closed by opal_exit()
+  /// source_fp and dest_fp closed by opal_exit()
   return (opal_exit (EXIT_SUCCESS));
 }
 
