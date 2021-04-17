@@ -18,7 +18,7 @@ libopal: src/opal.c include/opal.h
 marc: libopal src/marc.c
 	$(CC) $(CFLAGS) src/marc.c -g -lopal -o build/marc
 
-# Build ALEX lexican analyzer
+# Build ALEX lexical analyzer
 alex: libopal src/alex.c
 	$(CC) $(CFLAGS) src/alex.c -g -lopal -o build/alex
 

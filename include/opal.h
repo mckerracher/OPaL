@@ -31,14 +31,16 @@
 char *source_fn = NULL;         ///< Input source file name
 char *dest_fn = NULL;           ///< Destination file name
 char *log_fn = NULL;            ///< Log file name
+char *report_fn = NULL;         ///< Report file name
 
-FILE *source_fd = NULL;         ///< Source file pointer
-FILE *dest_fd = NULL;           ///< Destination file pointer
-FILE *log_fd = NULL;            ///< Log file pointer
+FILE *source_fd = NULL;         ///< Source file descriptor
+FILE *dest_fd = NULL;           ///< Destination file descriptor
+FILE *log_fd = NULL;            ///< Log file descriptor
+FILE *report_fd = NULL;         ///< Report file descriptor
 
 short retVal = 0;               ///< Function return value
 
-int next_char = ' ';            ///< Next character in source file descriptor
+int next_char = ' ';            ///< Next character in source file
 int char_col = 0;               ///< Column number of character in source file
 int char_line = 0;              ///< Line number of character in source file
 
@@ -133,7 +135,9 @@ void banner (const char*);
 /// Close open files, flush buffers and exit
 short opal_exit (short);
 /// Read next character from source file
-int read_next_char();
+int read_next_char(void);
+/// Initialize HTML report
+short init_report (FILE*);
 
 /*
  * ==================================
