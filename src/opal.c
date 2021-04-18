@@ -716,6 +716,7 @@ get_string_literal_lexeme(int char_line, int char_col)
   return retVal;
 }
 
+
 /**
  * @brief       Get lexeme for binary or unary operator
  *
@@ -729,10 +730,30 @@ lexeme_type_e
 binary_unary (char compound_char, lexeme_type_e compound_type,
               lexeme_type_e simple_type, int char_line, int char_col)
 {
+    /// Initialize return variable.
+    lexeme_type_e retVal = lx_NOP;
 
-  // TODO: Replace stub implementation
-  lexeme_type_e retVal = lx_NOP;
-  return retVal;
+    /// The next char needs to be checked, so get it.
+    read_next_char();
+
+    if (next_char == EOF)
+    {
+        /// Illegal character found.
+        sprintf (perror_msg, "Found an illegal character while extracting lexemes on line %s col %s.", char_line, char_col);
+        _FAIL;
+        logger(DEBUG, perror_msg);
+    }
+    else if (next_char == compound_char)
+    {
+        /// Compound type found, so get the next char and return compound_type.
+        read_next_char();
+        retVal = compound_type;
+    }
+    else
+        /// Compound type not found, so return simple_type.
+        retVal = simple_type;
+
+    return retVal;
 }
 
 lexeme_s
@@ -768,7 +789,7 @@ get_next_lexeme (void)
       read_next_char ();
     }
 
-  /// Popoulate lexeme line and column number
+  /// Populate lexeme line and column number
   retVal.line = char_line;
   retVal.column = char_col;
 
