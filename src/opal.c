@@ -10,6 +10,7 @@
 #include <stdbool.h>            /* boolean datatypes */
 #include <unistd.h>
 #include <ctype.h>              /* isspace(), isalnum() */
+#include <regex.h> 				/* RegEx functions */
 
 #include "../include/opal.h"
 
@@ -739,7 +740,7 @@ binary_unary (char compound_char, lexeme_type_e compound_type,
     if (next_char == EOF)
     {
         /// Illegal character found.
-        sprintf (perror_msg, "Found an illegal character while extracting lexemes on line %s col %s.", char_line, char_col);
+        sprintf (perror_msg, "Found an illegal character while extracting lexemes on line %d col %d.", char_line, char_col);
         _FAIL;
         logger(DEBUG, perror_msg);
     }
@@ -759,11 +760,85 @@ binary_unary (char compound_char, lexeme_type_e compound_type,
 lexeme_s
 get_identifier_lexeme (int char_line, int char_col)
 {
-
-  // TODO: Replace stub implementation
   lexeme_s retVal =
       { 0 };
+  retVal.line=char_line;
+  retVal.column=char_col;
+  char identifier_str[1024] = {0};
+  int str_len=0;
+  bool regex_match = false;
+
+  ///Get string to analyze
+  while (isalnum(next_char) || next_char == '_')
+    {
+      identifier_str[str_len] = next_char;
+      str_len++;
+      read_next_char();
+    }
+
+  ///terminate string
+  identifier_str[str_len]='\0';
+  str_len++;
+
+  ///Determine if string is a reserved keyword
+  for(int i=0; i<5; i++)
+    {
+      if(strcmp(identifier_str,keyword_arr[i].str) == 0){
+
+          retVal.char_val=keyword_arr[i].str;
+          retVal.type=keyword_arr[i].lex_type;
+          return retVal;
+      }
+    }
+
+  ///Determine if the string is an integer via regex
+  regex_match = match(identifier_str, int_regex_pattern);
+  if(regex_match == 1)
+    {
+      int intVal = strtol(identifier_str, NULL, 0);
+      retVal.type=lx_Integer;
+      retVal.int_val=intVal;
+      return retVal;
+    }
+
+  ///String must be an identifier
+  retVal.type=lx_Ident;
+  retVal.char_val=identifier_str;
   return retVal;
+}
+
+/**
+ * @brief       Matches a string against a regular expression pattern.
+ *              From pubs.opengroup.org/onlinepubs/007904875/functions/regcomp.html
+ *
+ * @param[in]   str             String to match
+ * @param[in]   pattern         Extended regular expression
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On match
+ * @retval      EXIT_FAILURE    On error
+ *
+ */
+
+int
+match(const char *str, const char *pattern){
+  int status;
+  regex_t regEx;
+
+  ///Ensure regex is set up properly
+  if(regcomp(&regEx, pattern, REG_EXTENDED|REG_NOSUB) != 0)
+    return EXIT_FAILURE;
+
+  ///Process string against regex pattern
+  status = regexec(&regEx, str, (size_t) 0, NULL, 0);
+
+  regfree(&regEx);
+
+  if(status != 0)
+    return EXIT_FAILURE;
+
+  return EXIT_SUCCESS;
 }
 
 /**
