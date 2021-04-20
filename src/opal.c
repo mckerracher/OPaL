@@ -351,8 +351,41 @@ init_report (FILE *report_fp)
            "<html>\n"
            "<head>\n"
            "<title>OPaL compilation report</title>\n"
-           "<style>\n"
-           "</style>\n"
+           "<style>\n");
+
+  /// Open res/styles.css in read-only mode
+  sprintf (perror_msg, "css_fp = fopen ('res/styles.css', 'r')");
+  logger (DEBUG, perror_msg);
+  FILE *css_fp = fopen ("res/styles.css", "r");
+  if (css_fp != NULL)
+    _PASS;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      exit (opal_exit(errno));
+    }
+
+  /// Copy CSS to HTML report
+  logger (DEBUG, "Copying CSS to HTML report");
+  char ch = 0;
+  while ((ch = fgetc (css_fp)) != EOF)
+    fputc (ch, report_fp);
+  _DONE;
+
+  /// Close res/styles.css file
+  sprintf (perror_msg, "fclose(css_fp)");
+  logger (DEBUG, perror_msg);
+  if (fclose (css_fp) == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      exit (opal_exit (errno));
+    }
+
+  fprintf(report_fp,"</style>\n"
            "</head>\n");
 
   /// Start HTML body tag
@@ -365,7 +398,7 @@ init_report (FILE *report_fp)
            source_fn);
 
   /// Append source file to HTML report and close textarea tag
-  char ch = 0;
+  ch = 0;
   logger(DEBUG, "Copying source file to HTML report");
 
   while ((ch = fgetc (source_fp)) != EOF)
@@ -388,7 +421,7 @@ init_report (FILE *report_fp)
     {
       perror (perror_msg);
       _FAIL;
-      return (errno);
+      exit (opal_exit(errno));
     }
 
   logger(DEBUG, "=== END ===");
@@ -680,6 +713,63 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
   return EXIT_SUCCESS;
 }
 
+/**
+ * @brief       Append MARC output to HTML report file
+ *
+ * @param[in]   source_fp     Source to be read from
+ * @param[in]   dest_fp       Destination to written to
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+short
+print_marc_html(FILE *source_fp, FILE *report_fp)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert source file pointer is not NULL
+  logger(DEBUG, "assert(source_fp)");
+  assert(source_fp);
+  _PASS;
+
+  /// Assert destination file pointer is not NULL
+  logger(DEBUG, "assert(report_fp)");
+  assert(report_fp);
+  _PASS;
+
+  /// Open textarea tag in report file for MARC output
+  fprintf (report_fp, "<h3>Output by pre-processor <code>MARC</code></h3>\n"
+           "<hr>\n"
+           "<textarea style='resize: none;' readonly rows='25' cols='80'>\n");
+
+  /// Append MARC output file to report file
+  logger (DEBUG, "Copying MARC output to HTML report");
+  char ch = 0;
+  while ((ch = fgetc (source_fp)) != EOF)
+    fputc (ch, report_fp);
+  _DONE;
+
+  fprintf (report_fp, "\n</textarea>\n");
+
+  /// Flush contents of report to disk
+  sprintf (perror_msg, "fflush(report_fp)");
+  logger(DEBUG, perror_msg);
+  if (fflush (report_fp) == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      _FAIL;
+      perror (perror_msg);
+      return (errno);
+    }
+
+  return EXIT_SUCCESS;
+}
+
 /*
  * ==================================
  * END MARC FUNCTION DEFINITIONS
@@ -953,7 +1043,7 @@ get_next_lexeme (void)
  *
  */
 short
-get_lexeme_str (lexeme_s lexeme, char *buffer, const int buffer_len)
+get_lexeme_str (lexeme_s *lexeme, char *buffer, const int buffer_len)
 {
 
   /// Assert buffer is not NULL
@@ -965,9 +1055,9 @@ get_lexeme_str (lexeme_s lexeme, char *buffer, const int buffer_len)
   /// Populate the buffer with values from the struct
   sprintf (
       buffer,
-      "{line: % 3d, col: % 3d, lx_type: %s, char_val: '%s', int_val: '%d'}",
-      lexeme.line, lexeme.column, op_name[lexeme.type],
-      lexeme.char_val ? lexeme.char_val : "", lexeme.int_val);
+      "line: %3d, column: %3d, type: %16s, int_val: %6d, char_val: '%s'",
+      lexeme->line, lexeme->column, op_name[lexeme->type],
+      lexeme->int_val, lexeme->char_val ? lexeme->char_val : "");
 
   return EXIT_SUCCESS;
 }
@@ -1001,27 +1091,45 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
   assert(symbol_count);
   _PASS;
 
-  /// Get lexemes in a loop until we get a EOF lexeme
-  logger(DEBUG, "Get lexemes and print to standard out");
+  lexeme_s *symbol_table_tail = NULL;
 
+  /// Get lexemes in a loop until we get a EOF lexeme
   do
     {
       /// Call get_next_lexeme() to populate next_lexeme
       next_lexeme = get_next_lexeme ();
 
+      /// Append next_lexeme to symbol table
+      lexeme_s *new_symbol = (lexeme_s*) calloc (1, sizeof(lexeme_s));
+      new_symbol->line = next_lexeme.line;
+      new_symbol->column = next_lexeme.column;
+      new_symbol->type = next_lexeme.type;
+      new_symbol->int_val = next_lexeme.int_val;
+
+      new_symbol->char_val =
+          next_lexeme.char_val ? strdup (next_lexeme.char_val) : NULL;
+
+      /// Get the current tail of the symbol table
+      symbol_table_tail = symbol_table;
+      while (symbol_table_tail->next)
+        {
+          symbol_table_tail = symbol_table_tail->next;
+        }
+
       /// Call get_lexeme_str() to stringify next_lexeme
-      if (get_lexeme_str (next_lexeme, next_lexeme_str,
-                          next_lexeme_str_len) != EXIT_SUCCESS)
+      if (get_lexeme_str (new_symbol, lexeme_str,
+                          lexeme_str_len) != EXIT_SUCCESS)
         return (EXIT_FAILURE);
 
-      /// Print lexeme to standard out
-      logger(DEBUG, "Append lexeme %s", next_lexeme_str);
+      /// Append lexeme to symbol table
+      logger(DEBUG, "Append lexeme {%s}", lexeme_str);
+      symbol_table_tail->next = new_symbol;
+
+      /// Increment symbol count
+      *symbol_count = *symbol_count + 1;
 
     }
   while (next_lexeme.type != lx_EOF);
-
-  /// STUB IMPLEMENTATION: Increment symbol count to non-zero for now
-  *symbol_count = 1;
 
   logger(DEBUG, "=== END ===");
   return EXIT_SUCCESS;
@@ -1055,12 +1163,155 @@ print_symbol_table (lexeme_s *symbol_table, FILE *dest_fp)
   assert(dest_fp);
   _PASS;
 
-  // TODO: Replace stub implementation next
-  logger(DEBUG, "STUB IMPLEMENTATION: Printing symbol table");
+  /// Write ALEX to destination file
+  logger (DEBUG, "Writing ALEX output to destination file.");
+
+  lexeme_s *symbol_table_tail = symbol_table;
+  while (symbol_table_tail->next)
+    {
+      /// Call get_lexeme_str() to stringify next_lexeme
+      retVal = get_lexeme_str (symbol_table_tail, lexeme_str,
+                               lexeme_str_len);
+      if (retVal != EXIT_SUCCESS)
+        return (EXIT_FAILURE);
+
+      /// Append lexeme to symbol table
+      retVal = fprintf (dest_fp, "%s\n", lexeme_str);
+      if (retVal < 0)
+        {
+          perror ("fprintf (dest_fp, next_lexeme_str)");
+          exit (opal_exit (retVal));
+        }
+
+      symbol_table_tail = symbol_table_tail->next;
+    }
   _DONE;
 
   logger(DEBUG, "=== END ===");
   return EXIT_SUCCESS;
+}
+
+/**
+ * @brief       Print symbol table HTML report to report file pointer
+ *
+ * @param[in/out]   symbol_table    Symbol table to print
+ * @param[in/out]   report_fp       Report file pointer
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+short
+print_symbol_table_html (lexeme_s *symbol_table, FILE *report_fp)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert symbol table pointer is not NULL
+  logger(DEBUG, "assert(symbol_table)");
+  assert(symbol_table);
+  _PASS;
+
+  /// Assert destination file pointer is not NULL
+  logger(DEBUG, "assert(report_fp)");
+  assert(report_fp);
+  _PASS;
+
+  /// Walk the symbol table & print the HTML report to destination file pointer
+  logger(DEBUG, "Walk symbol table and print lexemes to HTML report");
+
+  fprintf (
+      report_fp,
+      "<h3>Symbol table by Lexical analyzer <code>ALEX</code></h3>\n<hr>\n");
+  fprintf (report_fp,
+           "<div class='scroll'><table>\n" "<tr>\n" "<th>Line No.</th>\n"
+           "<th>Column No.</th>\n" "<th>Type</th>\n" "<th>Value</th>\n"
+           "</tr>");
+
+  /// Append symbol table to report file
+  logger (DEBUG, "Copying ALEX output to HTML report");
+
+  lexeme_s *current = symbol_table;
+  while (current->next)
+    {
+      fprintf (report_fp, "<tr>");
+      fprintf (report_fp, "<td>%d</td>\n"
+               "<td>%d</td>\n"
+               "<td>%s</td>\n",
+               current->line, current->column,
+               op_name[current->type]);
+
+      if (current->type == lx_Integer)
+        {
+          fprintf (report_fp, "<td>%d</td>\n", current->int_val);
+        }
+      else if (current->type == lx_Ident)
+        {
+          fprintf (report_fp, "<td>%s</td>\n", current->char_val);
+        }
+      else if (current->type == lx_String)
+        {
+          fprintf (report_fp, "<td>\"%s\"</td>\n", current->char_val);
+        }
+      else
+        {
+          fprintf (report_fp, "<td></td>\n");
+        }
+      fprintf (report_fp, "</tr>\n");
+      current = current->next;
+    }
+
+  fprintf (report_fp, "</table></div>\n");
+  fflush (report_fp);
+
+  _DONE;
+
+  /// Flush contents of report to disk
+  sprintf (perror_msg, "fflush(report_fp)");
+  logger(DEBUG, perror_msg);
+  if (fflush (report_fp) == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      _FAIL;
+      perror (perror_msg);
+      return (errno);
+    }
+
+  _DONE;
+
+  logger(DEBUG, "=== END ===");
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief       Free memory allocated for symbol table linked list
+ *
+ * @param[in/out]   symbol_table    Symbol table to print
+ *
+ * @return      NULL
+ *
+ */
+void
+free_symbol_table (lexeme_s *symbol_table)
+{
+  lexeme_s *next_symbol;
+
+  while (symbol_table)
+    {
+      next_symbol = symbol_table;
+
+      if (next_symbol->char_val)
+        {
+          free (next_symbol->char_val);
+          next_symbol->char_val = NULL;
+        }
+
+      symbol_table = symbol_table->next;
+      free (next_symbol);
+    }
 }
 
 /*

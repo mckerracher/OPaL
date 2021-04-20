@@ -466,29 +466,11 @@ main (int argc, char **argv)
       return (errno);
     }
 
-  /// Open textarea tag in report file for MARC output
-  fprintf (report_fp, "<h3>MARC output: </h3>\n<hr>\n"
-           "<textarea style='resize: none;' readonly rows='25' cols='80'>\n");
-
-  /// Append MARC output file to report file
-  char ch = 0;
-  logger (DEBUG, "Copying MARC output to HTML report");
-  while ((ch = fgetc (rc_fp)) != EOF)
-    fputc (ch, report_fp);
-  _DONE;
-
-  fprintf (report_fp, "\n</textarea>\n");
-
-  // Flush contents of report to disk
-  sprintf (perror_msg, "fflush(report_fp)");
-  logger(DEBUG, perror_msg);
-  if (fflush (report_fp) == EXIT_SUCCESS)
-    _PASS;
-  else
+  /// Append MARC output to HTML report
+  retVal = print_marc_html(rc_fp, report_fp);
+  if (retVal != EXIT_SUCCESS)
     {
-      _FAIL;
-      perror (perror_msg);
-      return (errno);
+      return (opal_exit (retVal));
     }
 
   /// Close rem_comments() temp file pointer, else print error and exit
@@ -526,17 +508,17 @@ main (int argc, char **argv)
   logger(DEBUG, "Create symbol_table linked list node.");
   lexeme_s *symbol_table = (lexeme_s*) calloc (1, sizeof(lexeme_s));
 
-  int symbol_ct = 0;                ///< Numbber of lexemes identified
+  int symbol_count = 0;                ///< Numbber of lexemes identified
 
   /// Build symbol table using rem_comments() temp file as source
-  retVal = build_symbol_table (symbol_table, &symbol_ct);
+  retVal = build_symbol_table (symbol_table, &symbol_count);
   if (retVal != EXIT_SUCCESS)
     {
       return (opal_exit (retVal));
     }
 
-  logger(DEBUG, "assert(symbol_ct > 0)");
-  assert(symbol_ct > 0);
+  logger(DEBUG, "assert(symbol_ct [%d] > 0)", symbol_count);
+  assert(symbol_count > 0);
   _PASS;
 
   /// Print symbol table with print_symbol_table() to destination
@@ -546,9 +528,16 @@ main (int argc, char **argv)
       return (opal_exit (retVal));
     }
 
+  /// Print symbol table HTML report with print_symbol_table_html()
+  retVal = print_symbol_table_html (symbol_table, report_fp);
+  if (retVal != EXIT_SUCCESS)
+    {
+      return (opal_exit (retVal));
+    }
+
   /// Free memory used by symbol_table
   // TODO: Walk linked list and free every node when we have it
-  free (symbol_table);
+  free_symbol_table (symbol_table);
   symbol_table = NULL;
 
   /// source_fp, dest_fp, log_fp & report_fp closed by opal_exit()
