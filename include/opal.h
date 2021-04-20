@@ -1,4 +1,5 @@
 /// @file opal.h
+#include <stdbool.h>            /* boolean datatypes */
 #ifndef OPAL_H_
 #define OPAL_H_
 
@@ -96,6 +97,23 @@ typedef enum lexeme_type
   lx_Input
 } lexeme_type_e;
 
+/// Struct for keyword string/type
+typedef struct keyword
+{
+  const char *str;
+  lexeme_type_e lex_type;
+} keyword;
+
+/// Array for supported keywords
+keyword keyword_arr[] =
+    {
+        {"if", lx_If},
+        {"else", lx_Else},
+        {"while", lx_While},
+        {"print", lx_Print},
+        {"input", lx_Input}
+    };
+
 /// Lexeme type names for logging
 const char op_name[][16] =
   { "No_operation", "End_of_file", "Identifier", "Integer", "String",
@@ -123,6 +141,8 @@ lexeme_s next_lexeme = { 0 };
 /// A buffer to hold string value of lexeme
 char next_lexeme_str[1024] = { 0 };
 
+/// Extended regular expression pattern for integers
+char *int_regex_pattern = "[^[-+]?[0-9]+$";
 /*
  * ==================================
  * COMMON FUNCTION DECLARATIONS
@@ -168,5 +188,7 @@ short get_lexeme_str(lexeme_s, char*);
 short build_symbol_table (lexeme_s*, int*);
 /// Print symbol table to destination file pointer
 short print_symbol_table (lexeme_s*, FILE*);
+/// Determine if regular expression is an integer
+bool match(const char *str, const char *pattern);
 
 #endif /* OPAL_H_ */
