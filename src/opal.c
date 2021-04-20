@@ -1,18 +1,21 @@
 /// @file opal.c
 /// @authors Damle Kedar, Mckerracher Joshua, Leon Sarah Louise
 ///
-#include <stdio.h>
-#include <stdarg.h>             /* variadic functions */
+
+#include "../include/opal.h"
+
 #include <assert.h>             /* assert() */
+#include <bits/types/FILE.h>
+#include <ctype.h>              /* isspace(), isalnum() */
+#include <errno.h>              /* errno macros and codes */
+#include <regex.h> 				/* ReGex functions */
+#include <stdarg.h>             /* variadic functions */
+#include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>             /* fopen, fclose, exit() */
 #include <string.h>             /* memset() */
-#include <errno.h>              /* errno macros and codes */
-#include <stdbool.h>            /* boolean datatypes */
+#include <strings.h>
 #include <unistd.h>
-#include <ctype.h>              /* isspace(), isalnum() */
-#include <regex.h> 				/* ReGex functions */
-#include <limits.h>             /* LONG_MAX and LONG_MIN*/
-#include "../include/opal.h"
 
 /*
  * ==================================
@@ -40,7 +43,6 @@
  * @return      None
  *
  */
-
 void
 opal_log (log_level_e tag, const char *file, int line, const char *func,
           const char *fmt, ...)
@@ -50,7 +52,7 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
   assert(log_fp);
 
   /// 2. Allocate buffer to hold message to log
-  char buf[1024] =
+  char buf[4096] =
     { 0 };
 
   /// 3. Read formatted user message string into the buffer
@@ -80,7 +82,7 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
    */
   if (tag <= LOG_LEVEL)
     {
-      fprintf (log_fp, "\n[%10s:%4d] %20s() %s", file, line, func, buf);
+      fprintf (log_fp, "\n[%10s:%4d] %24s() %s", file, line, func, buf);
     }
 
   /// 6. Flush message to log file
@@ -105,7 +107,6 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
  * @return      None
  *
  */
-
 void
 banner (const char *msg)
 {
@@ -133,7 +134,6 @@ banner (const char *msg)
  * @retval      errno           On system call failure
  *
  */
-
 short
 opal_exit (short code)
 {
@@ -148,8 +148,8 @@ opal_exit (short code)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -165,8 +165,8 @@ opal_exit (short code)
         }
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -187,8 +187,8 @@ opal_exit (short code)
         _PASS;
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
 
@@ -201,8 +201,8 @@ opal_exit (short code)
         }
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -223,8 +223,8 @@ opal_exit (short code)
         _PASS;
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
 
@@ -237,8 +237,8 @@ opal_exit (short code)
         }
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -246,7 +246,7 @@ opal_exit (short code)
   if (report_fn)
     {
       logger(DEBUG, "free(report_fn)");
-      free(report_fn);
+      free (report_fn);
       report_fn = NULL;
     }
 
@@ -254,15 +254,14 @@ opal_exit (short code)
   if (log_fp && log_fp != stdout)
     {
 
-
       sprintf (perror_msg, "fflush(log_fp)");
       logger(DEBUG, perror_msg);
       if (fflush (log_fp) == EXIT_SUCCESS)
         _PASS;
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
 
@@ -282,7 +281,7 @@ opal_exit (short code)
 
   if (log_fn)
     {
-      free(log_fn);
+      free (log_fn);
       log_fn = NULL;
     }
 
@@ -298,7 +297,6 @@ opal_exit (short code)
  * @retval      errno           On system call failure
  *
  */
-
 int
 read_next_char (void)
 {
@@ -306,10 +304,10 @@ read_next_char (void)
   next_char = getc (source_fp);
 
   /// getc() sets the errno in the event of an error
-  if (errno != 0)
+  if (errno != EXIT_SUCCESS)
     {
       perror (perror_msg);
-      opal_exit (errno);
+      exit (opal_exit (errno));
     }
 
   /// Increment the column number of the character
@@ -338,7 +336,6 @@ read_next_char (void)
  * @retval      errno           On system call failure
  *
  */
-
 short
 init_report (FILE *report_fp)
 {
@@ -349,7 +346,7 @@ init_report (FILE *report_fp)
   assert(report_fp);
 
   /// Write HTML head tag to the report
-  logger (DEBUG, "Writing HTML head tag to report");
+  logger(DEBUG, "Writing HTML head tag to report");
   fprintf (report_fp, "<!DOCTYPE html>\n"
            "<html>\n"
            "<head>\n"
@@ -369,9 +366,11 @@ init_report (FILE *report_fp)
 
   /// Append source file to HTML report and close textarea tag
   char ch = 0;
-  logger (DEBUG, "Copying source file to HTML report");
+  logger(DEBUG, "Copying source file to HTML report");
+
   while ((ch = fgetc (source_fp)) != EOF)
     fputc (ch, report_fp);
+
   _DONE;
 
   fprintf (report_fp, "\n</textarea>\n");
@@ -384,13 +383,11 @@ init_report (FILE *report_fp)
 
   /// If current value of source file position not 0, print error and exit
   if (ftell (source_fp) == 0)
-    {
       _DONE;
-    }
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -423,7 +420,6 @@ init_report (FILE *report_fp)
  * @retval      errno           On system call failure
  *
  */
-
 short
 rem_comments (FILE *source_fp, FILE *dest_fp)
 {
@@ -509,9 +505,8 @@ rem_comments (FILE *source_fp, FILE *dest_fp)
 
           /// If char is a newline, write to file to preserve line numbers
           if (ch == '\n')
-            {
               fputc (ch, dest_fp);
-            }
+
         }
     }
 
@@ -533,7 +528,6 @@ rem_comments (FILE *source_fp, FILE *dest_fp)
  * @retval      errno           On system call failure
  *
  */
-
 short
 proc_includes (FILE *source_fp, FILE *dest_fp)
 {
@@ -569,8 +563,7 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
             logger(DEBUG, "Found hashtag symbol.");
 
             ///Reads in 8 chars to check if they are "include ".
-            char include_buffer[9] =
-              { 0 };
+            char include_buffer[9] = { 0 };
             ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8,
                                 source_fp);
 
@@ -605,8 +598,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                   _PASS;
                 else
                   {
-                    _FAIL;
                     perror (perror_msg);
+                    _FAIL;
                     return (errno);
                   }
 
@@ -617,8 +610,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                   _PASS;
                 else
                   {
-                    _FAIL;
                     perror (perror_msg);
+                    _FAIL;
                     return (errno);
                   }
 
@@ -631,8 +624,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                   _PASS;
                 else
                   {
-                    _FAIL;
                     perror (perror_msg);
+                    _FAIL;
                     return (errno);
                   }
 
@@ -655,8 +648,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                   _PASS;
                 else
                   {
-                    _FAIL;
                     perror (perror_msg);
+                    _FAIL;
                     return (errno);
                   }
 
@@ -667,8 +660,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                   _PASS;
                 else
                   {
-                    _FAIL;
                     perror (perror_msg);
+                    _FAIL;
                     return (errno);
                   }
               }
@@ -707,16 +700,14 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
  * @retval      struct lexeme
  *
  */
-
 lexeme_s
-get_string_literal_lexeme(int char_line, int char_col)
+get_string_literal_lexeme (int char_line, int char_col)
 {
 
   // TODO: Replace stub implementation
   lexeme_s retVal = { 0 };
   return retVal;
 }
-
 
 /**
  * @brief       Get lexeme for binary or unary operator
@@ -726,90 +717,100 @@ get_string_literal_lexeme(int char_line, int char_col)
  * @retval      enum lexeme type
  *
  */
-
 lexeme_type_e
 binary_unary (char compound_char, lexeme_type_e compound_type,
               lexeme_type_e simple_type, int char_line, int char_col)
 {
-    /// Initialize return variable.
-    lexeme_type_e retVal = lx_NOP;
+  /// Initialize return variable.
+  lexeme_type_e retVal = lx_NOP;
 
-    /// The next char needs to be checked, so get it.
-    read_next_char();
+  /// The next char needs to be checked, so get it.
+  read_next_char ();
 
-    if (next_char == EOF)
+  if (next_char == EOF)
     {
-        /// Illegal character found.
-        sprintf (perror_msg, "Found an illegal character while extracting lexemes on line %d col %d.", char_line, char_col);
-        _FAIL;
-        logger(DEBUG, perror_msg);
+      /// Illegal character found.
+      logger(ERROR, "[%d:%d] Illegal End of file.", char_line, char_col);
+      opal_exit(EXIT_FAILURE);
     }
-    else if (next_char == compound_char)
+  else if (next_char == compound_char)
     {
-        /// Compound type found, so get the next char and return compound_type.
-        read_next_char();
-        retVal = compound_type;
+      /// Compound type found, so get the next char and return compound_type.
+      read_next_char ();
+      retVal = compound_type;
     }
-    else
-        /// Compound type not found, so return simple_type.
-        retVal = simple_type;
+  else
+    /// Compound type not found, so return simple_type.
+    retVal = simple_type;
 
-    return retVal;
+  return retVal;
 }
 
+/**
+ * @brief       Get lexeme for char / integer identifier
+ *
+ * @return      Lexeme with values populated
+ *
+ * @retval      struct lexeme
+ *
+ */
 lexeme_s
 get_identifier_lexeme (int char_line, int char_col)
 {
-  lexeme_s retVal =
-      { 0 };
-  retVal.line=char_line;
-  retVal.column=char_col;
-  char identifier_str[1024] = {0};
-  int str_len=0;
+  lexeme_s retVal = { 0 };
+  retVal.line = char_line;
+  retVal.column = char_col;
+  char identifier_str[1024] = { 0 };
+  int str_len = 0;
   bool regex_match = false;
 
-  ///Get string to analyze
+  /// Get string to analyze
   while (isalnum(next_char) || next_char == '_')
     {
       identifier_str[str_len++] = next_char;
-      read_next_char();
+      read_next_char ();
     }
 
-  ///terminate string
-  identifier_str[str_len++]='\0';
+  /// Terminate string
+  identifier_str[str_len++] = '\0';
 
-  ///Determine if string is a reserved keyword
-  for(int i=0; i<(sizeof(keyword_arr)/sizeof(keyword_arr[0])); i++)
+  /// Determine if string is a reserved keyword
+  for (int i = 0; i < (sizeof(keyword_arr) / sizeof(keyword_arr[0])); i++)
     {
-      if(strcmp(identifier_str,keyword_arr[i].str) == 0){
-          retVal.type=keyword_arr[i].lex_type;
-          return retVal;
-      }
-    }
-
-  ///Determine if the string is an integer via regex
-  regex_match = match(identifier_str, int_regex_pattern);
-  if(regex_match)
-    {
-      errno = 0;
-      int intVal = strtol(identifier_str, NULL, 0);
-
-      if((errno != 0 && (intVal == LONG_MAX || intVal == LONG_MIN))
-          || (errno != 0 && intVal == 0))
+      if (strcmp (identifier_str, keyword_arr[i].str) == 0)
         {
-          perror(identifier_str);
-          retVal.char_val=identifier_str;
+          retVal.type = keyword_arr[i].lex_type;
           return retVal;
         }
-
-      retVal.type=lx_Integer;
-      retVal.int_val=intVal;
-      return retVal;
     }
 
-  ///String must be an identifier
-  retVal.type=lx_Ident;
-  retVal.char_val=identifier_str;
+  /// Determine if the string is an integer via regex
+  regex_match = match (identifier_str, int_regex_pattern);
+  if (regex_match)
+    {
+      logger(DEBUG, "strtol (%s, NULL, 0)", identifier_str);
+
+      int intVal = strtol (identifier_str, NULL, 0);
+      if (errno != EXIT_SUCCESS)
+        {
+          perror (identifier_str);
+          _FAIL;
+          exit (opal_exit(EXIT_FAILURE));
+        }
+      else
+        {
+          _PASS;
+          retVal.type = lx_Integer;
+          retVal.int_val = intVal;
+        }
+    }
+  else
+    {
+      /// String must be an identifier
+      retVal.type = lx_Ident;
+      retVal.char_val = strdup (identifier_str);
+    }
+
   return retVal;
 }
 
@@ -820,28 +821,28 @@ get_identifier_lexeme (int char_line, int char_col)
  * @param[in]   str             String to match
  * @param[in]   pattern         Extended regular expression
  *
- * @return      The error return code of the function.
+ * @return      The result of the pattern match.
  *
- * @retval      EXIT_SUCCESS    On match
- * @retval      EXIT_FAILURE    On error
+ * @retval      true(1)         On match
+ * @retval      false(0)        On error
  *
  */
-
 bool
-match(const char *str, const char *pattern){
+match (const char *str, const char *pattern)
+{
   int status;
   regex_t regEx;
 
   ///Ensure regex is set up properly
-  if(regcomp(&regEx, pattern, REG_EXTENDED|REG_NOSUB) != 0)
+  if (regcomp (&regEx, pattern, REG_EXTENDED | REG_NOSUB) != EXIT_SUCCESS)
     return false;
 
   ///Process string against regex pattern
-  status = regexec(&regEx, str, (size_t) 0, NULL, 0);
+  status = regexec (&regEx, str, (size_t) 0, NULL, 0);
 
-  regfree(&regEx);
+  regfree (&regEx);
 
-  if(status != 0)
+  if (status != EXIT_SUCCESS)
     return false;
 
   return true;
@@ -855,20 +856,16 @@ match(const char *str, const char *pattern){
  * @retval      struct lexeme
  *
  */
-
 lexeme_s
 get_next_lexeme (void)
 {
 
   /// Create a empty struct to populate and return
-  lexeme_s retVal =
-    { 0 };
+  lexeme_s retVal = { 0 };
 
   /// Call read_next_char() to get the next character from source
-  while (isspace (next_char))
-    {
-      read_next_char ();
-    }
+  while (isspace(next_char))
+    read_next_char ();
 
   /// Populate lexeme line and column number
   retVal.line = char_line;
@@ -946,6 +943,7 @@ get_next_lexeme (void)
  *
  * @param[in]       lexeme_s    Lexeme to stringify
  * @param[in/out]   buffer      Buffer to store string value of lexeme
+ * @param[in]       buffer_len  Length of buffer to use
  *
  * @return      The error return code of the function.
  *
@@ -955,19 +953,21 @@ get_next_lexeme (void)
  *
  */
 short
-get_lexeme_str (lexeme_s lexeme, char *buffer)
+get_lexeme_str (lexeme_s lexeme, char *buffer, const int buffer_len)
 {
 
   /// Assert buffer is not NULL
   assert(buffer);
 
   /// Empty out the string buffer
-  memset (buffer, 0, 1024 * sizeof(char));
+  memset (buffer, 0, buffer_len * sizeof(char));
 
   /// Populate the buffer with values from the struct
-  sprintf (buffer, "{line: % 3d, col: % 3d, lx_type: %s, val: '%s'}",
-           lexeme.line, lexeme.column, op_name[lexeme.type],
-           lexeme.char_val ? lexeme.char_val : "");
+  sprintf (
+      buffer,
+      "{line: % 3d, col: % 3d, lx_type: %s, char_val: '%s', int_val: '%d'}",
+      lexeme.line, lexeme.column, op_name[lexeme.type],
+      lexeme.char_val ? lexeme.char_val : "", lexeme.int_val);
 
   return EXIT_SUCCESS;
 }
@@ -986,7 +986,6 @@ get_lexeme_str (lexeme_s lexeme, char *buffer)
  * @retval      errno           On system call failure
  *
  */
-
 short
 build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
 {
@@ -1011,7 +1010,8 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
       next_lexeme = get_next_lexeme ();
 
       /// Call get_lexeme_str() to stringify next_lexeme
-      if (get_lexeme_str (next_lexeme, next_lexeme_str) != EXIT_SUCCESS)
+      if (get_lexeme_str (next_lexeme, next_lexeme_str,
+                          next_lexeme_str_len) != EXIT_SUCCESS)
         return (EXIT_FAILURE);
 
       /// Print lexeme to standard out
@@ -1040,7 +1040,6 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
  * @retval      errno           On system call failure
  *
  */
-
 short
 print_symbol_table (lexeme_s *symbol_table, FILE *dest_fp)
 {
