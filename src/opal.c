@@ -10,8 +10,8 @@
 #include <stdbool.h>            /* boolean datatypes */
 #include <unistd.h>
 #include <ctype.h>              /* isspace(), isalnum() */
-#include <regex.h> 				/* RegEx functions */
-
+#include <regex.h> 				/* ReGex functions */
+#include <limits.h>             /* LONG_MAX and LONG_MIN*/
 #include "../include/opal.h"
 
 /*
@@ -771,21 +771,17 @@ get_identifier_lexeme (int char_line, int char_col)
   ///Get string to analyze
   while (isalnum(next_char) || next_char == '_')
     {
-      identifier_str[str_len] = next_char;
-      str_len++;
+      identifier_str[str_len++] = next_char;
       read_next_char();
     }
 
   ///terminate string
-  identifier_str[str_len]='\0';
-  str_len++;
+  identifier_str[str_len++]='\0';
 
   ///Determine if string is a reserved keyword
-  for(int i=0; i<5; i++)
+  for(int i=0; i<(sizeof(keyword_arr)/sizeof(keyword_arr[0])); i++)
     {
       if(strcmp(identifier_str,keyword_arr[i].str) == 0){
-
-          retVal.char_val=keyword_arr[i].str;
           retVal.type=keyword_arr[i].lex_type;
           return retVal;
       }
@@ -793,9 +789,19 @@ get_identifier_lexeme (int char_line, int char_col)
 
   ///Determine if the string is an integer via regex
   regex_match = match(identifier_str, int_regex_pattern);
-  if(regex_match == 1)
+  if(regex_match)
     {
+      errno = 0;
       int intVal = strtol(identifier_str, NULL, 0);
+
+      if((errno != 0 && (intVal == LONG_MAX || intVal == LONG_MIN))
+          || (errno != 0 && intVal == 0))
+        {
+          perror(identifier_str);
+          retVal.char_val=identifier_str;
+          return retVal;
+        }
+
       retVal.type=lx_Integer;
       retVal.int_val=intVal;
       return retVal;
@@ -821,14 +827,14 @@ get_identifier_lexeme (int char_line, int char_col)
  *
  */
 
-int
+bool
 match(const char *str, const char *pattern){
   int status;
   regex_t regEx;
 
   ///Ensure regex is set up properly
   if(regcomp(&regEx, pattern, REG_EXTENDED|REG_NOSUB) != 0)
-    return EXIT_FAILURE;
+    return false;
 
   ///Process string against regex pattern
   status = regexec(&regEx, str, (size_t) 0, NULL, 0);
@@ -836,9 +842,9 @@ match(const char *str, const char *pattern){
   regfree(&regEx);
 
   if(status != 0)
-    return EXIT_FAILURE;
+    return false;
 
-  return EXIT_SUCCESS;
+  return true;
 }
 
 /**

@@ -1,4 +1,5 @@
 /// @file opal.h
+#include <stdbool.h>            /* boolean datatypes */
 #ifndef OPAL_H_
 #define OPAL_H_
 
@@ -99,7 +100,7 @@ typedef enum lexeme_type
 /// Struct for keyword string/type
 typedef struct keyword
 {
-  char *str;
+  const char *str;
   lexeme_type_e lex_type;
 } keyword;
 
@@ -188,6 +189,6 @@ short build_symbol_table (lexeme_s*, int*);
 /// Print symbol table to destination file pointer
 short print_symbol_table (lexeme_s*, FILE*);
 /// Determine if regular expression is an integer
-int match(const char *str, const char *pattern);
+bool match(const char *str, const char *pattern);
 
 #endif /* OPAL_H_ */
