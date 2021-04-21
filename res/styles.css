@@ -1,0 +1,26 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 600px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  border: 1px solid grey;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+textarea {
+  resize: none;
+}
+
+div.scroll {
+  width: 600px;
+  height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

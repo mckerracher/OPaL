@@ -1,5 +1,9 @@
 /// @file opal.h
+
+#include <bits/types/FILE.h>
 #include <stdbool.h>            /* boolean datatypes */
+#include <stddef.h>
+
 #ifndef OPAL_H_
 #define OPAL_H_
 
@@ -53,7 +57,8 @@ typedef enum log_level
 short LOG_LEVEL = ERROR;        ///< Current log level
 
 /// Buffer used to populate error message string for perror()
-char perror_msg[1024] = { 0 };
+#define perror_msg_len 1024
+char perror_msg[perror_msg_len] = { 0 };
 
 /*
  * ==================================
@@ -139,10 +144,11 @@ typedef struct lexeme
 lexeme_s next_lexeme = { 0 };
 
 /// A buffer to hold string value of lexeme
-char next_lexeme_str[1024] = { 0 };
+#define lexeme_str_len 1024
+char lexeme_str[lexeme_str_len] = { 0 };
 
 /// Extended regular expression pattern for integers
-char *int_regex_pattern = "[^[-+]?[0-9]+$";
+char *int_regex_pattern = "^[-+]?[0-9]+$";
 /*
  * ==================================
  * COMMON FUNCTION DECLARATIONS
@@ -168,6 +174,8 @@ short init_report (FILE*);
 short rem_comments(FILE*, FILE*);
 /// Process include files, write to destination
 short proc_includes(FILE*, FILE*);
+/// Append MARC output to HTML report file
+short print_marc_html(FILE*, FILE*);
 
 /*
  * ==================================
@@ -183,12 +191,16 @@ lexeme_s get_identifier_lexeme (int, int);
 /// Get the next lexeme
 lexeme_s get_next_lexeme(void);
 /// Stringify lexeme
-short get_lexeme_str(lexeme_s, char*);
+short get_lexeme_str(lexeme_s*, char*, int);
 /// Populate symbol table with lexemes in source file pointer
 short build_symbol_table (lexeme_s*, int*);
 /// Print symbol table to destination file pointer
 short print_symbol_table (lexeme_s*, FILE*);
 /// Determine if regular expression is an integer
 bool match(const char *str, const char *pattern);
+/// Print symbol table to HTML report
+short print_symbol_table_html (lexeme_s*, FILE*);
+/// Free symbol table linked list
+void free_symbol_table (lexeme_s*);
 
 #endif /* OPAL_H_ */
