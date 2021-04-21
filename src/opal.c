@@ -791,10 +791,28 @@ print_marc_html(FILE *source_fp, FILE *report_fp)
 lexeme_s
 get_string_literal_lexeme (int char_line, int char_col)
 {
+    /// Initialize the string
+    char string[256] = {0};
 
-  // TODO: Replace stub implementation
-  lexeme_s retVal = { 0 };
-  return retVal;
+    int index = 0;
+
+    /// The next char needs to be checked, so get it.
+    read_next_char();
+
+    while (next_char != '"')
+    {
+        if ((next_char == EOF) || (next_char == '\n'))
+            logger(ERROR, "[%d:%d] Illegal End of file.", char_line, char_col);
+        else
+            string[index++] = next_char;
+
+        read_next_char();
+    }
+
+    lexeme_s retVal =
+            {.type = lx_String, .line = char_line, .column = char_col, .int_val = 0, .char_val = string};
+
+    return retVal;
 }
 
 /**
