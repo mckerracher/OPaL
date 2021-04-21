@@ -3,7 +3,7 @@ CFLAGS := -g -O0 -Wall -L./build -Wl,-rpath=./
 LD_LIBRARY_PATH := build:$(LD_LIBRARY_PATH)
 SHELL := env LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) /bin/bash
 
-all: dirs libopal marc alex tar
+all: dirs libopal marc alex astro tar
 
 # Create required directory structure
 dirs:
@@ -22,9 +22,13 @@ marc: libopal src/marc.c
 alex: libopal src/alex.c
 	$(CC) $(CFLAGS) src/alex.c -g -lopal -o build/alex
 
+# Build ASTRO syntax analyzer
+astro: libopal src/astro.c
+	$(CC) $(CFLAGS) src/astro.c -g -lopal -o build/astro
+
 # Tar all files for release
-tar: libopal marc alex
-	tar -cvf build/opal.tar build/libopal.so build/opal.o build/marc build/alex
+tar: libopal marc alex astro
+	tar -cvf build/opal.tar build/libopal.so build/opal.o build/marc build/alex build/astro
 
 .PHONY: test
 test: clean all

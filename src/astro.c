@@ -1,4 +1,4 @@
-/// @file alex.c
+/// @file astro.c
 
 #include <argp.h>
 #include <assert.h>
@@ -25,7 +25,7 @@ const char *argp_program_bug_address =
     "https://github.com/mckerracher/OPaL/issues";
 
 /// Program documentation
-static char doc[] = "alex - OPaL Compiler - Lexical analyzer";
+static char doc[] = "alex - OPaL Compiler - Syntax analyzer";
 static char args_doc[] = "FILE";            ///< Arguments we accept
 static struct argp_option options[] =       ///< The options we understand
   {
@@ -93,10 +93,11 @@ static struct argp argp =
   { options, parse_opt, args_doc, doc };
 
 /**
- * @brief       Main function for pre-processor alex
+ * @brief       Main function for pre-processor astro
  * @details     Calls the function remove_comments() and proc_includes()
  * to process the user input file. Calls the build_symbol_table() to build
- * symbol table and and writes to the destination.
+ * symbol table and and writes to the destination. Calls build_syntax_tree()
+ * to build the abstract syntax tree and writes to destination.
  *
  * @param[in]   argc    Number of command line arguments
  * @param[in]   argv    Vector of individual command line argument strings
@@ -132,8 +133,8 @@ main (int argc, char **argv)
   log_fp = fopen (log_fn, "a");
   if (log_fp == NULL)
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (opal_exit (EXIT_FAILURE));
     }
 
@@ -149,8 +150,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -161,8 +162,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -185,8 +186,8 @@ main (int argc, char **argv)
             _PASS;
           else
             {
-              _FAIL;
               perror (perror_msg);
+              _FAIL;
               return (errno);
             }
         }
@@ -199,8 +200,8 @@ main (int argc, char **argv)
         _PASS;
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -219,8 +220,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -231,8 +232,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -244,8 +245,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -269,8 +270,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -291,8 +292,8 @@ main (int argc, char **argv)
         }
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -309,8 +310,8 @@ main (int argc, char **argv)
         }
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -323,8 +324,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -340,8 +341,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -365,8 +366,8 @@ main (int argc, char **argv)
         }
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -384,8 +385,8 @@ main (int argc, char **argv)
         }
       else
         {
-          _FAIL;
           perror (perror_msg);
+          _FAIL;
           return (errno);
         }
     }
@@ -398,8 +399,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -411,8 +412,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -433,8 +434,8 @@ main (int argc, char **argv)
     }
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -448,8 +449,8 @@ main (int argc, char **argv)
     }
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -461,8 +462,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -483,8 +484,8 @@ main (int argc, char **argv)
     }
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -499,8 +500,8 @@ main (int argc, char **argv)
     _PASS;
   else
     {
-      _FAIL;
       perror (perror_msg);
+      _FAIL;
       return (errno);
     }
 
@@ -513,33 +514,67 @@ main (int argc, char **argv)
   /// Build symbol table using rem_comments() temp file as source
   retVal = build_symbol_table (symbol_table, &symbol_count);
   if (retVal != EXIT_SUCCESS)
-    {
       return (opal_exit (retVal));
-    }
 
   logger(DEBUG, "assert(symbol_ct [%d] > 0)", symbol_count);
   assert(symbol_count > 0);
   _PASS;
 
-  /// Print symbol table with print_symbol_table() to destination
-  retVal = print_symbol_table (symbol_table, dest_fp);
-  if (retVal != EXIT_SUCCESS)
+  /// Create and open temp destination file for print_symbol_table()
+  char *alex_tmp = "tmp/alex.tmp";
+  logger(DEBUG, "alex_tmp: '%s'", alex_tmp);
+
+  /// If alex temp file can not be written, print error and exit
+  sprintf (perror_msg, "alex_fp = fopen('%s', 'wb')", alex_tmp);
+  logger(DEBUG, perror_msg);
+  FILE *alex_fp = fopen (alex_tmp, "wb");
+  if (alex_fp != NULL)
+    _PASS;
+  else
     {
-      return (opal_exit (retVal));
+      perror (perror_msg);
+      _FAIL;
+      return (errno);
     }
+
+  /// Print symbol table with print_symbol_table() to alex temp file
+  retVal = print_symbol_table (symbol_table, alex_fp);
+  if (retVal != EXIT_SUCCESS)
+      return (opal_exit (retVal));
 
   /// Print symbol table HTML report with print_symbol_table_html()
   retVal = print_symbol_table_html (symbol_table, report_fp);
   if (retVal != EXIT_SUCCESS)
-    {
       return (opal_exit (retVal));
-    }
+
+  /// Start syntax analyzer code
+  banner ("ASTRO start.");
+
+  /// Build abstract syntax tree using symbol table
+  node_s *syntax_tree = build_syntax_tree (symbol_table);
+
+  logger(DEBUG, "assert(syntax_tree)");
+  assert(syntax_tree);
+  _PASS;
+
+  /// Print abstract syntax tree with print_ast() to destination file
+  retVal = print_ast(syntax_tree, dest_fp);
+  if (retVal != EXIT_SUCCESS)
+    return (opal_exit (retVal));
+
+  /// Print abstract syntax tree HTML report with print_ast_html()
+  retVal = print_ast_html(syntax_tree, report_fp);
+  if (retVal != EXIT_SUCCESS)
+    return (opal_exit (retVal));
 
   /// Free memory used by symbol_table
   free_symbol_table (symbol_table);
   symbol_table = NULL;
 
+  /// Free memory used by syntax_tree
+  free_syntax_tree (syntax_tree);
+  syntax_tree = NULL;
+
   /// source_fp, dest_fp, log_fp & report_fp closed by opal_exit()
   return (opal_exit (EXIT_SUCCESS));
 }
-

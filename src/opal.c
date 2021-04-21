@@ -5,12 +5,10 @@
 #include "../include/opal.h"
 
 #include <assert.h>             /* assert() */
-#include <bits/types/FILE.h>
 #include <ctype.h>              /* isspace(), isalnum() */
 #include <errno.h>              /* errno macros and codes */
 #include <regex.h> 				/* ReGex functions */
 #include <stdarg.h>             /* variadic functions */
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>             /* fopen, fclose, exit() */
 #include <string.h>             /* memset() */
@@ -1043,7 +1041,7 @@ get_next_lexeme (void)
  *
  */
 short
-get_lexeme_str (lexeme_s *lexeme, char *buffer, const int buffer_len)
+get_lexeme_str (const lexeme_s *lexeme, char *buffer, const int buffer_len)
 {
 
   /// Assert buffer is not NULL
@@ -1166,11 +1164,11 @@ print_symbol_table (lexeme_s *symbol_table, FILE *dest_fp)
   /// Write ALEX to destination file
   logger (DEBUG, "Writing ALEX output to destination file.");
 
-  lexeme_s *symbol_table_tail = symbol_table;
-  while (symbol_table_tail->next)
+  lexeme_s *current = symbol_table;
+  while (current->next)
     {
       /// Call get_lexeme_str() to stringify next_lexeme
-      retVal = get_lexeme_str (symbol_table_tail, lexeme_str,
+      retVal = get_lexeme_str (current, lexeme_str,
                                lexeme_str_len);
       if (retVal != EXIT_SUCCESS)
         return (EXIT_FAILURE);
@@ -1183,7 +1181,7 @@ print_symbol_table (lexeme_s *symbol_table, FILE *dest_fp)
           exit (opal_exit (retVal));
         }
 
-      symbol_table_tail = symbol_table_tail->next;
+      current = current->next;
     }
   _DONE;
 
@@ -1289,7 +1287,7 @@ print_symbol_table_html (lexeme_s *symbol_table, FILE *report_fp)
 /**
  * @brief       Free memory allocated for symbol table linked list
  *
- * @param[in/out]   symbol_table    Symbol table to print
+ * @param[in/out]   symbol_table    Symbol table to deallocate
  *
  * @return      NULL
  *
@@ -1297,6 +1295,8 @@ print_symbol_table_html (lexeme_s *symbol_table, FILE *report_fp)
 void
 free_symbol_table (lexeme_s *symbol_table)
 {
+  logger(DEBUG, "=== START ===");
+
   lexeme_s *next_symbol;
 
   while (symbol_table)
@@ -1312,6 +1312,8 @@ free_symbol_table (lexeme_s *symbol_table)
       symbol_table = symbol_table->next;
       free (next_symbol);
     }
+
+  logger(DEBUG, "=== START ===");
 }
 
 /*
@@ -1319,3 +1321,130 @@ free_symbol_table (lexeme_s *symbol_table)
  * END ALEX FUNCTION DEFINITIONS
  * ==================================
  */
+
+/*
+ * ==================================
+ * START ASTRO FUNCTION DEFINITIONS
+ * ==================================
+ */
+
+/**
+ * @brief           Build abstract syntax tree from symbol table
+ *
+ * @param[in]       lexeme_s*       Lexeme symbol table
+ * @param[in/out]   AST_s*          Abstract syntax tree
+ *
+ * @return      Abstract syntax tree built from the symbol table
+ *
+ * @retval      Tree root node pointer      On success
+ * @retval      NULL                        On error
+ *
+ */
+node_s*
+build_syntax_tree (lexeme_s *symbol_table)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Check if symbol table pointer is not NULL
+  logger(DEBUG, "assert(symbol_table)");
+  assert(symbol_table);
+  _PASS;
+
+  node_s *retVal = NULL;
+
+  logger(DEBUG, "TODO: Replace stub implementation.");
+  retVal = (node_s*) calloc (1, sizeof(node_s));
+
+  logger(DEBUG, "=== END ===");
+  return retVal;
+}
+
+/**
+ * @brief           Print abstract syntax tree to destination file
+ *
+ * @param[in]       AST_s*       Abstract syntax tree
+ * @param[in/out]   FILE*        Destination file pointer
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+short
+print_ast (node_s *syntax_tree, FILE *dest_fp)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Check if syntax tree pointer is not NULL
+  logger(DEBUG, "assert(syntax_tree)");
+  assert(syntax_tree);
+  _PASS;
+
+  /// Print syntax tree in pre-traversal mode to destination file pointer
+  logger(DEBUG, "TODO: Replace stub implementation.");
+
+  logger(DEBUG, "=== END ===");
+  return (EXIT_SUCCESS);
+}
+
+/**
+ * @brief           Print abstract syntax tree tree to HTML report file
+ *
+ * @param[in]       AST_s*       Abstract syntax tree
+ * @param[in/out]   FILE*        Report file pointer
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+short
+print_ast_html (node_s *syntax_tree, FILE *report_fp)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Check if syntax tree pointer is not NULL
+  logger(DEBUG, "assert(syntax_tree)");
+  assert(syntax_tree);
+  _PASS;
+
+  /// Open a temp file in wb mode, else print error and exit
+
+  /// Copy UML stylesheet to temp file
+
+  /// Print syntax tree UML in pre-traversal mode to temp file
+
+  /// Call plantuml jar to convert UML to svg
+
+  /// Write ASTRO section to report
+
+  /// Append svg to report
+
+  logger(DEBUG, "TODO: Replace stub implementation.");
+
+  logger(DEBUG, "=== END ===");
+  return (EXIT_SUCCESS);
+}
+
+/**
+ * @brief       Free memory allocated for syntax tree
+ *
+ * @param[in/out]   syntax_tree    Syntax tree to deallocate
+ *
+ * @return      NULL
+ *
+ */
+void
+free_syntax_tree (node_s *syntax_tree)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Walk the tree free each node starting with the leaf nodes
+  logger(DEBUG, "TODO: Replace stub implementation.");
+
+  logger(DEBUG, "=== START ===");
+}
