@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OPaL compilation report</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 600px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  border: 1px solid grey;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+textarea {
+  resize: none;
+}
+
+div.scroll {
+  width: 600px;
+  height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+</style>
+</head>
+<body>
+<h2>Compilation steps report </h2>
+<h3>Original source file: <code>input/alex_test1.opl</code></h3>
+<hr>
+<textarea style='resize: none;' readonly rows='25' cols='80'>
+#include "input/alex_include1.hpl"
+// Single line comment
+
+/*
+Multi-line
+comment
+*/
+
+a = 10;
+b = 20;
+c = a + b;
+
+print(a, b);
+
+// Single line comment
+</textarea>
+<h3>Output by pre-processor <code>MARC</code></h3>
+<hr>
+<textarea style='resize: none;' readonly rows='25' cols='80'>
+
+
+triangle_angles = 180;
+
+
+
+
+
+
+
+
+a = 10;
+b = 20;
+c = a + b;
+
+print(a, b);
+
+
+</textarea>
+<h3>Symbol table by Lexical analyzer <code>ALEX</code></h3>
+<hr>
+<div class='scroll'><table>
+<tr>
+<th>Line No.</th>
+<th>Column No.</th>
+<th>Type</th>
+<th>Value</th>
+</tr><tr><td>0</td>
+<td>0</td>
+<td>No_operation</td>
+<td></td>
+</tr>
+<tr><td>2</td>
+<td>1</td>
+<td>Identifier</td>
+<td>triangle_angles</td>
+</tr>
+<tr><td>2</td>
+<td>17</td>
+<td>Op_Assign</td>
+<td></td>
+</tr>
+<tr><td>2</td>
+<td>19</td>
+<td>Integer</td>
+<td>180</td>
+</tr>
+<tr><td>2</td>
+<td>22</td>
+<td>Semicolon</td>
+<td></td>
+</tr>
+<tr><td>11</td>
+<td>1</td>
+<td>Identifier</td>
+<td>a</td>
+</tr>
+<tr><td>11</td>
+<td>3</td>
+<td>Op_Assign</td>
+<td></td>
+</tr>
+<tr><td>11</td>
+<td>5</td>
+<td>Integer</td>
+<td>10</td>
+</tr>
+<tr><td>11</td>
+<td>7</td>
+<td>Semicolon</td>
+<td></td>
+</tr>
+<tr><td>12</td>
+<td>1</td>
+<td>Identifier</td>
+<td>b</td>
+</tr>
+<tr><td>12</td>
+<td>3</td>
+<td>Op_Assign</td>
+<td></td>
+</tr>
+<tr><td>12</td>
+<td>5</td>
+<td>Integer</td>
+<td>20</td>
+</tr>
+<tr><td>12</td>
+<td>7</td>
+<td>Semicolon</td>
+<td></td>
+</tr>
+<tr><td>13</td>
+<td>1</td>
+<td>Identifier</td>
+<td>c</td>
+</tr>
+<tr><td>13</td>
+<td>3</td>
+<td>Op_Assign</td>
+<td></td>
+</tr>
+<tr><td>13</td>
+<td>5</td>
+<td>Identifier</td>
+<td>a</td>
+</tr>
+<tr><td>13</td>
+<td>7</td>
+<td>Op_Add</td>
+<td></td>
+</tr>
+<tr><td>13</td>
+<td>9</td>
+<td>Identifier</td>
+<td>b</td>
+</tr>
+<tr><td>13</td>
+<td>10</td>
+<td>Semicolon</td>
+<td></td>
+</tr>
+<tr><td>15</td>
+<td>1</td>
+<td>Keyword_print</td>
+<td></td>
+</tr>
+<tr><td>15</td>
+<td>6</td>
+<td>LeftParen</td>
+<td></td>
+</tr>
+<tr><td>15</td>
+<td>7</td>
+<td>Identifier</td>
+<td>a</td>
+</tr>
+<tr><td>15</td>
+<td>8</td>
+<td>Comma</td>
+<td></td>
+</tr>
+<tr><td>15</td>
+<td>10</td>
+<td>Identifier</td>
+<td>b</td>
+</tr>
+<tr><td>15</td>
+<td>11</td>
+<td>RightParen</td>
+<td></td>
+</tr>
+<tr><td>15</td>
+<td>12</td>
+<td>Semicolon</td>
+<td></td>
+</tr>
+</table></div>
