@@ -809,6 +809,8 @@ get_string_literal_lexeme (int char_line, int char_col)
         read_next_char();
     }
 
+    read_next_char();
+
     lexeme_s retVal =
             {.type = lx_String, .line = char_line, .column = char_col, .int_val = 0, .char_val = string};
 
