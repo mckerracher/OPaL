@@ -46,32 +46,38 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
           const char *fmt, ...)
 {
 
-  /// 1. Assert log file pointer is not null
+  /// Assert log file pointer is not null
   assert(log_fp);
 
-  /// 2. Allocate buffer to hold message to log
-  char buf[4096] =
-    { 0 };
+  /// Allocate buffer to hold message to log
+  char buf[4096] = { 0 };
 
-  /// 3. Read formatted user message string into the buffer
+  /// Read formatted user message string into the buffer
   va_list ap;
   va_start(ap, fmt);
   vsprintf (buf, fmt, ap);
   va_end(ap);
 
   /**
-   * 4. If tag is a result of a system call and current log level is more
+   * If tag is a result of a system call and current log level is more
    * than DEBUG, print the message and return. Eg - PASS / FAIL etc
    */
   if (tag == RESULT && LOG_LEVEL >= DEBUG)
     {
-      fprintf (log_fp, "%s", buf);
-      fflush (log_fp);
+      retVal = fprintf (log_fp, "%s", buf);
+      if (retVal < 0)
+        opal_exit(retVal);
+
+      if (fflush (log_fp) != EXIT_SUCCESS)
+        {
+          perror("fflush (log_fp)");
+          opal_exit(errno);
+        }
       return;
     }
 
   /**
-   * 5. If log message is less than current log level, print message with
+   * If log message is less than current log level, print message with
    * current date, time to log file pointer. Eg.
    *
    * ```
@@ -83,8 +89,12 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
       fprintf (log_fp, "\n[%10s:%4d] %24s() %s", file, line, func, buf);
     }
 
-  /// 6. Flush message to log file
-  fflush (log_fp);
+  /// Flush message to log file
+  if (fflush (log_fp) != EXIT_SUCCESS)
+    {
+      perror("fflush (log_fp)");
+      opal_exit(errno);
+    }
 }
 
 /**
@@ -109,8 +119,7 @@ void
 banner (const char *msg)
 {
   /// Create buffer of 64 characters size and fill with 63 stars
-  char stars[64] =
-    { 0 };
+  char stars[64] = { 0 };
   memset (stars, '*', 63 * sizeof(char));
 
   /// Call logger macro to print newline, 63 stars, string, 63 stars & newline
@@ -299,6 +308,7 @@ int
 read_next_char (void)
 {
   /// Read character from source file pointer
+  errno = EXIT_SUCCESS;
   next_char = getc (source_fp);
 
   /// getc() sets the errno in the event of an error
@@ -575,7 +585,19 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
   _PASS;
 
   /// Move source_fp to beginning of file.
+  sprintf (perror_msg, "fseek (source_fp, 0, SEEK_SET)");
+  logger(DEBUG, perror_msg);
   fseek (source_fp, 0, SEEK_SET);
+
+  /// If source file position not 0, print error and exit
+  if (ftell (source_fp) == 0)
+    _DONE;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      exit (opal_exit(errno));
+    }
 
   /// Copy each character to the destination file, while checking for include files.
   logger(DEBUG, "Reading file.");
@@ -608,8 +630,7 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
 
                 /// Move file pointer to the point after "include "
                 fseek (source_fp, sz, SEEK_CUR);
-                char filename_buffer[256] =
-                  { 0 };
+                char filename_buffer[256] = { 0 };
                 int filename_len = 0;
 
                 /// Get the filename for the include file.
@@ -650,8 +671,9 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                 sprintf (perror_msg, "include_fp = fopen('%s', 'r')",
                          filename_buffer);
                 logger(DEBUG, perror_msg);
+                errno = EXIT_SUCCESS;
                 FILE *include_fp = fopen (filename_buffer, "r");
-                if (include_fp != NULL)
+                if (errno == EXIT_SUCCESS)
                   _PASS;
                 else
                   {
@@ -791,30 +813,31 @@ print_marc_html(FILE *source_fp, FILE *report_fp)
 lexeme_s
 get_string_literal_lexeme (int char_line, int char_col)
 {
-    /// Initialize the string
-    char string[256] = {0};
+  /// Initialize the string
+  char string[256] = { 0 };
 
-    int index = 0;
+  int index = 0;
 
-    /// The next char needs to be checked, so get it.
-    read_next_char();
+  /// The next char needs to be checked, so get it.
+  read_next_char ();
 
-    while (next_char != '"')
+  while (next_char != '"')
     {
-        if ((next_char == EOF) || (next_char == '\n'))
-            logger(ERROR, "[%d:%d] Illegal End of file.", char_line, char_col);
-        else
-            string[index++] = next_char;
+      if ((next_char == EOF) || (next_char == '\n'))
+        logger(ERROR, "[%d:%d] Illegal End of file.", char_line, char_col);
+      else
+        string[index++] = next_char;
 
-        read_next_char();
+      read_next_char ();
     }
 
-    read_next_char();
+  read_next_char ();
 
-    lexeme_s retVal =
-            {.type = lx_String, .line = char_line, .column = char_col, .int_val = 0, .char_val = string};
+  lexeme_s retVal =
+    { .type = lx_String, .line = char_line, .column = char_col, .int_val = 0,
+        .char_val = string };
 
-    return retVal;
+  return retVal;
 }
 
 /**
@@ -898,6 +921,7 @@ get_identifier_lexeme (int char_line, int char_col)
     {
       logger(DEBUG, "strtol (%s, NULL, 0)", identifier_str);
 
+      errno = EXIT_SUCCESS;
       int intVal = strtol (identifier_str, NULL, 0);
       if (errno != EXIT_SUCCESS)
         {
@@ -916,7 +940,7 @@ get_identifier_lexeme (int char_line, int char_col)
     {
       /// String must be an identifier
       retVal.type = lx_Ident;
-      retVal.char_val = strdup (identifier_str);
+      retVal.char_val = identifier_str;
     }
 
   return retVal;
@@ -1109,7 +1133,8 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
   assert(symbol_count);
   _PASS;
 
-  lexeme_s *symbol_table_tail = NULL;
+  /// Create symbols at the beginning of the linked list
+  lexeme_s *current = symbol_table;
 
   /// Get lexemes in a loop until we get a EOF lexeme
   do
@@ -1125,14 +1150,7 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
       new_symbol->int_val = next_lexeme.int_val;
 
       new_symbol->char_val =
-          next_lexeme.char_val ? strdup (next_lexeme.char_val) : NULL;
-
-      /// Get the current tail of the symbol table
-      symbol_table_tail = symbol_table;
-      while (symbol_table_tail->next)
-        {
-          symbol_table_tail = symbol_table_tail->next;
-        }
+          next_lexeme.char_val ? next_lexeme.char_val : NULL;
 
       /// Call get_lexeme_str() to stringify next_lexeme
       if (get_lexeme_str (new_symbol, lexeme_str,
@@ -1141,11 +1159,13 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
 
       /// Append lexeme to symbol table
       logger(DEBUG, "Append lexeme {%s}", lexeme_str);
-      symbol_table_tail->next = new_symbol;
+      current->next = new_symbol;
 
       /// Increment symbol count
       *symbol_count = *symbol_count + 1;
 
+      /// Move current to last symbol in linked list
+      current = current->next;
     }
   while (next_lexeme.type != lx_EOF);
 
@@ -1404,6 +1424,7 @@ print_ast (node_s *syntax_tree, FILE *dest_fp)
 
   /// Print syntax tree in pre-traversal mode to destination file pointer
   logger(DEBUG, "TODO: Replace stub implementation.");
+  fprintf(dest_fp, "print_ast() TEST.\n");
 
   logger(DEBUG, "=== END ===");
   return (EXIT_SUCCESS);
