@@ -130,8 +130,9 @@ main (int argc, char **argv)
 
   /// Open log file in append mode, else exit program
   sprintf (perror_msg, "log_fp = fopen(%s, 'a')", log_fn);
+  errno = EXIT_SUCCESS;
   log_fp = fopen (log_fn, "a");
-  if (log_fp == NULL)
+  if (errno != EXIT_SUCCESS)
     {
       perror (perror_msg);
       _FAIL;
@@ -195,8 +196,9 @@ main (int argc, char **argv)
       /// Open destination file in 'wb' mode
       sprintf (perror_msg, "dest_fp = fopen('%s', 'wb')", dest_fn);
       logger(DEBUG, perror_msg);
+      errno = EXIT_SUCCESS;
       dest_fp = fopen (dest_fn, "wb");
-      if (dest_fp)
+      if (errno == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -215,8 +217,9 @@ main (int argc, char **argv)
   /// Open source file in read-only mode
   sprintf (perror_msg, "source_fp = fopen('%s', 'r')", source_fn);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   source_fp = fopen (source_fn, "r");
-  if (source_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -240,8 +243,9 @@ main (int argc, char **argv)
   /// If report file can not be written, print error and exit
   sprintf (perror_msg, "report_fp = fopen('%s', 'a')", report_fn);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   report_fp = fopen (report_fn, "a");
-  if (report_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -265,8 +269,9 @@ main (int argc, char **argv)
   /// If temp file can not be written, print error and exit
   sprintf (perror_msg, "rc_fp = fopen('%s', 'wb')", rc_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   FILE *rc_fp = fopen (rc_tmp, "wb");
-  if (rc_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -319,8 +324,9 @@ main (int argc, char **argv)
   /// Open rem_comments() temp file in read mode, else print error and exit
   sprintf (perror_msg, "rc_fp = fopen('%s', 'r')", rc_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   rc_fp = fopen (rc_tmp, "r");
-  if (rc_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -336,8 +342,9 @@ main (int argc, char **argv)
   /// If temp file can not be written, print error and exit
   sprintf (perror_msg, "pi_fp = fopen('%s', 'wb')", pi_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   FILE *pi_fp = fopen (pi_tmp, "wb");
-  if (pi_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -394,8 +401,9 @@ main (int argc, char **argv)
   /// Open proc_includes() temp file in read mode, else print error and exit
   sprintf (perror_msg, "pi_fp = fopen('%s', 'r')", pi_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   pi_fp = fopen (pi_tmp, "r");
-  if (pi_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -407,8 +415,9 @@ main (int argc, char **argv)
   /// Open rem_comments() temp file in write mode, else print error and exit
   sprintf (perror_msg, "rc_fp = fopen('%s', 'wb')", rc_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   rc_fp = fopen (rc_tmp, "wb");
-  if (rc_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -457,8 +466,9 @@ main (int argc, char **argv)
   /// Open rem_comments() temp file in read mode, else print error and exit
   sprintf (perror_msg, "rc_fp = fopen('%s', 'r')", rc_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   rc_fp = fopen (rc_tmp, "r");
-  if (rc_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -495,8 +505,9 @@ main (int argc, char **argv)
   /// Open rem_comments() temp file as source_fp, else print error and exit
   sprintf (perror_msg, "source_fp = fopen('%s', 'r')", rc_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   source_fp = fopen (rc_tmp, "r");
-  if (source_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -527,8 +538,9 @@ main (int argc, char **argv)
   /// If alex temp file can not be written, print error and exit
   sprintf (perror_msg, "alex_fp = fopen('%s', 'wb')", alex_tmp);
   logger(DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
   FILE *alex_fp = fopen (alex_tmp, "wb");
-  if (alex_fp != NULL)
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
