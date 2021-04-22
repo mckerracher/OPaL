@@ -1587,6 +1587,44 @@ make_statement_node (void)
           make_ast_node (nd_If, condition_statement, else_statement));
       break;
 
+    case lx_Print:             // print '(' expr {',' expr} ')'
+      /// If next lexeme is print, read next lexeme
+      ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// Loop over lexemes inside the left and right parantheses of print
+      /// statement, incrementing with every comma lexeme found
+      for (expect (lx_Lparen);; expect (lx_Comma))
+        {
+          /// For string inside print statement ...
+          if (ast_curr_lexeme->type == lx_String)
+            {
+              /// Build tree with left child as op-code to print string &
+              /// right child as the leaf node representing the string
+              expression = make_ast_node (
+                  nd_Prts, make_leaf (nd_String, ast_curr_lexeme), NULL);
+
+              /// ... and read next lexeme
+              ast_curr_lexeme = ast_curr_lexeme->next;
+            }
+          else
+            /// For integer inside print statement, build tree with left child
+            /// as op-code to print integer and right node as NULL
+            expression = make_ast_node (nd_Prti, make_expression_node (0),
+                                        NULL);
+
+          /// Build tree for statement till this comma
+          tree = make_ast_node (nd_Sequence, tree, expression);
+
+          /// If no more commas in print statement, return tree
+          if (ast_curr_lexeme->type != lx_Comma)
+            break;
+        }
+
+      /// Expect a ');' after print, else print error and exit
+      expect (lx_Rparen);
+      expect (lx_Semi);
+      break;
+
     case lx_Semi:
       /// If next lexeme is semicolon, read next lexeme & return tree
       ast_curr_lexeme = ast_curr_lexeme->next;
@@ -1598,13 +1636,22 @@ make_statement_node (void)
       break;
 
     case lx_Ident:
-      /// If next lexeme is an identifier ...
-
+      /// If next lexeme is an identifier create leaf node for it
       value = make_leaf (nd_Ident, ast_curr_lexeme);
+
+      /// ... and read next lexeme
       ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// Expect an '=' operator after an identifier, else print error and exit
       expect (lx_Assign);
+
+      /// Build expression tree whose result we will assign to the identifier
       expression = make_expression_node (0);
+
+      /// Build tree with left child as identifier & right child as expression
       tree = make_ast_node (nd_Assign, value, expression);
+
+      /// Expect a semi colon after expression, else print error and exit
       expect (lx_Semi);
       break;
 
