@@ -1342,13 +1342,6 @@ free_symbol_table (lexeme_s *symbol_table)
   while (symbol_table)
     {
       next_symbol = symbol_table;
-
-      if (next_symbol->char_val)
-        {
-          free (next_symbol->char_val);
-          next_symbol->char_val = NULL;
-        }
-
       symbol_table = symbol_table->next;
       free (next_symbol);
     }
@@ -1369,10 +1362,57 @@ free_symbol_table (lexeme_s *symbol_table)
  */
 
 /**
+ * @brief       Return syntax tree node with given left and right child nodes
+ *
+ * @param[in]   ast_node_type_e     Node type to create
+ * @param[in]   node_s*             Left child node pointer
+ * @param[in]   node_s*             Right child node pointer
+ *
+ * @return      Abstract syntax tree node pointer
+ *
+ * @retval      node_s*     On success
+ */
+node_s*
+make_ast_node(ast_node_type_e type, node_s *left_child, node_s *right_child)
+{
+
+  /// Create node with given children and return
+  node_s *tree = calloc (1, sizeof(node_s));
+  tree->left = left_child;
+  tree->right = right_child;
+
+  /// Create buffer for logging
+  char buffer[1024] = { 0 };
+
+  /// Append left child node type to log buffer
+  strcat (buffer, "left->");
+  if (left_child)
+    strcat (buffer, node_name[left_child->node_type]);
+  else
+    strcat (buffer, "NULL");
+
+  /// Append current node type to log buffer
+  strcat (buffer, "\tnode->");
+  strcat (buffer, node_name[type]);
+
+  /// Append right child node type to log buffer
+  strcat (buffer, "\tright->");
+  if (right_child)
+    strcat (buffer, node_name[right_child->node_type]);
+  else
+    strcat (buffer, "NULL");
+
+  /// Log node message
+  logger (DEBUG, buffer);
+
+  return tree;
+}
+
+/**
  * @brief           Build abstract syntax tree from symbol table
  *
  * @param[in]       lexeme_s*       Lexeme symbol table
- * @param[in/out]   AST_s*          Abstract syntax tree
+ * @param[in/out]   node_s*          Abstract syntax tree
  *
  * @return      Abstract syntax tree built from the symbol table
  *
@@ -1390,19 +1430,279 @@ build_syntax_tree (lexeme_s *symbol_table)
   assert(symbol_table);
   _PASS;
 
-  node_s *retVal = NULL;
+  /// Create syntax tree node NULL pointer to return
+  node_s *tree = NULL;
 
-  logger(DEBUG, "TODO: Replace stub implementation.");
-  retVal = (node_s*) calloc (1, sizeof(node_s));
+  /// Start reading lexemes from the symbol table
+  ast_curr_lexeme = symbol_table;
+
+  /// Call make_ast_node() until lexeme with lx_EOF is seen
+  do {
+      tree = make_ast_node(nd_Sequence, tree, make_statement_node());
+  } while (tree != NULL && ast_curr_lexeme->type != lx_EOF);
 
   logger(DEBUG, "=== END ===");
-  return retVal;
+  return tree;
+}
+
+/**
+ * @brief       Check if lexeme is of expected type, else print error and exit
+ *
+ * @param[in]   lexeme_type_e   Expected lexeme type
+ *
+ * @return      NULL
+ */
+void
+expect (lexeme_type_e expected_type)
+{
+  /// If ast_curr_lexeme is of expected type
+  if (ast_curr_lexeme->type == expected_type)
+    {
+      /// ... read next lexeme and return
+      ast_curr_lexeme = ast_curr_lexeme->next;
+      return;
+    }
+
+  /// ... else print error and exit
+  logger(ERROR, "%s expected but %s found.", grammar[expected_type].text,
+         grammar[ast_curr_lexeme->type].text);
+  exit (opal_exit (EXIT_FAILURE));
+}
+
+/**
+ * @brief       Build and return expression inside parantheses
+ *
+ * @return      Syntax tree node pointer
+ *
+ * @retval      node_s*     On success
+ * @retval      NULL        On error
+ *
+ */
+node_s*
+make_parentheses_expression(void)
+{
+  /// Expect left parantheses before the expression
+  expect (lx_Lparen);
+
+  ///
+  node_s *tree = NULL;
+
+  /// Create tree for expression inside parantheses
+  tree = make_expression_node (0);
+
+  /// Expect right parantheses after the expression
+  expect (lx_Rparen);
+
+  /// return tree
+  return tree;
+}
+
+/**
+ * @brief
+ * @return      Syntax tree node pointer
+ *
+ * @retval      node_s*     On success
+ * @retval      NULL        On error
+ *
+ */
+node_s*
+make_leaf(lexeme_type_e type, lexeme_s* curr_lexeme)
+{
+  /// Create the leaf node to return
+  node_s* node = NULL;
+
+  /// TODO: Replace stub implementation
+
+  return node;
+}
+
+/**
+ * @brief       Build and return expression node
+ *
+ * @param[in]   int     Precedence of mathematical operation
+ *
+ * @return      Syntax tree node pointer
+ *
+ * @retval      node_s*     On success
+ * @retval      NULL        On error
+ */
+node_s*
+make_expression_node(int precedence)
+{
+  /// Create the leaf node to return
+  node_s* node = NULL;
+
+  /// TODO: Replace stub implementation
+
+  return node;
+}
+
+/**
+ * @brief       Build and return syntax tree node for a statement
+ * @param       None
+ *
+ * @return      Syntax tree node pointer
+ *
+ * @retval      node_s*     On success
+ * @retval      NULL        On error
+ */
+node_s*
+make_statement_node (void)
+{
+  node_s *tree = NULL;                  ///< Syntax tree node to return
+  node_s *value = NULL;                 ///< Leaf node with int/string value
+  node_s *expression = NULL;            ///< Node for expression
+  node_s *condition_statement = NULL;   ///< if/while condition statement node
+  node_s *else_statement = NULL;        ///< else condition statement node
+
+  switch (ast_curr_lexeme->type)
+    {
+    case lx_If:
+      /// If next lexeme is if statement, read next lexeme
+      ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// ... get expression inside left parantheses
+      expression = make_parentheses_expression ();
+
+      /// ... get condition statement node
+      condition_statement = make_statement_node ();
+
+      /// ... and create else statement node as NULL
+      else_statement = NULL;
+
+      /// If next lexeme is an else
+      if (ast_curr_lexeme->type == lx_Else)
+        {
+          /// ... read next lexeme
+          ast_curr_lexeme = ast_curr_lexeme->next;
+
+          /// ... and make else statement node
+          else_statement = make_statement_node ();
+        }
+
+      /// Build and return the tree with left child as the expression node &
+      /// right child as the code block to execute
+      tree = make_ast_node (
+          nd_If, expression,
+          make_ast_node (nd_If, condition_statement, else_statement));
+      break;
+
+    case lx_Print:             // print '(' expr {',' expr} ')'
+      /// If next lexeme is print, read next lexeme
+      ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// Loop over lexemes inside the left and right parantheses of print
+      /// statement, incrementing with every comma lexeme found
+      for (expect (lx_Lparen);; expect (lx_Comma))
+        {
+          /// For string inside print statement ...
+          if (ast_curr_lexeme->type == lx_String)
+            {
+              /// Build tree with left child as op-code to print string &
+              /// right child as the leaf node representing the string
+              expression = make_ast_node (
+                  nd_Prts, make_leaf (nd_String, ast_curr_lexeme), NULL);
+
+              /// ... and read next lexeme
+              ast_curr_lexeme = ast_curr_lexeme->next;
+            }
+          else
+            /// For integer inside print statement, build tree with left child
+            /// as op-code to print integer and right node as NULL
+            expression = make_ast_node (nd_Prti, make_expression_node (0),
+                                        NULL);
+
+          /// Build tree for statement till this comma
+          tree = make_ast_node (nd_Sequence, tree, expression);
+
+          /// If no more commas in print statement, return tree
+          if (ast_curr_lexeme->type != lx_Comma)
+            break;
+        }
+
+      /// Expect a ');' after print, else print error and exit
+      expect (lx_Rparen);
+      expect (lx_Semi);
+      break;
+
+    case lx_Semi:
+      /// If next lexeme is semicolon, read next lexeme & return tree
+      ast_curr_lexeme = ast_curr_lexeme->next;
+      break;
+
+    case lx_NOP:
+      /// If next lexeme is no operation, read next lexeme & return tree
+      ast_curr_lexeme = ast_curr_lexeme->next;
+      break;
+
+    case lx_Ident:
+      /// If next lexeme is an identifier create leaf node for it
+      value = make_leaf (nd_Ident, ast_curr_lexeme);
+
+      /// ... and read next lexeme
+      ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// Expect an '=' operator after an identifier, else print error and exit
+      expect (lx_Assign);
+
+      /// Build expression tree whose result we will assign to the identifier
+      expression = make_expression_node (0);
+
+      /// Build tree with left child as identifier & right child as expression
+      tree = make_ast_node (nd_Assign, value, expression);
+
+      /// Expect a semi colon after expression, else print error and exit
+      expect (lx_Semi);
+      break;
+
+    case lx_While:
+      /// If next lexeme is while, read next lexeme
+      ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// ... build expression node inside parantheses
+      expression = make_parentheses_expression ();
+
+      /// ... build condition node
+      condition_statement = make_statement_node ();
+
+      /// ... return while tree with left child as expression & right child as
+      /// code block to execute
+      tree = make_ast_node (nd_While, expression, condition_statement);
+      break;
+
+    case lx_Lbrace:
+      /// If next lexeme is left brace, build tree for code block until
+      /// right brace lexeme is found
+      for ( expect (lx_Lbrace);
+          ast_curr_lexeme->type != lx_Rbrace && ast_curr_lexeme->type != lx_EOF;
+          )
+        {
+          tree = make_ast_node (nd_Sequence, tree, make_statement_node ());
+        }
+
+      /// Expect a right brace after code block and return tree, else print
+      /// error and exit
+      expect (lx_Rbrace);
+      break;
+
+    case lx_EOF:
+      /// If next lexeme is end of file, break and return tree
+      break;
+
+    default:
+      /// Statements cannot start with any other type of lexeme
+      logger(ERROR, "[%d:%d] Cannot start statement with '%s': %s\n",
+             ast_curr_lexeme->line, ast_curr_lexeme->column,
+             grammar[ast_curr_lexeme->type].text, ast_curr_lexeme->char_val);
+    }
+
+  return tree;
 }
 
 /**
  * @brief           Print abstract syntax tree to destination file
  *
- * @param[in]       AST_s*       Abstract syntax tree
+ * @param[in]       node_s*       Abstract syntax tree
  * @param[in/out]   FILE*        Destination file pointer
  *
  * @return      The error return code of the function.
@@ -1433,7 +1733,7 @@ print_ast (node_s *syntax_tree, FILE *dest_fp)
 /**
  * @brief           Print abstract syntax tree tree to HTML report file
  *
- * @param[in]       AST_s*       Abstract syntax tree
+ * @param[in]       node_s*       Abstract syntax tree
  * @param[in/out]   FILE*        Report file pointer
  *
  * @return      The error return code of the function.

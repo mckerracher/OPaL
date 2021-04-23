@@ -183,6 +183,15 @@ typedef enum ast_node_type
   nd_Input,
 } ast_node_type_e;
 
+/// Syntax tree node type names for logging
+const char node_name[][16] =
+  { "No_operation", "End_of_file", "Identifier", "Integer", "String",
+      "Op_Assign", "Op_Add", "Op_Subtract", "Op_Negate", "Op_Multiply",
+      "Op_Divide", "Op_Mod", "Op_Equal", "Op_NotEqual", "Op_Less", "Op_Greater",
+      "Op_LessEqual", "Op_GreaterEqual", "Op_And", "Op_Or", "Op_Not",
+      "Keyword_If", "Keyword_Else", "Keyword_While", "Print string",
+      "Print integer", "Code block", "Keyword_input" };
+
 /// Struct for abstract syntax tree node
 typedef struct node
 {
@@ -240,6 +249,10 @@ const attributes_s grammar[] =
     { ",", "Comma", lx_Comma, FALSE, FALSE, FALSE, -1, -1 },
     { "print", "Keyword_print", lx_Print, FALSE, FALSE, FALSE, -1, -1 },
   };
+
+/// Lexeme currently being processed by build_syntax_tree()
+lexeme_s *ast_curr_lexeme = NULL;
+
 
 /*
  * ==================================
@@ -302,6 +315,16 @@ void free_symbol_table (lexeme_s*);
  */
 /// Build abstract syntax tree from symbol table
 node_s* build_syntax_tree (lexeme_s*);
+/// Build and return statement node
+node_s* make_statement_node(void);
+/// Build and return expression inside parantheses
+node_s *make_parentheses_expression(void);
+/// Build expression node
+node_s *make_expression_node(int);
+/// Check if lexeme is expected type, else print error and exit
+void expect(lexeme_type_e);
+/// Build and return leaf nodes for identifier/integer/strings
+node_s *make_leaf_node(lexeme_type_e, lexeme_s*);
 /// Print abstract syntax tree to destination file
 short print_ast (node_s*, FILE*);
 /// Print abstract syntax tree to HTML report
