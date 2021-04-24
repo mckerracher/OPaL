@@ -1514,7 +1514,7 @@ make_leaf(lexeme_type_e type, lexeme_s* curr_lexeme)
     /// If lexeme type is a string or an identifier
     if ((type == lx_String) || (type == lx_Ident))
     {
-        node = (node_s*) calloc (strlen(curr_lexeme->char_val) + 1, sizeof(char));
+        node = calloc (1, sizeof(node_s));
         logger(DEBUG, "assert(node)");
         assert(node);
         _PASS;
@@ -1523,9 +1523,9 @@ make_leaf(lexeme_type_e type, lexeme_s* curr_lexeme)
         logger (DEBUG, "Leaf node created with string: '%s'.", curr_lexeme->char_val);
     }
     /// Otherwise the lexeme type is an integer
-    else
+    else if (type == lx_Integer)
     {
-        node = (node_s*) calloc (1, sizeof(int));
+        node = calloc (1, sizeof(node_s));
         logger(DEBUG, "assert(node)");
         assert(node);
         _PASS;

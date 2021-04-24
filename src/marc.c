@@ -27,7 +27,7 @@ static struct argp_option options[] =       ///< The options we understand
   {
     { "debug", 'd', 0, 0, "Log debug messages" },
     { "log", 'l', "FILE", 0, "Save log to FILE instead of 'log/oc_log'" },
-    { "output", 'o', "FILE", 0, "Output to FILE instead of standard ouput" },
+    { "output", 'o', "FILE", 0, "Output to FILE instead of standard output" },
     { 0 }
   };
 
