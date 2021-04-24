@@ -1508,12 +1508,33 @@ make_parentheses_expression(void)
 node_s*
 make_leaf(lexeme_type_e type, lexeme_s* curr_lexeme)
 {
-  /// Create the leaf node to return
-  node_s* node = NULL;
+    /// Create the leaf node to return
+    node_s* node = NULL;
 
-  /// TODO: Replace stub implementation
+    /// If lexeme type is a string or an identifier
+    if ((type == lx_String) || (type == lx_Ident))
+    {
+        node = calloc (1, sizeof(node_s));
+        logger(DEBUG, "assert(node)");
+        assert(node);
+        _PASS;
 
-  return node;
+        node->val = strdup (curr_lexeme->char_val);
+        logger (DEBUG, "Leaf node created with string: '%s'.", curr_lexeme->char_val);
+    }
+    /// Otherwise the lexeme type is an integer
+    else if (type == lx_Integer)
+    {
+        node = calloc (1, sizeof(node_s));
+        logger(DEBUG, "assert(node)");
+        assert(node);
+        _PASS;
+
+        node->val = curr_lexeme->int_val;
+        logger (DEBUG, "Leaf node created with int: '%d'.", curr_lexeme->int_val);
+    }
+
+    return node;
 }
 
 /**
