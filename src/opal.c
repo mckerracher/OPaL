@@ -908,8 +908,7 @@ get_identifier_lexeme (int char_line, int char_col)
   /// Error for unsupported characters
   if (str_len == 1)
     {
-      errno = EXIT_FAILURE;
-      perror ("Unsupported character");
+      logger(ERROR, "[%d: %d] Invalid identifier.", char_line, char_col);
       _FAIL;
       exit (opal_exit(EXIT_FAILURE));
     }
