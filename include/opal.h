@@ -198,7 +198,8 @@ typedef struct node
   ast_node_type_e node_type;
   struct node *left;
   struct node *right;
-  char *val;
+  char *char_val;
+  int int_val;
 } node_s;
 
 /// Language grammar
@@ -324,7 +325,7 @@ node_s *make_expression_node(int);
 /// Check if lexeme is expected type, else print error and exit
 void expect_lexeme(lexeme_type_e);
 /// Build and return leaf nodes for identifier/integer/strings
-node_s *make_leaf_node(lexeme_type_e, lexeme_s*);
+node_s *make_leaf_node(ast_node_type_e, lexeme_s*);
 /// Print abstract syntax tree to destination file
 short print_ast (node_s*, FILE*);
 /// Print abstract syntax tree to HTML report

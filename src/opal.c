@@ -1514,7 +1514,7 @@ make_parentheses_expression(void)
  *
  */
 node_s*
-make_leaf_node(lexeme_type_e type, lexeme_s* curr_lexeme)
+make_leaf_node(ast_node_type_e type, lexeme_s* curr_lexeme)
 {
     /// Create the leaf node to return
     node_s* node = calloc (1, sizeof(node_s));
@@ -1522,15 +1522,18 @@ make_leaf_node(lexeme_type_e type, lexeme_s* curr_lexeme)
     assert(node);
     _PASS;
 
+    /// Assign node type to new node
+    node->node_type = type;
+
     /// If lexeme type is a string or an identifier
-    if ((type == lx_String) || (type == lx_Ident))
-        node->val = strdup (curr_lexeme->char_val);
+    if ((type == nd_String) || (type == nd_Ident))
+        node->char_val = strdup (curr_lexeme->char_val);
 
     /// Otherwise the lexeme type is an integer
-    else if (type == lx_Integer)
-        sprintf(node->val, "%d", curr_lexeme->int_val);
+    else if (type == nd_Integer)
+        node->int_val = curr_lexeme->int_val;
 
-    logger (DEBUG, "Returning leaf node with val: '%s'.", node->val);
+    logger (DEBUG, "Returning leaf node with val: '%s'.", node->char_val);
     return node;
 }
 
