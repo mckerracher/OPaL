@@ -949,7 +949,7 @@ get_identifier_lexeme (int char_line, int char_col)
     {
       /// String must be an identifier
       retVal.type = lx_Ident;
-      retVal.char_val = identifier_str;
+      retVal.char_val = strdup(identifier_str);
     }
 
   return retVal;
