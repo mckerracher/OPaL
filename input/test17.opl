@@ -1,0 +1,9 @@
+// Test for parsing valid identifier lexemes
+
+alpha = 12;
+
+alpha2 = 34;
+
+beta_gamma = 56;
+
+d3lta = alpha + beta;

@@ -85,7 +85,21 @@ all_tests: test
 	
 	@printf "\n=== Test 15 ===\n"
 	@bash test/test15.sh
-
+	
+	@printf "\n=== Test 16 ===\n"
+	build/alex --debug --output=output/test16.opl input/test16.opl
+	diff -s output/test16.opl test/test16.opl
+	
+	@printf "\n=== Test 17 ===\n"
+	build/alex --debug --output=output/test17.opl input/test17.opl
+	diff -s output/test17.opl test/test17.opl	
+	
+	@printf "\n=== Test 18 ===\n"
+	@bash test/test18.sh
+	
+	@printf "\n=== Test 19 ===\n"
+	@bash test/test19.sh
+		
 .PHONY: clean
 clean:
 	# Delete binaries

@@ -1,0 +1,9 @@
+// Test for parsing integers
+
+winter = -12;
+
+spring = 34;
+
+autumn = 056;
+
+summer = +78;

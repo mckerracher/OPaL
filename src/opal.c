@@ -905,6 +905,15 @@ get_identifier_lexeme (int char_line, int char_col)
   /// Terminate string
   identifier_str[str_len++] = '\0';
 
+  /// Error for unsupported characters
+  if (str_len == 1)
+    {
+      errno = EXIT_FAILURE;
+      perror ("Unsupported character");
+      _FAIL;
+      exit (opal_exit(EXIT_FAILURE));
+    }
+
   /// Determine if string is a reserved keyword
   for (int i = 0; i < (sizeof(keyword_arr) / sizeof(keyword_arr[0])); i++)
     {
@@ -1150,7 +1159,7 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
       new_symbol->int_val = next_lexeme.int_val;
 
       new_symbol->char_val =
-          next_lexeme.char_val ? next_lexeme.char_val : NULL;
+          next_lexeme.char_val ? strdup(next_lexeme.char_val) : NULL;
 
       /// Call get_lexeme_str() to stringify next_lexeme
       if (get_lexeme_str (new_symbol, lexeme_str,

@@ -1,0 +1,3 @@
+// Tests for parsing invalid identifier lexemes
+
+$igma_T@o = 3; //contains symbols 
