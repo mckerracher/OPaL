@@ -905,6 +905,14 @@ get_identifier_lexeme (int char_line, int char_col)
   /// Terminate string
   identifier_str[str_len++] = '\0';
 
+  /// Error for unsupported characters
+  if (str_len == 1)
+    {
+      logger(ERROR, "[%d: %d] Invalid identifier.", char_line, char_col);
+      _FAIL;
+      exit (opal_exit(EXIT_FAILURE));
+    }
+
   /// Determine if string is a reserved keyword
   for (int i = 0; i < (sizeof(keyword_arr) / sizeof(keyword_arr[0])); i++)
     {
@@ -940,7 +948,7 @@ get_identifier_lexeme (int char_line, int char_col)
     {
       /// String must be an identifier
       retVal.type = lx_Ident;
-      retVal.char_val = identifier_str;
+      retVal.char_val = strdup(identifier_str);
     }
 
   return retVal;
