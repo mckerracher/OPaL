@@ -32,6 +32,7 @@ tar: libopal marc alex astro
 
 .PHONY: test
 test: clean all
+	# MARC tests
 	@printf "\n=== Test 1 ===\n"
 	build/marc --debug --output=output/test1.opl input/test1.opl
 	diff -s output/test1.opl test/test1.opl
@@ -55,15 +56,23 @@ test: clean all
 	@printf "\n=== Test 6 ===\n"
 	build/marc --debug --output=output/test6.opl input/test6.opl
 	diff -s output/test6.opl test/test6.opl
+	
+	# ALEX tests
+	@printf "\n=== Test 16 ===\n"
+	build/alex --debug --output=output/test16.opl input/test16.opl
+	diff -s output/test16.opl test/test16.opl
+	
+	@printf "\n=== Test 17 ===\n"
+	build/alex --debug --output=output/test17.opl input/test17.opl
+	diff -s output/test17.opl test/test17.opl
 
 all_tests: test
+	# Negative tests
 	@printf "\n=== Test 7 ===\n"
 	@bash test/test7.sh
 	
 	@printf "\n=== Test 8 ===\n"
-	@chmod 000 input/_RESTRICTED_.hpl
 	@bash test/test8.sh
-	@chmod 644 input/_RESTRICTED_.hpl
 	
 	@printf "\n=== Test 9 ===\n"
 	@bash test/test9.sh
@@ -84,15 +93,7 @@ all_tests: test
 	@bash test/test14.sh
 	
 	@printf "\n=== Test 15 ===\n"
-	@bash test/test15.sh
-	
-	@printf "\n=== Test 16 ===\n"
-	build/alex --debug --output=output/test16.opl input/test16.opl
-	diff -s output/test16.opl test/test16.opl
-	
-	@printf "\n=== Test 17 ===\n"
-	build/alex --debug --output=output/test17.opl input/test17.opl
-	diff -s output/test17.opl test/test17.opl	
+	@bash test/test15.sh	
 	
 	@printf "\n=== Test 18 ===\n"
 	@bash test/test18.sh

@@ -270,6 +270,8 @@ short opal_exit (short);
 int read_next_char(void);
 /// Initialize HTML report
 short init_report (FILE*);
+/// Close HTML report
+short close_report(FILE*);
 
 /*
  * ==================================
