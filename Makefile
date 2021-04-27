@@ -61,9 +61,7 @@ all_tests: test
 	@bash test/test7.sh
 	
 	@printf "\n=== Test 8 ===\n"
-	@chmod 000 input/_RESTRICTED_.hpl
 	@bash test/test8.sh
-	@chmod 644 input/_RESTRICTED_.hpl
 	
 	@printf "\n=== Test 9 ===\n"
 	@bash test/test9.sh
