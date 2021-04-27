@@ -296,6 +296,56 @@ opal_exit (short code)
 }
 
 /**
+ * @brief       Function to call opal_exit and the log function.
+ *
+ * @param[in]   code            Exit code to return
+ * @param[in]   *log_msg        Logging message
+ * @param[in]   option          Must be 1 if a formatted string is used
+ * @param[in]   value           The integer used in the formatted string
+ *
+ * @return      Calls opal_exit with exit_code
+ *
+ * @retval      code
+ * @retval      errno           On system call failure
+ */
+/**
+ * @brief       Function to call opal_exit and the log function.
+ *
+ * @param[in]   code            Exit code to return
+ * @param[in]   *log_msg        Logging message
+ * @param[in]   option          Must be 1 if a formatted string is used
+ * @param[in]   value           The integer used in the formatted string
+ *
+ * @return      Calls opal_exit with exit_code
+ *
+ * @retval      code
+ * @retval      errno           On system call failure
+ */
+short
+opal_error (short exit_code, char *log_msg, char *fmt, int option, int value, ...)
+{
+    if (option == 1)
+    {
+        /// Allocate buffer to hold message to log
+        char buffer[4096] = { 0 };
+
+        /// Format string
+        va_list aptr;
+        va_start(aptr, fmt);
+        vsprintf (buffer, fmt, aptr);
+        va_end(aptr);
+
+        logger (exit_code, buffer);
+    }
+    else
+    {
+        logger (ERROR, log_msg);
+    }
+    fprintf(stderr, log_msg);
+    return opal_exit(exit_code);
+}
+
+/**
  * @brief       Function to read next character from the source file pointer
  *
  * @return      Character read
@@ -1590,7 +1640,7 @@ make_statement_node (void)
       /// If next lexeme is if statement, read next lexeme
       ast_curr_lexeme = ast_curr_lexeme->next;
 
-      /// ... get expression inside left parantheses
+      /// ... get expression inside left parentheses
       expression = make_parentheses_expression ();
 
       /// ... get condition statement node
