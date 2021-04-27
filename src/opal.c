@@ -1461,7 +1461,7 @@ build_syntax_tree (lexeme_s *symbol_table)
  * @return      NULL
  */
 void
-expect (lexeme_type_e expected_type)
+expect_lexeme (lexeme_type_e expected_type)
 {
   /// If ast_curr_lexeme is of expected type
   if (ast_curr_lexeme->type == expected_type)
@@ -1490,7 +1490,7 @@ node_s*
 make_parentheses_expression(void)
 {
   /// Expect left parantheses before the expression
-  expect (lx_Lparen);
+  expect_lexeme (lx_Lparen);
 
   ///
   node_s *tree = NULL;
@@ -1499,7 +1499,7 @@ make_parentheses_expression(void)
   tree = make_expression_node (0);
 
   /// Expect right parantheses after the expression
-  expect (lx_Rparen);
+  expect_lexeme (lx_Rparen);
 
   /// return tree
   return tree;
@@ -1514,34 +1514,26 @@ make_parentheses_expression(void)
  *
  */
 node_s*
-make_leaf(lexeme_type_e type, lexeme_s* curr_lexeme)
+make_leaf_node(ast_node_type_e type, lexeme_s* curr_lexeme)
 {
     /// Create the leaf node to return
-    node_s* node = NULL;
+    node_s* node = calloc (1, sizeof(node_s));
+    logger(DEBUG, "assert(node)");
+    assert(node);
+    _PASS;
+
+    /// Assign node type to new node
+    node->node_type = type;
 
     /// If lexeme type is a string or an identifier
-    if ((type == lx_String) || (type == lx_Ident))
-    {
-        node = calloc (1, sizeof(node_s));
-        logger(DEBUG, "assert(node)");
-        assert(node);
-        _PASS;
+    if ((type == nd_String) || (type == nd_Ident))
+        node->char_val = strdup (curr_lexeme->char_val);
 
-        node->val = strdup (curr_lexeme->char_val);
-        logger (DEBUG, "Leaf node created with string: '%s'.", curr_lexeme->char_val);
-    }
     /// Otherwise the lexeme type is an integer
-    else if (type == lx_Integer)
-    {
-        node = calloc (1, sizeof(node_s));
-        logger(DEBUG, "assert(node)");
-        assert(node);
-        _PASS;
+    else if (type == nd_Integer)
+        node->int_val = curr_lexeme->int_val;
 
-        node->val = curr_lexeme->int_val;
-        logger (DEBUG, "Leaf node created with int: '%d'.", curr_lexeme->int_val);
-    }
-
+    logger (DEBUG, "Returning leaf node with val: '%s'.", node->char_val);
     return node;
 }
 
@@ -1622,7 +1614,7 @@ make_statement_node (void)
 
       /// Loop over lexemes inside the left and right parantheses of print
       /// statement, incrementing with every comma lexeme found
-      for (expect (lx_Lparen);; expect (lx_Comma))
+      for (expect_lexeme (lx_Lparen);; expect_lexeme (lx_Comma))
         {
           /// For string inside print statement ...
           if (ast_curr_lexeme->type == lx_String)
@@ -1630,16 +1622,21 @@ make_statement_node (void)
               /// Build tree with left child as op-code to print string &
               /// right child as the leaf node representing the string
               expression = make_ast_node (
-                  nd_Prts, make_leaf (nd_String, ast_curr_lexeme), NULL);
+                  nd_Prts, make_leaf_node (nd_String, ast_curr_lexeme), NULL);
 
               /// ... and read next lexeme
               ast_curr_lexeme = ast_curr_lexeme->next;
             }
+          /// For integer inside print statement ...
           else
-            /// For integer inside print statement, build tree with left child
-            /// as op-code to print integer and right node as NULL
-            expression = make_ast_node (nd_Prti, make_expression_node (0),
-                                        NULL);
+            {
+              /// Build tree with left child as op-code to print integer &
+              /// right child as the expression node representing the integer
+              expression = make_ast_node (
+                  nd_Prti, make_expression_node (0), NULL);
+
+              /// make_expression_node() will read next lexeme
+            }
 
           /// Build tree for statement till this comma
           tree = make_ast_node (nd_Sequence, tree, expression);
@@ -1649,9 +1646,9 @@ make_statement_node (void)
             break;
         }
 
-      /// Expect a ');' after print, else print error and exit
-      expect (lx_Rparen);
-      expect (lx_Semi);
+      /// Expect a ')' & a ';' after print, else print error and exit
+      expect_lexeme (lx_Rparen);
+      expect_lexeme (lx_Semi);
       break;
 
     case lx_Semi:
@@ -1666,13 +1663,13 @@ make_statement_node (void)
 
     case lx_Ident:
       /// If next lexeme is an identifier create leaf node for it
-      value = make_leaf (nd_Ident, ast_curr_lexeme);
+      value = make_leaf_node (nd_Ident, ast_curr_lexeme);
 
       /// ... and read next lexeme
       ast_curr_lexeme = ast_curr_lexeme->next;
 
       /// Expect an '=' operator after an identifier, else print error and exit
-      expect (lx_Assign);
+      expect_lexeme (lx_Assign);
 
       /// Build expression tree whose result we will assign to the identifier
       expression = make_expression_node (0);
@@ -1681,7 +1678,7 @@ make_statement_node (void)
       tree = make_ast_node (nd_Assign, value, expression);
 
       /// Expect a semi colon after expression, else print error and exit
-      expect (lx_Semi);
+      expect_lexeme (lx_Semi);
       break;
 
     case lx_While:
@@ -1702,16 +1699,21 @@ make_statement_node (void)
     case lx_Lbrace:
       /// If next lexeme is left brace, build tree for code block until
       /// right brace lexeme is found
-      for ( expect (lx_Lbrace);
-          ast_curr_lexeme->type != lx_Rbrace && ast_curr_lexeme->type != lx_EOF;
-          )
+      /*for ( expect (lx_Lbrace); ast_curr_lexeme->type != lx_Rbrace && ast_curr_lexeme->type != lx_EOF; )
+        {
+          tree = make_ast_node (nd_Sequence, tree, make_statement_node ());
+        }
+        */
+      expect_lexeme (lx_Lbrace);
+      while (ast_curr_lexeme->type != lx_Rbrace
+          && ast_curr_lexeme->type != lx_EOF)
         {
           tree = make_ast_node (nd_Sequence, tree, make_statement_node ());
         }
 
       /// Expect a right brace after code block and return tree, else print
       /// error and exit
-      expect (lx_Rbrace);
+      expect_lexeme (lx_Rbrace);
       break;
 
     case lx_EOF:
