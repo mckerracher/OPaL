@@ -227,16 +227,22 @@ main (int argc, char **argv)
       return (errno);
     }
 
-  /// Truncate report file
-  sprintf (perror_msg, "ftruncate(report_fn, 0)");
+  /// Check if report file exists
+  sprintf (perror_msg, "access('%s', F_OK)", report_fn);
   logger(DEBUG, perror_msg);
-  if (truncate (report_fn, 0) == EXIT_SUCCESS)
-    _PASS;
-  else
+  if (access (report_fn, F_OK) == EXIT_SUCCESS)
     {
-      _FAIL;
-      perror (perror_msg);
-      return (errno);
+      /// Truncate report file
+      sprintf (perror_msg, "ftruncate(report_fn, 0)");
+      logger(DEBUG, perror_msg);
+      if (truncate (report_fn, 0) == EXIT_SUCCESS)
+        _PASS;
+      else
+        {
+          _FAIL;
+          perror (perror_msg);
+          return (errno);
+        }
     }
 
   /// If report file can not be written, print error and exit
