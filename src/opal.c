@@ -321,7 +321,7 @@ opal_error (short exit_code, char *log_msg, int fmt_option, char *fmt, ...)
         vsprintf (buf, fmt, ap);
         va_end(ap);
 
-        logger (exit_code, buf);
+        logger (ERROR, buf);
     }
     else
     {
