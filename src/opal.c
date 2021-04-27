@@ -436,6 +436,36 @@ init_report (FILE *report_fp)
   return EXIT_SUCCESS;
 }
 
+/**
+ * @brief   Close HTML report file
+ *
+ * @param[int/out] report_fp    Report file pointer
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+short
+close_report (FILE *report_fp)
+{
+
+  logger(DEBUG, "=== START ===");
+
+  /// Assert report file pointer is not NULL
+  assert(report_fp);
+
+  /// Write HTML closing tags to the report
+  logger(DEBUG, "Writing HTML closing tags to report");
+  fprintf (report_fp, "\n</body></html>");
+  fflush (report_fp);
+
+  logger(DEBUG, "=== END ===");
+  return EXIT_SUCCESS;
+}
+
 /*
  * ==================================
  * END COMMON FUNCTION DEFINITIONS

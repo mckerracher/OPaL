@@ -546,6 +546,11 @@ main (int argc, char **argv)
       return (opal_exit (retVal));
     }
 
+  /// Close HTML report file
+  retVal = close_report(report_fp);
+  if (retVal != EXIT_SUCCESS)
+    opal_exit(retVal);
+
   /// Free memory used by symbol_table
   free_symbol_table (symbol_table);
   symbol_table = NULL;
