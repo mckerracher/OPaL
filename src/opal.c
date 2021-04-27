@@ -296,46 +296,32 @@ opal_exit (short code)
 }
 
 /**
- * @brief       Function to call opal_exit and the log function.
+ * @brief       Function to call opal_exit and logger functions.
  *
- * @param[in]   code            Exit code to return
+ * @param[in]   exit_code       Exit code to return
  * @param[in]   *log_msg        Logging message
- * @param[in]   option          Must be 1 if a formatted string is used
- * @param[in]   value           The integer used in the formatted string
+ * @param[in]   fmt_option      Must be 1 if a formatted string is used
+ * @param[in]   fmt             Formatted message to log
  *
  * @return      Calls opal_exit with exit_code
  *
- * @retval      code
- * @retval      errno           On system call failure
- */
-/**
- * @brief       Function to call opal_exit and the log function.
- *
- * @param[in]   code            Exit code to return
- * @param[in]   *log_msg        Logging message
- * @param[in]   option          Must be 1 if a formatted string is used
- * @param[in]   value           The integer used in the formatted string
- *
- * @return      Calls opal_exit with exit_code
- *
- * @retval      code
- * @retval      errno           On system call failure
+ * @retval      Function call to opal_exit
  */
 short
-opal_error (short exit_code, char *log_msg, char *fmt, int option, int value, ...)
+opal_error (short exit_code, char *log_msg, int fmt_option, char *fmt, ...)
 {
-    if (option == 1)
+    if (fmt_option == 1)
     {
         /// Allocate buffer to hold message to log
-        char buffer[4096] = { 0 };
+        char buf[4096] = { 0 };
 
-        /// Format string
-        va_list aptr;
-        va_start(aptr, fmt);
-        vsprintf (buffer, fmt, aptr);
-        va_end(aptr);
+        /// Read formatted user message string into the buffer
+        va_list ap;
+        va_start(ap, fmt);
+        vsprintf (buf, fmt, ap);
+        va_end(ap);
 
-        logger (exit_code, buffer);
+        logger (exit_code, buf);
     }
     else
     {
