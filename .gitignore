@@ -1,7 +1,4 @@
-tmp
-build
-log
 doc
-output
+build
 .*project
 .settings
