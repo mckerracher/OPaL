@@ -16,3 +16,9 @@
  - Test13 - CLI test for invalid case: 2 arguments & 1 invalid flag provided.
  - Test14 - CLI test for invalid case: >2 arguments & 1 valid flag provided.
  - Test15 - CLI test for invalid case: >2 arguments & 1 invalid flag provided.
+ 
+## ALEX
+ - Test16 - Test for parsing integers
+ - Test17 - Test for parsing valid identifier lexemes
+ - Test18 - Tests for parsing invalid identifier lexemes with periods
+ - Test19 - Tests for parsing invalid identifier lexemes with symbols
