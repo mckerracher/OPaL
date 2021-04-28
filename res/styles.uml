@@ -1,0 +1,23 @@
+@startmindmap
+scale 0.85
+<style>
+mindmapDiagram {
+  .Assign {
+    BackgroundColor #7BCCB5
+  }
+  .Integer {
+    BackgroundColor #FFA62F
+  }
+  .Identifier {
+    BackgroundColor #43C6DB
+  }
+  .String {
+    BackgroundColor #89C35C
+  }
+  .While {
+    BackgroundColor #7BCCB5
+  }
+}
+</style>
+skinparam roundcorner 0
+skinparam Shadowing false

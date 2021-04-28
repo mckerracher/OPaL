@@ -581,7 +581,19 @@ main (int argc, char **argv)
     return (opal_exit (retVal));
 
   /// Print abstract syntax tree HTML report with print_ast_html()
+  fprintf (report_fp, "<h3>Output by syntax analyzer <code>ASTRO</code></h3>\n"
+           "<hr>\n");
   retVal = print_ast_html(syntax_tree, report_fp);
+  if (retVal != EXIT_SUCCESS)
+    return (opal_exit (retVal));
+
+  /// Optimize the abstract syntax tree
+  node_s *syntax_tree_pass1 = optimize_syntax_tree(syntax_tree);
+  node_s *syntax_tree_pass2 = optimize_syntax_tree(syntax_tree_pass1);
+
+  /// Print optimized syntax tree HTML report with print_ast_html()
+  fprintf (report_fp, "<h3>Optimized abstract syntax tree: </h3>\n<hr>\n");
+  retVal = print_ast_html(syntax_tree_pass2, report_fp);
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
