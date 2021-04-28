@@ -96,7 +96,7 @@ static struct argp argp =
  * @brief       Main function for pre-processor astro
  * @details     Calls the function remove_comments() and proc_includes()
  * to process the user input file. Calls the build_symbol_table() to build
- * symbol table and and writes to the destination. Calls build_syntax_tree()
+ * symbol table and writes to the destination. Calls build_syntax_tree()
  * to build the abstract syntax tree and writes to destination.
  *
  * @param[in]   argc    Number of command line arguments
@@ -432,7 +432,7 @@ main (int argc, char **argv)
       return (errno);
     }
 
-  /// Remove comments from includs files with rem_comments(), write to rc_tmp
+  /// Remove comments from includes files with rem_comments(), write to rc_tmp
   retVal = rem_comments (pi_fp, rc_fp);
   if (retVal != EXIT_SUCCESS)
     {
@@ -526,7 +526,7 @@ main (int argc, char **argv)
   logger(DEBUG, "Create symbol_table linked list node.");
   lexeme_s *symbol_table = (lexeme_s*) calloc (1, sizeof(lexeme_s));
 
-  int symbol_count = 0;                ///< Numbber of lexemes identified
+  int symbol_count = 0;                ///< Number of lexemes identified
 
   /// Build symbol table using rem_comments() temp file as source
   retVal = build_symbol_table (symbol_table, &symbol_count);
