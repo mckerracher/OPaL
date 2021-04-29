@@ -1552,10 +1552,54 @@ make_expression_node(int precedence)
 {
   /// Create the leaf node to return
   node_s* node = NULL;
+  node_s* tree = NULL;
 
-  /// TODO: Replace stub implementation
+  lexeme_type_e operator;
 
-  return node;
+  switch(ast_curr_lexeme->type){
+    case lx_Not:
+      ast_curr_lexeme = ast_curr_lexeme->next;
+      tree = make_ast_node(nd_Not,make_expression_node(grammar[lx_Not].precedence),NULL);
+      break;
+    case lx_Add:
+    case lx_Sub:
+      operator = ast_curr_lexeme->type;
+      ast_curr_lexeme = ast_curr_lexeme->next;
+      node = make_expression_node(grammar[lx_Negate].precedence);
+      if (operator == lx_Sub)
+        tree = make_ast_node(nd_Negate, node, NULL);
+      else
+        tree = node;
+      break;
+    case lx_Integer:
+      tree = make_leaf_node(nd_Integer, ast_curr_lexeme);
+      ast_curr_lexeme = ast_curr_lexeme->next;
+      break;
+    case lx_Ident:
+      tree = make_leaf_node(nd_Ident, ast_curr_lexeme);
+      ast_curr_lexeme = ast_curr_lexeme->next;
+      break;
+
+    default:
+      logger(ERROR, "[%d:%d] TBD error text\n", ast_curr_lexeme->line, ast_curr_lexeme->column);
+
+  }
+
+    while (grammar[ast_curr_lexeme->type].is_binary && grammar[ast_curr_lexeme->type].precedence >= 0)
+      {
+        lexeme_type_e orig_op = ast_curr_lexeme->type;
+        ast_curr_lexeme = ast_curr_lexeme->next;
+
+         /// Search for higher precedence in a later lexeme
+         int precedence_ctr = grammar[orig_op].precedence;
+         if(!grammar[orig_op].right_associative)
+             precedence_ctr++;
+
+         node = make_expression_node(precedence);
+         tree = make_ast_node(grammar[orig_op].node_type, tree, node);
+      }
+
+  return tree;
 }
 
 /**
