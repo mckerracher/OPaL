@@ -191,8 +191,8 @@ const char node_name[][16] =
       "Op_Assign", "Op_Add", "Op_Subtract", "Op_Negate", "Op_Multiply",
       "Op_Divide", "Op_Mod", "Op_Equal", "Op_NotEqual", "Op_Less", "Op_Greater",
       "Op_LessEqual", "Op_GreaterEqual", "Op_And", "Op_Or", "Op_Not",
-      "Keyword_If", "Keyword_Else", "Keyword_While", "Print string",
-      "Print integer", "Code block", "Keyword_input" };
+      "Keyword_If", "Keyword_Else", "Keyword_While", "Print_String",
+      "Print_Integer", "Code_sequence", "Keyword_input" };
 
 /// Struct for abstract syntax tree node
 typedef struct node
@@ -335,7 +335,7 @@ node_s* optimize_syntax_tree(node_s*);
 /// Print abstract syntax tree to destination file
 short print_ast (node_s*, FILE*);
 /// Traverse abstract syntax tree pre-order
-void traversePreOrder_uml (node_s*, FILE*, int);
+void traversePreOrder_grah (node_s*, FILE*, int);
 /// Print abstract syntax tree to HTML report
 short print_ast_html (node_s*, FILE*);
 /// Free syntax tree
