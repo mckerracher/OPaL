@@ -96,7 +96,7 @@ static struct argp argp =
  * @brief       Main function for pre-processor astro
  * @details     Calls the function remove_comments() and proc_includes()
  * to process the user input file. Calls the build_symbol_table() to build
- * symbol table and and writes to the destination. Calls build_syntax_tree()
+ * symbol table and writes to the destination. Calls build_syntax_tree()
  * to build the abstract syntax tree and writes to destination.
  *
  * @param[in]   argc    Number of command line arguments
@@ -228,16 +228,22 @@ main (int argc, char **argv)
       return (errno);
     }
 
-  /// Truncate report file
-  sprintf (perror_msg, "ftruncate(report_fn, 0)");
+  /// Check if report file exists
+  sprintf (perror_msg, "access('%s', F_OK)", report_fn);
   logger(DEBUG, perror_msg);
-  if (truncate (report_fn, 0) == EXIT_SUCCESS)
-    _PASS;
-  else
+  if (access (report_fn, F_OK) == EXIT_SUCCESS)
     {
-      perror (perror_msg);
-      _FAIL;
-      return (errno);
+      /// Truncate report file
+      sprintf (perror_msg, "ftruncate(report_fn, 0)");
+      logger(DEBUG, perror_msg);
+      if (truncate (report_fn, 0) == EXIT_SUCCESS)
+        _PASS;
+      else
+        {
+          _FAIL;
+          perror (perror_msg);
+          return (errno);
+        }
     }
 
   /// If report file can not be written, print error and exit
@@ -426,7 +432,7 @@ main (int argc, char **argv)
       return (errno);
     }
 
-  /// Remove comments from includs files with rem_comments(), write to rc_tmp
+  /// Remove comments from includes files with rem_comments(), write to rc_tmp
   retVal = rem_comments (pi_fp, rc_fp);
   if (retVal != EXIT_SUCCESS)
     {
@@ -520,7 +526,7 @@ main (int argc, char **argv)
   logger(DEBUG, "Create symbol_table linked list node.");
   lexeme_s *symbol_table = (lexeme_s*) calloc (1, sizeof(lexeme_s));
 
-  int symbol_count = 0;                ///< Numbber of lexemes identified
+  int symbol_count = 0;                ///< Number of lexemes identified
 
   /// Build symbol table using rem_comments() temp file as source
   retVal = build_symbol_table (symbol_table, &symbol_count);
@@ -575,9 +581,26 @@ main (int argc, char **argv)
     return (opal_exit (retVal));
 
   /// Print abstract syntax tree HTML report with print_ast_html()
+  fprintf (report_fp, "<h3>Output by syntax analyzer <code>ASTRO</code></h3>\n"
+           "<hr>\n");
   retVal = print_ast_html(syntax_tree, report_fp);
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
+
+  /// Optimize the abstract syntax tree
+  node_s *syntax_tree_pass1 = optimize_syntax_tree(syntax_tree);
+  node_s *syntax_tree_pass2 = optimize_syntax_tree(syntax_tree_pass1);
+
+  /// Print optimized syntax tree HTML report with print_ast_html()
+  fprintf (report_fp, "<h3>Optimized abstract syntax tree: </h3>\n<hr>\n");
+  retVal = print_ast_html(syntax_tree_pass2, report_fp);
+  if (retVal != EXIT_SUCCESS)
+    return (opal_exit (retVal));
+
+  /// Close HTML report file
+  retVal = close_report(report_fp);
+  if (retVal != EXIT_SUCCESS)
+    opal_exit(retVal);
 
   /// Free memory used by symbol_table
   free_symbol_table (symbol_table);

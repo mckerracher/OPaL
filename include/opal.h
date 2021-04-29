@@ -38,6 +38,8 @@ char *dest_fn = NULL;           ///< Destination file name
 char *log_fn = NULL;            ///< Log file name
 char *report_fn = NULL;         ///< Report file name
 
+char *css_fn = "res/styles.css";        ///< HTML CSS file name
+
 FILE *source_fp = NULL;         ///< Source file pointer
 FILE *dest_fp = NULL;           ///< Destination file pointer
 FILE *log_fp = NULL;            ///< Log file pointer
@@ -270,6 +272,8 @@ short opal_exit (short);
 int read_next_char(void);
 /// Initialize HTML report
 short init_report (FILE*);
+/// Close HTML report
+short close_report(FILE*);
 
 /*
  * ==================================
@@ -326,8 +330,12 @@ node_s *make_expression_node(int);
 void expect_lexeme(lexeme_type_e);
 /// Build and return leaf nodes for identifier/integer/strings
 node_s *make_leaf_node(ast_node_type_e, lexeme_s*);
+/// Optimize the abstract syntax tree
+node_s* optimize_syntax_tree(node_s*);
 /// Print abstract syntax tree to destination file
 short print_ast (node_s*, FILE*);
+/// Traverse abstract syntax tree pre-order
+void traversePreOrder_uml (node_s*, FILE*, int);
 /// Print abstract syntax tree to HTML report
 short print_ast_html (node_s*, FILE*);
 /// Free syntax tree

@@ -296,6 +296,42 @@ opal_exit (short code)
 }
 
 /**
+ * @brief       Function to call opal_exit and logger functions.
+ *
+ * @param[in]   exit_code       Exit code to return
+ * @param[in]   *log_msg        Logging message
+ * @param[in]   fmt_option      Must be 1 if a formatted string is used
+ * @param[in]   fmt             Formatted message to log
+ *
+ * @return      Calls opal_exit with exit_code
+ *
+ * @retval      Function call to opal_exit
+ */
+short
+opal_error (short exit_code, char *log_msg, int fmt_option, char *fmt, ...)
+{
+    if (fmt_option == 1)
+    {
+        /// Allocate buffer to hold message to log
+        char buf[4096] = { 0 };
+
+        /// Read formatted user message string into the buffer
+        va_list ap;
+        va_start(ap, fmt);
+        vsprintf (buf, fmt, ap);
+        va_end(ap);
+
+        logger (ERROR, buf);
+    }
+    else
+    {
+        logger (ERROR, log_msg);
+    }
+    fprintf(stderr, log_msg);
+    return opal_exit(exit_code);
+}
+
+/**
  * @brief       Function to read next character from the source file pointer
  *
  * @return      Character read
@@ -362,10 +398,12 @@ init_report (FILE *report_fp)
            "<style>\n");
 
   /// Open res/styles.css in read-only mode
-  sprintf (perror_msg, "css_fp = fopen ('res/styles.css', 'r')");
+  sprintf (perror_msg, "css_fp = fopen ('%s', 'r')", css_fn);
   logger (DEBUG, perror_msg);
-  FILE *css_fp = fopen ("res/styles.css", "r");
-  if (css_fp != NULL)
+
+  errno = EXIT_SUCCESS;
+  FILE *css_fp = fopen (css_fn, "r");
+  if (errno == EXIT_SUCCESS)
     _PASS;
   else
     {
@@ -431,6 +469,36 @@ init_report (FILE *report_fp)
       _FAIL;
       exit (opal_exit(errno));
     }
+
+  logger(DEBUG, "=== END ===");
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief   Close HTML report file
+ *
+ * @param[int/out] report_fp    Report file pointer
+ *
+ * @return      The error return code of the function.
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ * @retval      errno           On system call failure
+ *
+ */
+short
+close_report (FILE *report_fp)
+{
+
+  logger(DEBUG, "=== START ===");
+
+  /// Assert report file pointer is not NULL
+  assert(report_fp);
+
+  /// Write HTML closing tags to the report
+  logger(DEBUG, "Writing HTML closing tags to report");
+  fprintf (report_fp, "\n</body></html>");
+  fflush (report_fp);
 
   logger(DEBUG, "=== END ===");
   return EXIT_SUCCESS;
@@ -834,8 +902,13 @@ get_string_literal_lexeme (int char_line, int char_col)
   read_next_char ();
 
   lexeme_s retVal =
-    { .type = lx_String, .line = char_line, .column = char_col, .int_val = 0,
-        .char_val = string };
+    {
+      .type = lx_String,
+      .line = char_line,
+      .column = char_col,
+      .int_val = 0,
+      .char_val = strdup(string)
+    };
 
   return retVal;
 }
@@ -1344,17 +1417,20 @@ void
 free_symbol_table (lexeme_s *symbol_table)
 {
   logger(DEBUG, "=== START ===");
+  /// Walk symbol table and free individual lexemes
 
   lexeme_s *next_symbol;
-
   while (symbol_table)
     {
       next_symbol = symbol_table;
       symbol_table = symbol_table->next;
+
+      get_lexeme_str (next_symbol, lexeme_str,lexeme_str_len);
+      logger(DEBUG, "Free symbol: %s", lexeme_str);
       free (next_symbol);
     }
 
-  logger(DEBUG, "=== START ===");
+  logger(DEBUG, "=== END ===");
 }
 
 /*
@@ -1388,6 +1464,7 @@ make_ast_node(ast_node_type_e type, node_s *left_child, node_s *right_child)
   node_s *tree = calloc (1, sizeof(node_s));
   tree->left = left_child;
   tree->right = right_child;
+  tree->node_type = type;
 
   /// Create buffer for logging
   char buffer[1024] = { 0 };
@@ -1514,27 +1591,32 @@ make_parentheses_expression(void)
  *
  */
 node_s*
-make_leaf_node(ast_node_type_e type, lexeme_s* curr_lexeme)
+make_leaf_node (ast_node_type_e type, lexeme_s *curr_lexeme)
 {
-    /// Create the leaf node to return
-    node_s* node = calloc (1, sizeof(node_s));
-    logger(DEBUG, "assert(node)");
-    assert(node);
-    _PASS;
 
-    /// Assign node type to new node
-    node->node_type = type;
+  logger(DEBUG, "=== START ===");
 
-    /// If lexeme type is a string or an identifier
-    if ((type == nd_String) || (type == nd_Ident))
-        node->char_val = strdup (curr_lexeme->char_val);
+  /// Create the leaf node to return
+  node_s *node = calloc (1, sizeof(node_s));
+  logger(DEBUG, "assert(node)");
+  assert(node);
+  _PASS;
 
-    /// Otherwise the lexeme type is an integer
-    else if (type == nd_Integer)
-        node->int_val = curr_lexeme->int_val;
+  /// Assign node type to new node
+  node->node_type = type;
 
-    logger (DEBUG, "Returning leaf node with val: '%s'.", node->char_val);
-    return node;
+  /// If lexeme type is a string or an identifier
+  if ((type == nd_String) || (type == nd_Ident))
+    node->char_val = strdup (curr_lexeme->char_val);
+
+  /// Otherwise the lexeme type is an integer
+  else if (type == nd_Integer)
+    node->int_val = curr_lexeme->int_val;
+
+  logger(DEBUG, "Returning leaf node with val: '%s'.", node->char_val);
+
+  logger(DEBUG, "=== END ===");
+  return node;
 }
 
 /**
@@ -1626,7 +1708,7 @@ make_statement_node (void)
       /// If next lexeme is if statement, read next lexeme
       ast_curr_lexeme = ast_curr_lexeme->next;
 
-      /// ... get expression inside left parantheses
+      /// ... get expression inside left parentheses
       expression = make_parentheses_expression ();
 
       /// ... get condition statement node
@@ -1732,7 +1814,7 @@ make_statement_node (void)
       /// ... build expression node inside parantheses
       expression = make_parentheses_expression ();
 
-      /// ... build condition node
+      /// ... build tree node to execute if condition is true
       condition_statement = make_statement_node ();
 
       /// ... return while tree with left child as expression & right child as
@@ -1775,6 +1857,55 @@ make_statement_node (void)
 }
 
 /**
+ * @brief       Optimize the abstract syntax tree
+ * @param[in]   syntax_tree
+ *
+ * @return      Optimized abstract syntax tree root pointer
+ *
+ * @retval      node_s*     On success
+ * @retval      NULL        On error
+ */
+node_s*
+optimize_syntax_tree(node_s *tree)
+{
+
+  /// Return NULL if no node
+  if (!tree)
+    return NULL;
+
+  /// If no left or right child nodes
+  if (!tree->left && !tree->right)
+    {
+      if (tree->node_type == nd_Sequence)
+        {
+          /// Empty code block with no child nodes
+          return NULL;
+        }
+      else
+        {
+          /// Leaf node
+          return tree;
+        }
+    }
+
+  /// If no left node, return address of right
+  if (!tree->left
+      && (tree->node_type == nd_Sequence || tree->node_type == nd_If))
+    return optimize_syntax_tree (tree->right);
+
+  /// If no right node, return address of left
+  else if (!tree->right
+      && (tree->node_type == nd_Sequence || tree->node_type == nd_If))
+    return optimize_syntax_tree (tree->left);
+
+  /// If node has left and right nodes, optimize them
+  tree->left = optimize_syntax_tree (tree->left);
+  tree->right = optimize_syntax_tree (tree->right);
+
+  return tree;
+}
+
+/**
  * @brief           Print abstract syntax tree to destination file
  *
  * @param[in]       node_s*       Abstract syntax tree
@@ -1806,6 +1937,52 @@ print_ast (node_s *syntax_tree, FILE *dest_fp)
 }
 
 /**
+ * @brief   Traverse abstract syntax tree pre-order
+ * @param node      Abstract syntax tree to print
+ * @param uml_fp    Destination UML file pointer
+ * @param level     Level in tree (number of stars printed)
+ */
+void
+traversePreOrder_uml (node_s *node, FILE *uml_fp, int level)
+{
+
+  /// If node to print is null, return
+  if (!node)
+    return;
+
+  fprintf (uml_fp, "%.*s", level, "********************************");
+
+  // For Identifier and String node types, print values as well
+  if (node->node_type == nd_Ident || node->node_type == nd_String)
+    {
+      fprintf (uml_fp, ":%s\n", node_name[node->node_type]);
+      fprintf (uml_fp, "<code>\n%s\n</code>; <<%s>>\n", node->char_val,
+               node_name[node->node_type]);
+    }
+  else if (node->node_type == nd_Integer)
+    {
+      fprintf (uml_fp, ":%s\n", node_name[node->node_type]);
+      fprintf (uml_fp, "<code>\n%d\n</code>; <<%s>>\n", node->int_val,
+               node_name[node->node_type]);
+    }
+  else if (node->node_type == nd_Prts)
+    fprintf (uml_fp, " Print string\n");
+  else if (node->node_type == nd_Prti)
+    fprintf (uml_fp, " Print integer\n");
+  else
+    {
+      fprintf (uml_fp, " %s <<%s>>\n", node_name[node->node_type],
+               node_name[node->node_type]);
+    }
+
+  if (node->left || node->right)
+    {
+      traversePreOrder_uml (node->left, uml_fp, level + 1);
+      traversePreOrder_uml (node->right, uml_fp, level + 1);
+    }
+}
+
+/**
  * @brief           Print abstract syntax tree tree to HTML report file
  *
  * @param[in]       node_s*       Abstract syntax tree
@@ -1829,18 +2006,188 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
   _PASS;
 
   /// Open a temp file in wb mode, else print error and exit
+  char *uml_fn = "tmp/astro.uml";
+  logger (DEBUG, "rc_tmp: '%s'", uml_fn);
 
-  /// Copy UML stylesheet to temp file
+  /// If temp file can not be written, print error and exit
+  sprintf (perror_msg, "rc_fp = fopen('%s', 'wb')", uml_fn);
+  logger (DEBUG, perror_msg);
+  errno = EXIT_SUCCESS;
+  FILE *uml_fp = fopen (uml_fn, "wb");
+  if (errno == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      _FAIL;
+      perror (perror_msg);
+      return (errno);
+    }
+
+  /// Open uml styles file in read-only mode
+  char *uml_styles_fn = "res/styles.uml";
+  logger (DEBUG, "uml_styles_fn: '%s'", uml_styles_fn);
+
+  sprintf (perror_msg, "uml_styles_fp = fopen ('%s', 'r')", uml_styles_fn);
+  logger (DEBUG, perror_msg);
+
+  errno = EXIT_SUCCESS;
+  FILE *uml_styles_fp = fopen (uml_styles_fn, "r");
+  if (errno == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      return (errno);
+    }
+
+  /// Copy UML styles to temp file
+  logger (DEBUG, "Copying stylesheet to UML file");
+  char uml_ch = 0;
+  while ((uml_ch = fgetc (uml_styles_fp)) != EOF)
+    fputc (uml_ch, uml_fp);
+  _DONE;
+
+  /// Flush temp file
+  if (fflush (uml_fp) != EXIT_SUCCESS)
+    {
+      perror ("fflush (log_fp)");
+      return (errno);
+    }
+
+  /// Close uml styles file
+  sprintf (perror_msg, "fclose(uml_styles_fp)");
+  logger (DEBUG, perror_msg);
+  if (fclose (uml_styles_fp) == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      return (errno);
+    }
 
   /// Print syntax tree UML in pre-traversal mode to temp file
+  traversePreOrder_uml (syntax_tree, uml_fp, 1);
+  fprintf (uml_fp, "@endmindmap\n");    // Close the UML tags
+  _DONE;
+
+  /// Close temp file
+  sprintf (perror_msg, "fclose(uml_fp)");
+  logger (DEBUG, perror_msg);
+
+  errno = EXIT_SUCCESS;
+  if (fclose (uml_fp) == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      return (errno);
+    }
 
   /// Call plantuml jar to convert UML to svg
+  char *svg_fn = "tmp/astro.svg";
+  logger(DEBUG, "svg_fn: '%s'", svg_fn);
 
-  /// Write ASTRO section to report
+  char cmd[256] = { 0 };
+  sprintf (cmd, "java -jar res/plantuml.jar %s -tsvg", uml_fn);
+  logger(DEBUG, "java_cmd: '%s'", cmd);
+
+  sprintf (perror_msg, "system('%s')", cmd);
+  logger (DEBUG, perror_msg);
+
+  if (system (cmd) == 0)
+    {
+      _DONE;
+
+      /// Check svg file is created
+      sprintf (perror_msg, "access('%s', F_OK)", svg_fn);
+      logger (DEBUG, perror_msg);
+
+      errno = EXIT_SUCCESS;
+      access (svg_fn, F_OK);
+      if (errno == EXIT_SUCCESS)
+        {
+          _PASS;
+
+          /// Check if svg file can be read
+          sprintf (perror_msg, "access('%s', R_OK)", svg_fn);
+          logger (DEBUG, perror_msg);
+
+          errno = EXIT_SUCCESS;
+          access (svg_fn, R_OK);
+          if(errno == EXIT_SUCCESS)
+            _PASS;
+          else
+            {
+              perror(perror_msg);
+              _FAIL;
+              return (errno);
+            }
+        }
+      else
+        {
+          perror (perror_msg);
+          _FAIL;
+          return (errno);
+        }
+    }
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      return errno;
+    }
 
   /// Append svg to report
+  sprintf (perror_msg, "svg_fp = fopen ('%s', 'r')", svg_fn);
+  logger (DEBUG, perror_msg);
 
-  logger(DEBUG, "TODO: Replace stub implementation.");
+  errno = EXIT_SUCCESS;
+  FILE *svg_fp = fopen (svg_fn, "r");
+  if (errno == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror(perror_msg);
+      _FAIL;
+      return (errno);
+    }
+
+  logger (DEBUG, "Copying SVG to HTML report");
+  char svg_ch = 0;
+  while ((svg_ch = fgetc (svg_fp)) != EOF)
+    fputc (svg_ch, report_fp);
+  _DONE;
+
+  sprintf (perror_msg, "fclose(svg_fp)");
+  logger (DEBUG, perror_msg);
+
+  errno = EXIT_SUCCESS;
+  fclose (svg_fp);
+  if (errno == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror(perror_msg);
+      _FAIL;
+      return (errno);
+    }
+
+  sprintf (perror_msg, "fflush(report_fp)");
+  logger (DEBUG, perror_msg);
+
+  errno = EXIT_SUCCESS;
+  fflush (report_fp);
+  if (errno == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror(perror_msg);
+      _FAIL;
+      return (errno);
+    }
 
   logger(DEBUG, "=== END ===");
   return (EXIT_SUCCESS);
