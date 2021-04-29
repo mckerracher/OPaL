@@ -1893,48 +1893,45 @@ print_ast (node_s *syntax_tree, FILE *dest_fp)
 }
 
 /**
- * @brief   Traverse abstract syntax tree pre-order
- * @param node      Abstract syntax tree to print
- * @param uml_fp    Destination UML file pointer
- * @param level     Level in tree (number of stars printed)
+ * @brief           Traverse abstract syntax tree pre-order
+ * @param node      Abstract syntax tree node to print
+ * @param uml_fp    Destination report file pointer
+ * @param level     Level in tree
  */
 void
-traversePreOrder_uml (node_s *node, FILE *uml_fp, int level)
+traversePreOrder_graph (node_s *node, FILE *report_fp, int level)
 {
-
   /// If node to print is null, return
   if (!node)
     return;
 
-  fprintf (uml_fp, "%.*s", level, "********************************");
-
-  // For Identifier and String node types, print values as well
+  /// If node is identifier or string, print char_val
   if (node->node_type == nd_Ident || node->node_type == nd_String)
-    {
-      fprintf (uml_fp, ":%s\n", node_name[node->node_type]);
-      fprintf (uml_fp, "<code>\n%s\n</code>; <<%s>>\n", node->char_val,
-               node_name[node->node_type]);
-    }
-  else if (node->node_type == nd_Integer)
-    {
-      fprintf (uml_fp, ":%s\n", node_name[node->node_type]);
-      fprintf (uml_fp, "<code>\n%d\n</code>; <<%s>>\n", node->int_val,
-               node_name[node->node_type]);
-    }
-  else if (node->node_type == nd_Prts)
-    fprintf (uml_fp, " Print string\n");
-  else if (node->node_type == nd_Prti)
-    fprintf (uml_fp, " Print integer\n");
-  else
-    {
-      fprintf (uml_fp, " %s <<%s>>\n", node_name[node->node_type],
-               node_name[node->node_type]);
-    }
+    fprintf (report_fp, "%d[%s]:::%s\n", level, node->char_val,
+             node_name[node->node_type]);
 
+  /// ... if node is integer, print the int_val
+  else if (node->node_type == nd_Integer)
+    fprintf (report_fp, "%d[%d]:::%s\n", level, node->int_val,
+             node_name[node->node_type]);
+
+  /// ... else, print node type name
+  else
+    fprintf (report_fp, "%d[%s]:::%s\n", level, node_name[node->node_type],
+             node_name[node->node_type]);
+
+  /// If node has left/right child nodes, create connection with array index
+  if (node->left)
+    fprintf (report_fp,"%d --> %d\n", level, level*2 + 1);
+
+  if (node->right)
+    fprintf (report_fp,"%d --> %d\n", level, level*2 + 2);
+
+  /// Print child nodes of tree recursively for left and right child nodes
   if (node->left || node->right)
     {
-      traversePreOrder_uml (node->left, uml_fp, level + 1);
-      traversePreOrder_uml (node->right, uml_fp, level + 1);
+      traversePreOrder_graph (node->left, report_fp, level*2 + 1);
+      traversePreOrder_graph (node->right, report_fp, level*2 + 2);
     }
 }
 
@@ -1961,177 +1958,17 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
   assert(syntax_tree);
   _PASS;
 
-  /// Open a temp file in wb mode, else print error and exit
-  char *uml_fn = "tmp/astro.uml";
-  logger (DEBUG, "rc_tmp: '%s'", uml_fn);
+  /// Write mermaid graph header
+  fprintf (report_fp, "<div class='mermaid'>\ngraph TD\n"
+           "classDef Code_Sequence fill:#f9f,stroke:#333;\n"
+           "classDef Print_String fill:#f9c,stroke:#333;\n"
+           "classDef Print_Integer fill:#f9d,stroke:#333;\n");
+  traversePreOrder_graph (syntax_tree, report_fp, 0);
+  fprintf(report_fp, "</div>\n"
+          "<script src='https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js'></script>\n"
+          "<script>mermaid.initialize({startOnLoad:true, flowchart: {curve:'cardinal',}, });</script>");
 
-  /// If temp file can not be written, print error and exit
-  sprintf (perror_msg, "rc_fp = fopen('%s', 'wb')", uml_fn);
-  logger (DEBUG, perror_msg);
-  errno = EXIT_SUCCESS;
-  FILE *uml_fp = fopen (uml_fn, "wb");
-  if (errno == EXIT_SUCCESS)
-    _PASS;
-  else
-    {
-      _FAIL;
-      perror (perror_msg);
-      return (errno);
-    }
-
-  /// Open uml styles file in read-only mode
-  char *uml_styles_fn = "res/styles.uml";
-  logger (DEBUG, "uml_styles_fn: '%s'", uml_styles_fn);
-
-  sprintf (perror_msg, "uml_styles_fp = fopen ('%s', 'r')", uml_styles_fn);
-  logger (DEBUG, perror_msg);
-
-  errno = EXIT_SUCCESS;
-  FILE *uml_styles_fp = fopen (uml_styles_fn, "r");
-  if (errno == EXIT_SUCCESS)
-    _PASS;
-  else
-    {
-      perror (perror_msg);
-      _FAIL;
-      return (errno);
-    }
-
-  /// Copy UML styles to temp file
-  logger (DEBUG, "Copying stylesheet to UML file");
-  char uml_ch = 0;
-  while ((uml_ch = fgetc (uml_styles_fp)) != EOF)
-    fputc (uml_ch, uml_fp);
-  _DONE;
-
-  /// Flush temp file
-  if (fflush (uml_fp) != EXIT_SUCCESS)
-    {
-      perror ("fflush (log_fp)");
-      return (errno);
-    }
-
-  /// Close uml styles file
-  sprintf (perror_msg, "fclose(uml_styles_fp)");
-  logger (DEBUG, perror_msg);
-  if (fclose (uml_styles_fp) == EXIT_SUCCESS)
-    _PASS;
-  else
-    {
-      perror (perror_msg);
-      _FAIL;
-      return (errno);
-    }
-
-  /// Print syntax tree UML in pre-traversal mode to temp file
-  traversePreOrder_uml (syntax_tree, uml_fp, 1);
-  fprintf (uml_fp, "@endmindmap\n");    // Close the UML tags
-  _DONE;
-
-  /// Close temp file
-  sprintf (perror_msg, "fclose(uml_fp)");
-  logger (DEBUG, perror_msg);
-
-  errno = EXIT_SUCCESS;
-  if (fclose (uml_fp) == EXIT_SUCCESS)
-    _PASS;
-  else
-    {
-      perror (perror_msg);
-      _FAIL;
-      return (errno);
-    }
-
-  /// Call plantuml jar to convert UML to svg
-  char *svg_fn = "tmp/astro.svg";
-  logger(DEBUG, "svg_fn: '%s'", svg_fn);
-
-  char cmd[256] = { 0 };
-  sprintf (cmd, "java -jar res/plantuml.jar %s -tsvg", uml_fn);
-  logger(DEBUG, "java_cmd: '%s'", cmd);
-
-  sprintf (perror_msg, "system('%s')", cmd);
-  logger (DEBUG, perror_msg);
-
-  if (system (cmd) == 0)
-    {
-      _DONE;
-
-      /// Check svg file is created
-      sprintf (perror_msg, "access('%s', F_OK)", svg_fn);
-      logger (DEBUG, perror_msg);
-
-      errno = EXIT_SUCCESS;
-      access (svg_fn, F_OK);
-      if (errno == EXIT_SUCCESS)
-        {
-          _PASS;
-
-          /// Check if svg file can be read
-          sprintf (perror_msg, "access('%s', R_OK)", svg_fn);
-          logger (DEBUG, perror_msg);
-
-          errno = EXIT_SUCCESS;
-          access (svg_fn, R_OK);
-          if(errno == EXIT_SUCCESS)
-            _PASS;
-          else
-            {
-              perror(perror_msg);
-              _FAIL;
-              return (errno);
-            }
-        }
-      else
-        {
-          perror (perror_msg);
-          _FAIL;
-          return (errno);
-        }
-    }
-  else
-    {
-      perror (perror_msg);
-      _FAIL;
-      return errno;
-    }
-
-  /// Append svg to report
-  sprintf (perror_msg, "svg_fp = fopen ('%s', 'r')", svg_fn);
-  logger (DEBUG, perror_msg);
-
-  errno = EXIT_SUCCESS;
-  FILE *svg_fp = fopen (svg_fn, "r");
-  if (errno == EXIT_SUCCESS)
-    _PASS;
-  else
-    {
-      perror(perror_msg);
-      _FAIL;
-      return (errno);
-    }
-
-  logger (DEBUG, "Copying SVG to HTML report");
-  char svg_ch = 0;
-  while ((svg_ch = fgetc (svg_fp)) != EOF)
-    fputc (svg_ch, report_fp);
-  _DONE;
-
-  sprintf (perror_msg, "fclose(svg_fp)");
-  logger (DEBUG, perror_msg);
-
-  errno = EXIT_SUCCESS;
-  fclose (svg_fp);
-  if (errno == EXIT_SUCCESS)
-    _PASS;
-  else
-    {
-      perror(perror_msg);
-      _FAIL;
-      return (errno);
-    }
-
-  sprintf (perror_msg, "fflush(report_fp)");
+  sprintf (perror_msg, "fflush(graph_fp)");
   logger (DEBUG, perror_msg);
 
   errno = EXIT_SUCCESS;
