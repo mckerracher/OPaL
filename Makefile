@@ -103,7 +103,7 @@ all_tests: test
 		
 .PHONY: clean
 clean:
-	# Delete binaries
-	rm -fv build/* output/* tmp/*
+	# Delete binaries, output, temporary & report files 
+	rm -fv build/* output/* tmp/* report/*
 
 	
