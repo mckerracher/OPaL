@@ -2,7 +2,6 @@
 
 #include <argp.h>
 #include <assert.h>
-#include <bits/types/FILE.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>     /* fclose */

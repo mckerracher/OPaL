@@ -1,11 +1,11 @@
 /// @file opal.h
 
-#include <bits/types/FILE.h>
-#include <stdbool.h>            /* boolean datatypes */
-#include <stddef.h>
-
 #ifndef OPAL_H_
 #define OPAL_H_
+
+#include <stdio.h>
+#include <stdbool.h>            /* boolean datatypes */
+#include <stddef.h>
 
 /// __VERSION_NUM for program
 #ifndef __VERSION_NUM
