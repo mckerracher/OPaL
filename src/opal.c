@@ -2060,3 +2060,38 @@ free_syntax_tree (node_s *syntax_tree)
 
   logger(DEBUG, "=== START ===");
 }
+
+/**
+ * @brief       Traverses the syntax tree while printing the contents to dest_fp.
+ *
+ * @param       node
+ * @param       dest_fp
+ *
+ * @return      NULL
+ */
+void
+traverse_ast(node_s *node, FILE *dest_fp)
+{
+    /// We have reached a NULL leaf
+    if (!node)
+        return;
+
+    /// If node is identifier or string, print char_val
+    if (node->node_type == nd_Ident || node->node_type == nd_String)
+        fprintf (dest_fp, "%s\n", node->char_val);
+
+    /// ... if node is integer, print the int_val
+    else if (node->node_type == nd_Integer)
+        fprintf (dest_fp, "%d\n", node->int_val);
+
+    /// ... else, print node type name
+    else
+        fprintf (dest_fp, "%s\n", node_name[node->node_type]);
+
+    /// Recursive calls for further tree traversal
+    if (node->left || node->right)
+    {
+        traverse_ast (node->left, dest_fp);
+        traverse_ast (node->right, dest_fp);
+    }
+}

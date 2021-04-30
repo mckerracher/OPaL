@@ -37,6 +37,7 @@ char *source_fn = NULL;         ///< Input source file name
 char *dest_fn = NULL;           ///< Destination file name
 char *log_fn = NULL;            ///< Log file name
 char *report_fn = NULL;         ///< Report file name
+char *golden_fn = NULL;         ///< Golden syntax tree printout file name
 
 char *css_fn = "res/styles.css";        ///< HTML CSS file name
 
@@ -44,6 +45,7 @@ FILE *source_fp = NULL;         ///< Source file pointer
 FILE *dest_fp = NULL;           ///< Destination file pointer
 FILE *log_fp = NULL;            ///< Log file pointer
 FILE *report_fp = NULL;         ///< Report file pointer
+FILE *golden_fp = NULL;         ///< Golden syntax tree printout file pointer
 
 short retVal = 0;               ///< Function return value
 
@@ -312,6 +314,8 @@ bool match(const char *str, const char *pattern);
 short print_symbol_table_html (lexeme_s*, FILE*);
 /// Free symbol table linked list
 void free_symbol_table (lexeme_s*);
+/// Generate golden file to test syntax tree generation
+traverse_ast (node_s *node, FILE *dest_fp);
 
 /*
  * ==================================
