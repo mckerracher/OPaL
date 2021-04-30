@@ -327,7 +327,7 @@ opal_error (short exit_code, char *log_msg, int fmt_option, char *fmt, ...)
     {
         logger (ERROR, log_msg);
     }
-    fprintf(stderr, log_msg);
+    fprintf(stderr, "%s", log_msg);
     return opal_exit(exit_code);
 }
 
@@ -987,7 +987,8 @@ get_identifier_lexeme (int char_line, int char_col)
     }
 
   /// Determine if string is a reserved keyword
-  for (int i = 0; i < (sizeof(keyword_arr) / sizeof(keyword_arr[0])); i++)
+  int i = 0;
+  for (i = 0; i < (sizeof(keyword_arr) / sizeof(keyword_arr[0])); i++)
     {
       if (strcmp (identifier_str, keyword_arr[i].str) == 0)
         {
