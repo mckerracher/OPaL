@@ -315,7 +315,7 @@ short print_symbol_table_html (lexeme_s*, FILE*);
 /// Free symbol table linked list
 void free_symbol_table (lexeme_s*);
 /// Generate golden file to test syntax tree generation
-traverse_ast (node_s *node, FILE *dest_fp);
+void traverse_ast (node_s *node, FILE *dest_fp);
 
 /*
  * ==================================
