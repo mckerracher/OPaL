@@ -590,41 +590,8 @@ main (int argc, char **argv)
   node_s *syntax_tree_pass1 = optimize_syntax_tree(syntax_tree);
   node_s *syntax_tree_pass2 = optimize_syntax_tree(syntax_tree_pass1);
 
-  /// Generate golden file for testing syntax tree generation
-  golden_fn = "test/golden.txt";
-
-  /// Check if golden file exists & truncate it
-  sprintf (perror_msg, "access('%s', F_OK)", golden_fn);
-  logger(DEBUG, perror_msg);
-  if (access (golden_fn, F_OK) == EXIT_SUCCESS)
-  {
-      /// Truncate golden file
-      sprintf (perror_msg, "ftruncate(golden_fn, 0)");
-      logger(DEBUG, perror_msg);
-      if (truncate (golden_fn, 0) == EXIT_SUCCESS)
-          _PASS;
-      else
-      {
-          _FAIL;
-          perror (perror_msg);
-          return (errno);
-      }
-  }
-
-  /// Open golden file in append mode
-  sprintf (perror_msg, "golden_fp = fopen('%s', 'a')", golden_fn);
-  logger(DEBUG, perror_msg);
-  errno = EXIT_SUCCESS;
-  golden_fp = fopen (golden_fn, "a");
-  if (errno == EXIT_SUCCESS)
-      _PASS;
-  else
-  {
-      perror (perror_msg);
-      _FAIL;
-      return (errno);
-  }
-  traverse_ast (syntax_tree_pass2, golden_fp);
+  /// Generate golden file used to test the syntax tree
+  traverse_ast (syntax_tree_pass2, dest_fp);
 
   /// Print optimized syntax tree HTML report with print_ast_html()
   fprintf (report_fp, "<h3>Optimized abstract syntax tree: </h3>\n<hr>\n");
