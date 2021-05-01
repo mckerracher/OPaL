@@ -1941,8 +1941,7 @@ print_ast (node_s *syntax_tree, FILE *dest_fp)
   _PASS;
 
   /// Print syntax tree in pre-traversal mode to destination file pointer
-  logger(DEBUG, "TODO: Replace stub implementation.");
-  fprintf(dest_fp, "print_ast() TEST.\n");
+  traverse_ast (syntax_tree, dest_fp);
 
   logger(DEBUG, "=== END ===");
   return (EXIT_SUCCESS);

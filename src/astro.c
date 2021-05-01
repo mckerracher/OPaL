@@ -590,9 +590,6 @@ main (int argc, char **argv)
   node_s *syntax_tree_pass1 = optimize_syntax_tree(syntax_tree);
   node_s *syntax_tree_pass2 = optimize_syntax_tree(syntax_tree_pass1);
 
-  /// Generate golden file used to test the syntax tree
-  traverse_ast (syntax_tree_pass2, dest_fp);
-
   /// Print optimized syntax tree HTML report with print_ast_html()
   fprintf (report_fp, "<h3>Optimized abstract syntax tree: </h3>\n<hr>\n");
   retVal = print_ast_html(syntax_tree_pass2, report_fp);
