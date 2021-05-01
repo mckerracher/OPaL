@@ -2062,12 +2062,12 @@ free_syntax_tree (node_s *syntax_tree)
 }
 
 /**
- * @brief       Traverses the syntax tree while printing the contents to dest_fp.
+ * @brief                   Traverses the syntax tree while printing the contents to dest_fp.
  *
- * @param       node
- * @param       dest_fp
+ * @param[in]   node        The syntax tree node to be processed
+ * @param[in]   dest_fp     The file to which the node's content will be printed
  *
- * @return      NULL
+ * @return                  NULL
  */
 void
 traverse_ast(node_s *node, FILE *dest_fp)
@@ -2089,9 +2089,6 @@ traverse_ast(node_s *node, FILE *dest_fp)
         fprintf (dest_fp, "%s\n", node_name[node->node_type]);
 
     /// Recursive calls for further tree traversal
-    if (node->left || node->right)
-    {
-        traverse_ast (node->left, dest_fp);
-        traverse_ast (node->right, dest_fp);
-    }
+    traverse_ast (node->left, dest_fp);
+    traverse_ast (node->right, dest_fp);
 }
