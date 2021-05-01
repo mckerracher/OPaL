@@ -314,7 +314,7 @@ bool match(const char *str, const char *pattern);
 short print_symbol_table_html (lexeme_s*, FILE*);
 /// Free symbol table linked list
 void free_symbol_table (lexeme_s*);
-/// Generate golden file to test syntax tree generation
+/// Traverse syntax tree for output file generation
 void traverse_ast (node_s *node, FILE *dest_fp);
 
 /*
