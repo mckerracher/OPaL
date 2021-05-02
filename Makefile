@@ -68,7 +68,7 @@ test: clean all
 	
 	#ASTRO tests
 	@printf "\n=== Test 20 ===\n"
-	build/alex --debug --output=output/test20.ast input/test20.opl
+	build/astro --debug --output=output/test20.ast input/test20.opl
 	diff -s output/test20.ast test/test20.ast
 
 all_tests: test
