@@ -65,6 +65,11 @@ test: clean all
 	@printf "\n=== Test 17 ===\n"
 	build/alex --debug --output=output/test17.opl input/test17.opl
 	diff -s output/test17.opl test/test17.opl
+	
+	#ASTRO tests
+	@printf "\n=== Test 20 ===\n"
+	build/astro --debug --output=output/test20.ast input/test20.opl
+	diff -s output/test20.ast test/test20.ast
 
 all_tests: test
 	# Negative tests
