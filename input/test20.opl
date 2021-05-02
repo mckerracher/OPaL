@@ -1,0 +1,11 @@
+a = 1 + 2;
+b = a + 3 + 4;
+c = b - 1;
+d = b - a;
+e = a + b - c;
+f = 2 * 3;
+g = 2 + 4 * 3;
+h = g / 2;
+i = ( 2 + 4 ) * 3;
+j = 6 % 4;
+k = input("please enter value for k:");
