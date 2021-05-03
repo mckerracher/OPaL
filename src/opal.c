@@ -2015,9 +2015,12 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
 
   /// Write mermaid graph header
   fprintf (report_fp, "<div class='mermaid'>\ngraph TD\n"
-           "classDef Code_Sequence fill:#f9f,stroke:#333;\n"
-           "classDef Print_String fill:#f9c,stroke:#333;\n"
-           "classDef Print_Integer fill:#f9d,stroke:#333;\n");
+           "classDef Code_Sequence fill:#E6E6FA,color:#301934,stroke:#301934;\n"
+           "classDef String fill:#9F2B68,color:#E6E6FA,stroke:#301934;\n"
+           "classDef Print_String fill:#AA98A9,color:#301934,stroke:#301934;\n"
+           "classDef Identifier fill:#702963,color:#E6E6FA,stroke:#301934;\n"
+           "classDef Integer fill:#630330,color:#E6E6FA,stroke:#301934;\n"
+           "classDef Print_Integer fill:#AA98A9,color:#301934,stroke:#301934;\n");
   traversePreOrder_graph (syntax_tree, report_fp, 0);
   fprintf(report_fp, "</div>\n"
           "<script src='https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js'></script>\n"
