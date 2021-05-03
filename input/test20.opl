@@ -1,11 +1,49 @@
-a = 1 + 2;
-b = a + 3 + 4;
-c = b - 1;
-d = b - a;
-e = a + b - c;
-f = 2 * 3;
-g = 2 + 4 * 3;
-h = g / 2;
-i = ( 2 + 4 ) * 3;
-j = 6 % 4;
-k = input("please enter value for k:");
+// Single line comment
+
+/*
+Multi
+Line
+Comment
+*/
+
+True = 1;
+False = 0;
+
+// Test parenthesis precedence
+a = (20 - 2) / 2; // 9;
+b = 20 - 2 / 2; // 19;
+
+// Use all operators
+c = (((1 + 2) - 0) * 2) / 1;
+d =  6 % 2;
+
+// Use comparison operators
+if(1 == 1) {
+	print("Russell's paradox");
+}
+
+if(1 != 0) {
+	print("shows that every set theory that contains an unrestricted comprehension principle leads to contradictions.");
+}
+
+if(1 < 2) {
+	print("According to the unrestricted comprehension principle");
+}
+
+if(3 > 0) {
+	print("for any sufficiently well-defined property");
+}
+
+if(2 <= 2) {
+	print("there is the set of all and only the objects that have that property");
+}
+
+if(2 >= 2) {
+	print("Let R be the set of all sets that are not members of themselves.");
+}
+
+if(a == b) {
+	print("If");
+} else {
+	print("else");
+}

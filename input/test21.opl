@@ -1,0 +1,41 @@
+// Test parenthesis precedence
+a = (20 - 2) / 2; // 9;
+b = 20 - 2 / 2; // 19;
+
+// Use all operators
+c = (((1 + 2) - 0) * 2) / 1;
+d =  6 % 2;
+
+True = 1;
+False = 0;
+
+// Use comparison operators
+if(1 == 1) {
+	print("test21");
+}
+
+if(1 == 0) {
+	print("test21");
+}
+
+if(1 > 2) {
+	print("test21");
+}
+
+if(3 < 0) {
+	print("in case you were wondering");
+}
+
+if(2 != 2) {
+	print("this is test21");
+}
+
+if(2 != 2) {
+	print("test21");
+}
+
+if(a == b) {
+	print("If");
+} else {
+	print("else");
+}

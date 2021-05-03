@@ -13,12 +13,6 @@ Code_sequence
 Code_sequence
 Code_sequence
 Op_Assign
-True
-1
-Op_Assign
-False
-0
-Op_Assign
 a
 Op_Divide
 Op_Subtract
@@ -48,6 +42,12 @@ d
 Op_Mod
 6
 2
+Op_Assign
+True
+1
+Op_Assign
+False
+0
 Keyword_If
 Op_Equal
 1
@@ -56,52 +56,52 @@ Keyword_If
 Code_sequence
 Code_sequence
 Print_String
-Russell's paradox
+test21
 Keyword_If
-Op_NotEqual
+Op_Equal
 1
 0
 Keyword_If
 Code_sequence
 Code_sequence
 Print_String
-shows that every set theory that contains an unrestricted comprehension principle leads to contradictions.
+test21
 Keyword_If
-Op_Less
+Op_Greater
 1
 2
 Keyword_If
 Code_sequence
 Code_sequence
 Print_String
-According to the unrestricted comprehension principle
+test21
 Keyword_If
-Op_Greater
+Op_Less
 3
 0
 Keyword_If
 Code_sequence
 Code_sequence
 Print_String
-for any sufficiently well-defined property
+in case you were wondering
 Keyword_If
-Op_LessEqual
+Op_NotEqual
 2
 2
 Keyword_If
 Code_sequence
 Code_sequence
 Print_String
-there is the set of all and only the objects that have that property
+this is test21
 Keyword_If
-Op_GreaterEqual
+Op_NotEqual
 2
 2
 Keyword_If
 Code_sequence
 Code_sequence
 Print_String
-Let R be the set of all sets that are not members of themselves.
+test21
 Keyword_If
 Op_Equal
 a
