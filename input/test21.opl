@@ -11,27 +11,27 @@ False = 0;
 
 // Use comparison operators
 if(1 == 1) {
-	print("Russell's paradox");
+	print("test21");
 }
 
 if(1 == 0) {
-	print("shows that every set theory that contains an unrestricted comprehension principle leads to contradictions.");
+	print("test21");
 }
 
 if(1 > 2) {
-	print("According to the unrestricted comprehension principle");
+	print("test21");
 }
 
 if(3 < 0) {
-	print("for any sufficiently well-defined property");
+	print("in case you were wondering");
 }
 
 if(2 != 2) {
-	print("there is the set of all and only the objects that have that property");
+	print("this is test21");
 }
 
 if(2 != 2) {
-	print("Let R be the set of all sets that are not members of themselves.");
+	print("test21");
 }
 
 if(a == b) {
