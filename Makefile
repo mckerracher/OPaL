@@ -110,7 +110,7 @@ all_tests: test
 	@printf "\n=== Test 19 ===\n"
 	@bash test/test19.sh
 		
-	@printf "\n=== Test 19 ===\n"
+	@printf "\n=== Test 22 ===\n"
 	@bash test/test22.sh
 .PHONY: clean
 clean:
