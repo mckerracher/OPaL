@@ -194,7 +194,7 @@ const char node_name[][16] =
       "Op_Divide", "Op_Mod", "Op_Equal", "Op_NotEqual", "Op_Less", "Op_Greater",
       "Op_LessEqual", "Op_GreaterEqual", "Op_And", "Op_Or", "Op_Not",
       "Keyword_If", "Keyword_Else", "Keyword_While", "Print_String",
-      "Print_Integer", "Code_Sequence", "Keyword_input" };
+      "Print_Integer", "Code_sequence", "Keyword_input" };
 
 /// Struct for abstract syntax tree node
 typedef struct node
