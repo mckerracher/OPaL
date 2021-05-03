@@ -71,6 +71,10 @@ test: clean all
 	build/astro --debug --output=output/test20.ast input/test20.opl
 	diff -s output/test20.ast test/test20.ast
 
+	@printf "\n=== Test 21 ===\n"
+	build/astro --debug --output=output/test21.ast input/test21.opl
+	diff -s output/test21.ast test/test21.ast
+
 all_tests: test
 	# Negative tests
 	@printf "\n=== Test 7 ===\n"
@@ -106,6 +110,8 @@ all_tests: test
 	@printf "\n=== Test 19 ===\n"
 	@bash test/test19.sh
 		
+	@printf "\n=== Test 19 ===\n"
+	@bash test/test22.sh
 .PHONY: clean
 clean:
 	# Delete binaries, output, temporary & report files 

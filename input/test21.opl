@@ -1,14 +1,3 @@
-// Single line comment
-
-/*
-Multi
-Line
-Comment
-*/
-
-True = 1;
-False = 0;
-
 // Test parenthesis precedence
 a = (20 - 2) / 2; // 9;
 b = 20 - 2 / 2; // 19;
@@ -17,28 +6,31 @@ b = 20 - 2 / 2; // 19;
 c = (((1 + 2) - 0) * 2) / 1;
 d =  6 % 2;
 
+True = 1;
+False = 0;
+
 // Use comparison operators
 if(1 == 1) {
 	print("Russell's paradox");
 }
 
-if(1 != 0) {
+if(1 == 0) {
 	print("shows that every set theory that contains an unrestricted comprehension principle leads to contradictions.");
 }
 
-if(1 < 2) {
+if(1 > 2) {
 	print("According to the unrestricted comprehension principle");
 }
 
-if(3 > 0) {
+if(3 < 0) {
 	print("for any sufficiently well-defined property");
 }
 
-if(2 <= 2) {
+if(2 != 2) {
 	print("there is the set of all and only the objects that have that property");
 }
 
-if(2 >= 2) {
+if(2 != 2) {
 	print("Let R be the set of all sets that are not members of themselves.");
 }
 
