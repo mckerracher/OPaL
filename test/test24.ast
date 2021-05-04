@@ -1,0 +1,22 @@
+Code_sequence
+Code_sequence
+Code_sequence
+Code_sequence
+Code_sequence
+Op_Assign
+a
+5
+Op_Assign
+b
+Op_Not
+a
+Op_Assign
+age
+Code_sequence
+Keyword_input
+Please enter your age: 
+Op_Assign
+no_ints
+Code_sequence
+Keyword_input
+This text 5 + 4 should be a string: 

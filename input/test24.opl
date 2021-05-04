@@ -1,0 +1,9 @@
+// Test for Input and Not lexemes
+
+a = 5;
+
+b = !a;
+
+age = input("Please enter your age: ");
+
+no_ints = input("This text 5 + 4 should be a string: ");
