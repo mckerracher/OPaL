@@ -1,0 +1,9 @@
+// Test for correct order of operations
+
+seventeen = 3 + 2 * 7;
+
+ten = 14 - 8 % 2;
+
+two = 20 - 9 / 3 * 6;
+
+twenty_five = ( 1 + 4 ) * 2;
