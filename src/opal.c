@@ -1000,8 +1000,8 @@ get_identifier_lexeme (int char_line, int char_col)
   /// Error for unsupported characters
   if (str_len == 1)
     {
-      logger(ERROR, "[%d: %d] Invalid identifier.", char_line, char_col);
-      _FAIL;
+      fprintf (stderr, "[%d: %d] Invalid identifier: %c.", char_line, char_col,
+               next_char);
       exit (opal_exit(EXIT_FAILURE));
     }
 
@@ -1725,9 +1725,10 @@ make_expression_node(int precedence)
 
     default:
       /// Expressions cannot start with any other type of lexeme
-      logger(ERROR, "[%d:%d] Unexpected lexeme type found: %s\n",
-             ast_curr_lexeme->line, ast_curr_lexeme->column, ast_curr_lexeme->type);
-
+      fprintf (stderr, "[%d:%d] Unexpected lexeme type found: %s\n",
+               ast_curr_lexeme->line, ast_curr_lexeme->column,
+               op_name[ast_curr_lexeme->type]);
+      exit (opal_exit (EXIT_FAILURE));
   }
 
     /// While the next lexeme is binary and its precedence is at least as high as the current lexeme
@@ -1919,9 +1920,10 @@ make_statement_node (void)
 
     default:
       /// Statements cannot start with any other type of lexeme
-      logger(ERROR, "[%d:%d] Cannot start statement with '%s': %s\n",
+      fprintf(stderr, "[%d:%d] Cannot start statement with '%s': %s\n",
              ast_curr_lexeme->line, ast_curr_lexeme->column,
              grammar[ast_curr_lexeme->type].text, ast_curr_lexeme->char_val);
+      exit(opal_exit(EXIT_FAILURE));
     }
 
   return tree;
