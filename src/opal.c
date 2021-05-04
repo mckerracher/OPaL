@@ -1000,8 +1000,8 @@ get_identifier_lexeme (int char_line, int char_col)
   /// Error for unsupported characters
   if (str_len == 1)
     {
-      logger(ERROR, "[%d: %d] Invalid identifier.", char_line, char_col);
-      _FAIL;
+      fprintf (stderr, "[%d: %d] Invalid identifier: %c.", char_line, char_col,
+               next_char);
       exit (opal_exit(EXIT_FAILURE));
     }
 
