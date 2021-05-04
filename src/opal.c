@@ -1725,9 +1725,10 @@ make_expression_node(int precedence)
 
     default:
       /// Expressions cannot start with any other type of lexeme
-      logger(ERROR, "[%d:%d] Unexpected lexeme type found: %s\n",
-             ast_curr_lexeme->line, ast_curr_lexeme->column, ast_curr_lexeme->type);
-
+      fprintf (stderr, "[%d:%d] Unexpected lexeme type found: %s\n",
+               ast_curr_lexeme->line, ast_curr_lexeme->column,
+               op_name[ast_curr_lexeme->type]);
+      exit (opal_exit (EXIT_FAILURE));
   }
 
     /// While the next lexeme is binary and its precedence is at least as high as the current lexeme
