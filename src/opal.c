@@ -653,11 +653,6 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
   assert(dest_fp);
   _PASS;
 
-  /// Assert source file name is not NULL
-  logger(DEBUG, "assert(source_fn)");
-  assert(source_fn);
-  _PASS;
-
   /// Move source_fp to beginning of file.
   sprintf (perror_msg, "fseek (source_fp, 0, SEEK_SET)");
   logger(DEBUG, perror_msg);
