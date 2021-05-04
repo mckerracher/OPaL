@@ -1633,65 +1633,105 @@ make_leaf_node (ast_node_type_e type, lexeme_s *curr_lexeme)
 node_s*
 make_expression_node(int precedence)
 {
-  /// Create the leaf node to return
-  node_s* node = NULL;
+  /// Create the tree node to return
   node_s* tree = NULL;
+  node_s* node = NULL;
 
   lexeme_type_e operator = lx_NOP;
 
   switch(ast_curr_lexeme->type){
+
     case lx_Not:
+      /// If lexeme type is Not, get next lexeme
       ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// ...make Not node with the children next_lexeme and NULL
       tree = make_ast_node(nd_Not,make_expression_node(grammar[lx_Not].precedence),NULL);
       break;
+
     case lx_Add:
     case lx_Sub:
+      /// If lexeme type is Add or Sub, save type
       operator = ast_curr_lexeme->type;
       ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// Get next lexeme and make new expression node with it
       node = make_expression_node(grammar[lx_Negate].precedence);
+
+      /// If original node type was Sub
       if (operator == lx_Sub)
+
+        /// ...make a Negate node with the children new node and NULL
         tree = make_ast_node(nd_Negate, node, NULL);
+
+      /// Else only use the new node
       else
         tree = node;
       break;
+
     case lx_Integer:
+      /// If lexeme type is Integer, make leaf node and get next lexeme
       tree = make_leaf_node(nd_Integer, ast_curr_lexeme);
       ast_curr_lexeme = ast_curr_lexeme->next;
       break;
+
     case lx_Ident:
+      /// If lexeme type is Ident, make leaf node and get next lexeme
       tree = make_leaf_node(nd_Ident, ast_curr_lexeme);
       ast_curr_lexeme = ast_curr_lexeme->next;
       break;
+
     case lx_Input:
+      /// If lexeme type is Input, get next lexeme
       ast_curr_lexeme = ast_curr_lexeme->next;
+
+      /// ...expect LParen
       expect_lexeme(lx_Lparen);
+
+      /// ... and make Input node with NULL as one child
       node_s *input_tree = make_ast_node (nd_Input,make_leaf_node(nd_String, ast_curr_lexeme), NULL);
+
+      /// ... and expect String contents as the other
       expect_lexeme(lx_String);
       tree = make_ast_node(nd_Sequence, input_tree, tree);
+
+      /// ... finally expect Rparen to close Input
       expect_lexeme(lx_Rparen);
       break;
+
     case lx_Lparen:
+      /// If lexeme type is Lparen, make tree from contents within
       tree = make_parentheses_expression ();
       break;
+
     default:
+      /// Expressions cannot start with any other type of lexeme
       logger(ERROR, "[%d:%d] Unexpected lexeme type found: %s\n",
              ast_curr_lexeme->line, ast_curr_lexeme->column, ast_curr_lexeme->type);
 
   }
 
+    /// While the next lexeme is binary and its precedence is at least as high as the current lexeme
     while (grammar[ast_curr_lexeme->type].is_binary && grammar[ast_curr_lexeme->type].precedence >= precedence)
       {
+        /// Save lexeme type and get next lexeme
         lexeme_type_e orig_op = ast_curr_lexeme->type;
         ast_curr_lexeme = ast_curr_lexeme->next;
 
          /// Search for higher precedence in a later lexeme
          int precedence_ctr = grammar[orig_op].precedence;
+
+         /// and increment counter to work up precedence hierarchy
          if(!grammar[orig_op].right_associative)
              precedence_ctr++;
 
+         /// Recursively make new expression node with incremented precedence
          node = make_expression_node(precedence_ctr);
+
+         /// ...and add it to a working tree
          tree = make_ast_node(grammar[orig_op].node_type, tree, node);
-      }
+
+      }/// ...until all higher precedented lexemes in expression are processed
 
   return tree;
 }
