@@ -14,6 +14,7 @@
 #include <string.h>             /* memset() */
 #include <strings.h>
 #include <unistd.h>
+#include <libgen.h>             /* basename(), dirname() */
 
 /*
  * ==================================
@@ -652,6 +653,11 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
   assert(dest_fp);
   _PASS;
 
+  /// Assert source file name is not NULL
+  logger(DEBUG, "assert(source_fn)");
+  assert(source_fn);
+  _PASS;
+
   /// Move source_fp to beginning of file.
   sprintf (perror_msg, "fseek (source_fp, 0, SEEK_SET)");
   logger(DEBUG, perror_msg);
@@ -666,6 +672,10 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
       _FAIL;
       exit (opal_exit(errno));
     }
+
+  /// Get source file directory
+  char *source_dir = dirname (source_fn);
+  logger(DEBUG, "source_dir: %s", source_dir);
 
   /// Copy each character to the destination file, while checking for include files.
   logger(DEBUG, "Reading file.");
@@ -711,10 +721,22 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                   }
                 logger(DEBUG, "Finished reading in the filename.");
 
+                char *include_basename = basename (filename_buffer);
+                char include_fn[512] = { 0 };
+                FILE *include_fp = NULL;
+
+                /// If given file name is relative path, prefix source file dir
+                if (strcmp (filename_buffer, include_basename) == 0)
+                  sprintf (include_fn, "%s/%s", source_dir, include_basename);
+                else
+                  sprintf (include_fn, "%s", filename_buffer);
+
+                logger(DEBUG, "include_fn: %s", include_fn);
+
                 /// If include file does not exist, print error and exit
-                sprintf (perror_msg, "access('%s', F_OK)", filename_buffer);
+                sprintf (perror_msg, "access('%s', F_OK)", include_fn);
                 logger(DEBUG, perror_msg);
-                if (access (filename_buffer, F_OK) == EXIT_SUCCESS)
+                if (access (include_fn, F_OK) == EXIT_SUCCESS)
                   _PASS;
                 else
                   {
@@ -724,9 +746,9 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                   }
 
                 /// If include file can not be read, print error and exit
-                sprintf (perror_msg, "access('%s', R_OK)", filename_buffer);
+                sprintf (perror_msg, "access('%s', R_OK)", include_fn);
                 logger(DEBUG, perror_msg);
-                if (access (filename_buffer, R_OK) == EXIT_SUCCESS)
+                if (access (include_fn, R_OK) == EXIT_SUCCESS)
                   _PASS;
                 else
                   {
@@ -737,10 +759,11 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
 
                 /// Open include file in read-only mode
                 sprintf (perror_msg, "include_fp = fopen('%s', 'r')",
-                         filename_buffer);
+                         include_fn);
                 logger(DEBUG, perror_msg);
+
                 errno = EXIT_SUCCESS;
-                FILE *include_fp = fopen (filename_buffer, "r");
+                include_fp = fopen (include_fn, "r");
                 if (errno == EXIT_SUCCESS)
                   _PASS;
                 else
@@ -754,7 +777,7 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
 
                 /// Move contents of include file into destination file
                 logger(DEBUG, "Copy contents of %s into destination file",
-                       filename_buffer);
+                       include_fn);
                 while (ch_2 != EOF)
                   {
                     fputc (ch_2, dest_fp);
