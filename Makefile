@@ -82,9 +82,7 @@ test: clean all
 	@printf "\n=== Test 24 ===\n"
 	build/astro --debug --output=output/test24.ast input/test24.opl
 	diff -s output/test24.ast test/test24.ast
-	
-	$(MAKE) clean
-	
+
 all_tests: test
 	# Negative tests
 	@printf "\n=== Test 7 ===\n"
