@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdbool.h>            /* boolean datatypes */
 #include <stddef.h>
-#include <libgen.h>             /* basename(), dirname() */
 
 /// __VERSION_NUM for program
 #ifndef __VERSION_NUM

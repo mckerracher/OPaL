@@ -6,4 +6,11 @@ False = 0;
 degrees_of_circle = 360;
 
 
+print(
+	"True: ", 
+	True,
+	" False: ",
+	False
+);
+
 print("Circle has ", degrees_of_circle, " degrees.\n");
