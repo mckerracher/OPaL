@@ -1,4 +1,11 @@
 #include "input/bool.hpl"
-#include "input/math_const.hpl"
+#include "math_const.hpl"
+
+print(
+	"True: ", 
+	True,
+	" False: ",
+	False
+);
 
 print("Circle has ", degrees_of_circle, " degrees.\n");
