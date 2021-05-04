@@ -668,10 +668,6 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
       exit (opal_exit(errno));
     }
 
-  /// Get source file directory
-  char *source_dir = dirname (source_fn);
-  logger(DEBUG, "source_dir: %s", source_dir);
-
   /// Copy each character to the destination file, while checking for include files.
   logger(DEBUG, "Reading file.");
   char ch = fgetc (source_fp);
@@ -722,7 +718,12 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
 
                 /// If given file name is relative path, prefix source file dir
                 if (strcmp (filename_buffer, include_basename) == 0)
-                  sprintf (include_fn, "%s/%s", source_dir, include_basename);
+                  {
+                    /// Get source file directory
+                    char *source_dir = dirname (source_fn);
+                    logger(DEBUG, "source_dir: %s", source_dir);
+                    sprintf (include_fn, "%s/%s", source_dir, include_basename);
+                  }
                 else
                   sprintf (include_fn, "%s", filename_buffer);
 
