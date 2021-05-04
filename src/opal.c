@@ -1920,9 +1920,10 @@ make_statement_node (void)
 
     default:
       /// Statements cannot start with any other type of lexeme
-      logger(ERROR, "[%d:%d] Cannot start statement with '%s': %s\n",
+      fprintf(stderr, "[%d:%d] Cannot start statement with '%s': %s\n",
              ast_curr_lexeme->line, ast_curr_lexeme->column,
              grammar[ast_curr_lexeme->type].text, ast_curr_lexeme->char_val);
+      exit(opal_exit(EXIT_FAILURE));
     }
 
   return tree;
