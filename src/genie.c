@@ -610,8 +610,8 @@ main (int argc, char **argv)
   if (retVal != EXIT_SUCCESS)
       return (opal_exit (retVal));
 
-  /// Print symbol table HTML report with print_symbol_table_html()
-  retVal = print_symbol_table_html (symbol_table, report_fp);
+  /// Print assembly code with print_asm_code_html()
+  retVal = print_asm_code_html (asm_cmd_list, report_fp);
   if (retVal != EXIT_SUCCESS)
       return (opal_exit (retVal));
 

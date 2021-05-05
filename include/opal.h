@@ -418,5 +418,7 @@ void free_syntax_tree (node_s*);
 short gen_asm_code(node_s*);
 /// Print assembly code list
 short print_asm_code(asm_cmd_e[], FILE*);
+/// Print assembly code list to HTML report file
+short print_asm_code_html(asm_cmd_e[], FILE*);
 
 #endif /* OPAL_H_ */
