@@ -2155,3 +2155,59 @@ traverse_ast(node_s *node, FILE *dest_fp)
     traverse_ast (node->left, dest_fp);
     traverse_ast (node->right, dest_fp);
 }
+
+/*
+ * ==================================
+ * START GENIE FUNCTION DEFINITIONS
+ * ==================================
+ */
+
+/**
+ * @brief Generate assembly command list from given abstract syntax tree
+ * @param ast   Abstract syntax tree
+ *
+ * @return      Function exit code
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ */
+short gen_asm_code(node_s *ast)
+{
+  // Stub implementation
+
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief Print assembly command list
+ * @param cmd_list  Assembly command list to print
+ * @param dest_fp   Destination file pointer
+ *
+ * @return      Function exit code
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ */
+short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
+{
+  // Stub implementation
+
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief Print assembly code list to HTML report file
+ * @param cmd_list  Assembly command list to print
+ * @param report_fp   Destination HTML reportfile pointer
+ *
+ * @return      Function exit code
+ *
+ * @retval      EXIT_SUCCESS    On success
+ * @retval      EXIT_FAILURE    On error
+ */
+short print_asm_code_html(asm_cmd_e cmd_list[], FILE *report_fp)
+{
+  // Stub implementation
+
+  return EXIT_SUCCESS;
+}

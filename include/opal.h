@@ -258,6 +258,70 @@ const attributes_s grammar[] =
 /// Lexeme currently being processed by build_syntax_tree()
 lexeme_s *ast_curr_lexeme = NULL;
 
+/// Enum for assembly code
+typedef enum asm_code
+{
+  asm_NOP = 0,
+  asm_EOF,
+  asm_Ident,
+  asm_Int,
+  asm_String,
+  asm_Assign,
+  asm_Add,
+  asm_Sub,
+  asm_Negate,
+  asm_Mul,
+  asm_Div,
+  asm_Mod,
+  asm_Eq,
+  asm_Neq,
+  asm_Lss,
+  asm_Gtr,
+  asm_Leq,
+  asm_Geq,
+  asm_And,
+  asm_Or,
+  asm_Not,
+  asm_Fetch,
+  asm_Store,
+  asm_Push,
+  asm_Jmp,
+  asm_Jz,
+  asm_Jnz,
+  asm_Prts,
+  asm_Prti,
+  asm_HALT,
+  asm_Label,
+  asm_Input,
+} asm_code_e;
+
+/// Struct for assembly code list
+typedef struct asm_cmd
+{
+  asm_code_e cmd;
+  int intval;
+  char *label;
+}asm_cmd_e;
+
+/// 0-address assembly commands
+const char asm_cmds[][16] =
+  { "NOP", "_EOF_", "_IDENT_", "_INT_", "_STR_", "_ASSIGN_", "O_ADD", "O_SUB",
+      "O_NEGATE", "O_MUL", "O_DIV", "O_MOD", "O_EQ", "O_NEQ", "O_LSS", "O_GTR",
+      "O_LEQ", "O_GEQ", "O_AND", "O_OR", "O_NOT", "_FETCH_", "_STORE_", "PUSH",
+      "JMP", "O_JZ", "O_JNZ", "O_PRTS", "O_PRTI", "HALT", "_LABEL_", "_INPUT_"
+};
+
+asm_cmd_e asm_cmd_list[1024] = { {0} }; ///< Assembly commands list
+
+unsigned int asm_cmd_list_len = 0;  ///< Assembly commands list length
+char *strs[1024] = { 0 };   ///< Strings used in program
+
+unsigned int strs_len = 0;  ///< Strings used count
+char *vars[1024] = { 0 };   ///< Vars used in program
+
+unsigned int vars_len = 0;  ///< Vars used count
+unsigned int int_count = 0; ///< Integers used
+unsigned int usr_vars = 0;  ///< User input varss used count
 
 /*
  * ==================================
@@ -344,5 +408,17 @@ void traversePreOrder_grah (node_s*, FILE*, int);
 short print_ast_html (node_s*, FILE*);
 /// Free syntax tree
 void free_syntax_tree (node_s*);
+
+/*
+ * ==================================
+ * GENIE FUNCTION DECLARATIONS
+ * ==================================
+ */
+/// Build assembly code list from abstract syntax tree
+short gen_asm_code(node_s*);
+/// Print assembly code list
+short print_asm_code(asm_cmd_e[], FILE*);
+/// Print assembly code list to HTML report file
+short print_asm_code_html(asm_cmd_e[], FILE*);
 
 #endif /* OPAL_H_ */

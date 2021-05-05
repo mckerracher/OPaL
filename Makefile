@@ -3,7 +3,7 @@ CFLAGS := -g -O0 -Wall -L./build -Wl,-rpath=./
 LD_LIBRARY_PATH := build:$(LD_LIBRARY_PATH)
 SHELL := env LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) /bin/bash
 
-all: dirs libopal marc alex astro tar
+all: dirs libopal marc alex astro genie tar
 
 # Create required directory structure
 dirs:
@@ -26,9 +26,13 @@ alex: libopal src/alex.c
 astro: libopal src/astro.c
 	$(CC) $(CFLAGS) src/astro.c -g -lopal -o build/astro
 
+# Build GENIE code generator
+genie: libopal src/genie.c
+	$(CC) $(CFLAGS) src/genie.c -g -lopal -o build/genie
+
 # Tar all files for release
-tar: libopal marc alex astro
-	tar -cvf build/opal.tar build/libopal.so build/opal.o build/marc build/alex build/astro
+tar: libopal marc alex astro genie
+	tar -cvf build/opal.tar build/libopal.so build/opal.o build/marc build/alex build/astro build/genie
 
 .PHONY: test
 test: clean all
