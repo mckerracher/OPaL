@@ -169,13 +169,11 @@
   POP  RAX               ; Get 'a' from stack
   POP  RBX               ; Get 'b' from stack
   AND  RAX, RBX          ; a && b
-  JZ   %%a_nand_b
   JNZ  %%a_and_b
+  PUSH isFalse
+  JMP  %%end
 %%a_and_b:
   PUSH isTrue
-  JMP  %%end
-%%a_nand_b:
-  PUSH isFalse
 %%end:
 %endmacro
 
@@ -190,13 +188,11 @@
   POP  RAX               ; Get 'a' from stack
   POP  RBX               ; Get 'b' from stack
   OR   RAX, RBX          ; a || b
-  JZ   %%a_nor_b
   JNZ  %%a_or_b
+  PUSH isFalse
+  JMP  %%end
 %%a_or_b:
   PUSH isTrue
-  JMP  %%end
-%%a_nor_b:
-  PUSH isFalse
 %%end:
 %endmacro
 
@@ -210,12 +206,11 @@
 %macro O_NOT 0
   POP  RAX               ; Get integer from stack
   CMP  RAX, 0            ; Compare value with 0
-  JE   %%z
-%%nz:
-  PUSH 0                 ; Push 0 on stack
+  JNE  %%nz
+  PUSH 1                 ; If 0, push 1 on stack
   JMP  %%end
-%%z:
-  PUSH 1                 ; Push 1 on stack
+%%nz:
+  PUSH 0                 ; If non-zero, push 0 on stack
 %%end:
 %endmacro
 
@@ -239,7 +234,7 @@
 ; Args  - Array index
 ; Pre   - None
 ; Post  - Push value at data[index] on top of stack
-; Desc  - Gets integer from array 'data[index] and pushes it on top of stack
+; Desc  - Gets integer from array 'data[index]' and pushes it on top of stack
 ; -----------------------------------------------------------------------------
 %macro _FETCH_ 1
   MOV  RAX,[data+(8*%1)] ; Get from [source] + (size) * index
@@ -297,7 +292,7 @@
 ; Args  - None
 ; Pre   - strs[index] to print on top of stack
 ; Post  - None
-; Desc  - Prints string at 'strs[index] to STDOUT
+; Desc  - Prints string at 'strs[index]' to STDOUT
 ; -----------------------------------------------------------------------------
 %macro O_PRTS 0
   ; TBD
