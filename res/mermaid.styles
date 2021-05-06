@@ -1,0 +1,6 @@
+classDef Code_sequence fill:#E6E6FA;
+classDef Print_String fill:#AA98A9;
+classDef Print_Integer fill:#AA98A9;
+classDef String fill:#9F2B68;
+classDef Identifier fill:#702963;
+classDef Integer fill:#630330;
