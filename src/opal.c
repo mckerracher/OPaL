@@ -2021,10 +2021,15 @@ traversePreOrder_graph (node_s *node, FILE *report_fp, int level)
   if (!node)
     return;
 
-  /// If node is identifier or string, print char_val
-  if (node->node_type == nd_Ident || node->node_type == nd_String)
-    fprintf (report_fp, "%d[%s]:::%s\n", level, node->char_val,
+  /// If node is string, print char_val
+  if (node->node_type == nd_String)
+    fprintf (report_fp, "%d[\"'%s'\"]:::%s\n", level, node->char_val,
              node_name[node->node_type]);
+
+  /// If node is identifier, print name
+  else if (node->node_type == nd_Ident)
+      fprintf (report_fp, "%d[%s]:::%s\n", level, node->char_val,
+               node_name[node->node_type]);
 
   /// ... if node is integer, print the int_val
   else if (node->node_type == nd_Integer)
@@ -2075,17 +2080,51 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
   _PASS;
 
   /// Write mermaid graph header
-  fprintf (report_fp, "<div class='mermaid'>\ngraph TD\n"
-           "classDef Code_sequence fill:#E6E6FA,color:#301934,stroke:#301934;\n"
-           "classDef String fill:#9F2B68,color:#E6E6FA,stroke:#301934;\n"
-           "classDef Print_String fill:#AA98A9,color:#301934,stroke:#301934;\n"
-           "classDef Identifier fill:#702963,color:#E6E6FA,stroke:#301934;\n"
-           "classDef Integer fill:#630330,color:#E6E6FA,stroke:#301934;\n"
-           "classDef Print_Integer fill:#AA98A9,color:#301934,stroke:#301934;\n");
+  fprintf(report_fp, "<div class='mermaid'>\ngraph TD;\n");
+
+  /// Open res/mermaid.styles in read-only mode
+  char *mermaid_fn = "res/mermaid.styles";
+  sprintf (perror_msg, "css_fp = fopen ('%s', 'r')", mermaid_fn);
+  logger (DEBUG, perror_msg);
+
+  errno = EXIT_SUCCESS;
+  FILE *mermaid_fp = fopen (mermaid_fn, "r");
+  if (errno == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      exit (opal_exit(errno));
+    }
+
+  /// Copy CSS to HTML report
+  logger (DEBUG, "Copying Mermaid styles to HTML report");
+  char ch = 0;
+  while ((ch = fgetc (mermaid_fp)) != EOF)
+    fputc (ch, report_fp);
+  _DONE;
+  fprintf(report_fp, "\n");
+
+  /// Close res/styles.css file
+  sprintf (perror_msg, "fclose(mermaid_fp)");
+  logger (DEBUG, perror_msg);
+  if (fclose (mermaid_fp) == EXIT_SUCCESS)
+    _PASS;
+  else
+    {
+      perror (perror_msg);
+      _FAIL;
+      exit (opal_exit (errno));
+    }
+
+  /// Print abstract syntax tree to report
   traversePreOrder_graph (syntax_tree, report_fp, 0);
+
+  /// Write mermaid graph footer
   fprintf(report_fp, "</div>\n"
           "<script src='https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js'></script>\n"
-          "<script>mermaid.initialize({startOnLoad:true, flowchart: {curve:'cardinal',}, });</script>");
+          "<script>mermaid.initialize({startOnLoad:true, flowchart: {curve:'cardinal', useMaxWidth:false, }, });</script>\n");
 
   sprintf (perror_msg, "fflush(graph_fp)");
   logger (DEBUG, perror_msg);
