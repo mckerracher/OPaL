@@ -2021,10 +2021,15 @@ traversePreOrder_graph (node_s *node, FILE *report_fp, int level)
   if (!node)
     return;
 
-  /// If node is identifier or string, print char_val
-  if (node->node_type == nd_Ident || node->node_type == nd_String)
-    fprintf (report_fp, "%d[%s]:::%s\n", level, node->char_val,
+  /// If node is string, print char_val
+  if (node->node_type == nd_String)
+    fprintf (report_fp, "%d[\"'%s'\"]:::%s\n", level, node->char_val,
              node_name[node->node_type]);
+
+  /// If node is identifier, print name
+  else if (node->node_type == nd_Ident)
+      fprintf (report_fp, "%d[%s]:::%s\n", level, node->char_val,
+               node_name[node->node_type]);
 
   /// ... if node is integer, print the int_val
   else if (node->node_type == nd_Integer)
@@ -2099,6 +2104,7 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
   while ((ch = fgetc (mermaid_fp)) != EOF)
     fputc (ch, report_fp);
   _DONE;
+  fprintf(report_fp, "\n");
 
   /// Close res/styles.css file
   sprintf (perror_msg, "fclose(mermaid_fp)");
@@ -2118,7 +2124,7 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
   /// Write mermaid graph footer
   fprintf(report_fp, "</div>\n"
           "<script src='https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js'></script>\n"
-          "<script>mermaid.initialize({startOnLoad:true, flowchart: {curve:'cardinal',}, });</script>\n");
+          "<script>mermaid.initialize({startOnLoad:true, flowchart: {curve:'cardinal', useMaxWidth:false, }, });</script>\n");
 
   sprintf (perror_msg, "fflush(graph_fp)");
   logger (DEBUG, perror_msg);
