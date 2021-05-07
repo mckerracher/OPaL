@@ -226,7 +226,77 @@
 ; Desc  - Reads integer from user and pushes on top of stack
 ; -----------------------------------------------------------------------------
 %macro _INPUT_ 0
-  ; TBD
+  O_PRTS                 ; Print prompt string with macro
+
+; Read digits from STDIN and store in buffer 'bss0' in a loop until newline
+%%readi_start:
+  MOV RDX, 1             ; Read 1 character ..
+  MOV RDI, STDIN         ; .. of user input from STDIN ..
+  MOV RAX, SYS_READ      ; .. with SYS_READ system call ..
+  MOV RSI, char          ; .. and save character to memory location 'char'
+  SYSCALL                ; Call kernel
+
+  MOV EAX, [char]        ; Move character read into EAX
+  CMP AL, 0ah            ; If character is newline ..
+  JE  %%readi_end        ; .. end reading user input
+
+  MOV EAX, bss0          ; EAX points to buffer used for storage
+  ADD AX, [count]        ; Increment address past current characters
+  XOR EBX, EBX
+  MOV BL, [char]         ; Copy the character to the BL register
+  MOV [EAX], BL          ; Append character to the buffer 'bss0'
+  INC WORD [count]       ; Increment number of characters
+  JMP %%readi_start      ; Read next character from screen
+%%readi_end:
+
+; Convert digits in buffer 'bss0' to integer
+%%atoi:
+  MOV ESI, bss0          ; ESI points to string to convert
+  XOR ECX, ECX           ; ECX will hold number of digits processed so far
+  XOR EAX, EAX           ; EAX will hold converted integer, starts off as 0
+  XOR EBX, EBX           ; EBX will be used to convert ASCII to decimal
+  XOR R8, R8             ; R8 will hold flag for negative integer
+
+  MOV BL, [ESI+ECX]      ; Read in the first character &'bss0+0'
+  CMP BL, 02dh           ; If char is not -ve sign ..
+  JNE %%isPositive       ; .. jump to label isPositive
+  MOV R8, 01h            ; .. else set negative integer flag
+  INC ECX                ; Move to second char in buffer
+  DEC WORD [count]       ; Decrement number of digits to be processed ..
+  JMP %%atoi_loop        ; .. and convert string to integer
+
+%%isPositive:
+  MOV R8, 0              ; Clear negative integer flag
+
+%%atoi_loop:
+  XOR EBX, EBX
+  MOV BL, [ESI+ECX]      ; Read in ASCII character to convert
+
+  CMP BL, 48             ; If char ASCII value less than 0 ..
+  JL  %%atoi_end         ; .. jump to end
+  CMP BL, 57             ; If char ASCII value greater than 9 ..
+  JG  %%atoi_end         ; .. jump to end
+
+  SUB BL, 48             ; Get decimal value from ASCII
+  ADD EAX, EBX           ; Add value to EAX
+
+  DEC WORD [count]       ; Decrement number of digits to be processed
+  CMP WORD [count], 0    ; If no more digits to process ..
+  JE  %%atoi_end         ; .. jump to end
+
+  MOV EBX, 10            ; Multiply current value in EAX by 10
+  MUL EBX                ;
+  INC ECX                ; Increment counter used for character address
+  JMP %%atoi_loop        ; Process next digit
+
+%%atoi_end:
+  CMP WORD [neg_pos], 1  ; If negative integer flag is not set ..
+  JNE %%push_val         ; .. jump to label push_val ..
+  NEG RAX                ; .. else negate value
+
+; Push integer value on top of stack
+%%push_val:
+  PUSH RAX               ; Push result integer value to top of stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
