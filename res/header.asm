@@ -302,10 +302,10 @@
    PUSH	RDX
    PUSH	RBX
    PUSH	RSI
-   PUSH  RDI
+   PUSH RDI
 
    ; Add (index*8) to array address to get string address
-   MOV   RBX, 8d			; Add 8 (in decimal form) to RBX
+   MOV  RBX, 8d			    ; Add 8 (in decimal form) to RBX
    IMUL	RBX				    ; Multiply index by 8
    MOV	RSI, [strs+RAX]	    ; Save address to print in RSI
 
