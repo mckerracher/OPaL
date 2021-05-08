@@ -2,7 +2,7 @@
 %define SYS_READ  0
 %define SYS_WRITE 1
 %define SYS_OPEN  2
-%define SYS_EXIT 60h
+%define SYS_EXIT 60
 
 ; pubs.opengroup.org/onlinepubs/9699919799/basedefs/unistd.h.html
 %define STDIN     0
@@ -310,18 +310,12 @@
    MOV	RSI, [strs+RAX]	    ; Save address to print in RSI
 
    ; Get length of string similarly from lens array
-   MOV	RDI, [lens+RAX]	    ; Save string length in RDI
+   MOV	RDX, [lens+RAX]	    ; Save string length in RDX
 
    ; Use syscall to print string
    MOV	RAX, SYS_WRITE	    ; Use the sys_write system call to print
    MOV	RDI, STDOUT		    ; Set the print output to stdout
    SYSCALL
-
-   ; Restore registers
-   POP	RDI
-   POP	RSI
-   POP	RBX
-   POP	RDX
 %endmacro
 
 ; -----------------------------------------------------------------------------
