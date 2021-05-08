@@ -57,7 +57,7 @@
 ; Post  - Negative of integer on stack
 ; Desc  - Push negative of stack[-1] on stack
 ; -----------------------------------------------------------------------------
-%macro NEGi 0
+%macro O_NEGATE 0
   POP 	RAX					; Get 'a' from stack
   NEG	RAX					; Negate a
   PUSH 	RAX					; Push -(a) onto stack
@@ -87,8 +87,9 @@
 %macro O_DIV 0
   POP	RBX					; Get 'b' from stack
   POP	RAX					; Get 'a' from stack
+  XOR   RDX, RDX			; Clear for division
   IDIV	RBX					; Divide a / b
-  PUSH	REX					; Push dividend onto stack
+  PUSH	RAX					; Push dividend onto stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -101,6 +102,7 @@
 %macro O_MOD 0
   POP	RBX					; Get 'b' from stack
   POP	RAX					; Get 'a' from stack
+  XOR   RDX, RDX			; Clear for division
   IDIV	RBX					; Divide a / b
   PUSH	RDX					; Push remainder onto stack
 %endmacro
@@ -119,9 +121,9 @@
   JNE	%%a_neq_b
   PUSH	isTrue				; a == b
   JMP	%%end
-%%a_neq_b
+%%a_neq_b:
   PUSH  isFalse				; a != b
-%%end
+%%end:
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -138,9 +140,9 @@
   JE	%%a_eq_b
   PUSH	isTrue				; a != b
   JMP	%%end
-%%a_eq_b
+%%a_eq_b:
   PUSH  isFalse				; a == b
-%%end
+%%end:
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -154,12 +156,12 @@
   POP	RBX					; Get 'b' from stack
   POP	RAX					; Get 'a' from stack
   CMP	RAX, RBX			; a ?? b
-  JNB	%%a_geq_b
+  JNL	%%a_geq_b
   PUSH	isTrue				; a < b
   JMP	%%end
-%%a_geq_b
+%%a_geq_b:
   PUSH isFalse				; a >= b
-%%end
+%%end:
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -173,12 +175,12 @@
   POP	RBX					; Get 'b' from stack
   POP	RAX					; Get 'a' from stack
   CMP	RAX, RBX			; a ?? b
-  JNA	%%a_leq_b
+  JNG	%%a_leq_b
   PUSH	isTrue				; a > b
   JMP	%%end
-%%a_leq_b
+%%a_leq_b:
   PUSH isFalse				; a <= b
-%%end
+%%end:
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -192,12 +194,12 @@
   POP	RBX					; Get 'b' from stack
   POP	RAX					; Get 'a' from stack
   CMP	RAX, RBX			; a ?? b
-  JA	%%a_gtr_b
+  JG	%%a_gtr_b
   PUSH	isTrue				; a <= b
   JMP	%%end
-%%a_gtr_b
+%%a_gtr_b:
   PUSH  isFalse				; a > b
-%%end
+%%end:
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -211,12 +213,12 @@
   POP	RBX					; Get 'b' from stack
   POP	RAX					; Get 'a' from stack
   CMP	RAX, RBX			; a ?? b
-  JB	%%a_less_b
+  JL	%%a_less_b
   PUSH	isTrue				; a >= b
   JMP	%%end
-%%a_less_b
+%%a_less_b:
   PUSH  isFalse				; a < b
-%%end
+%%end:
 %endmacro
 
 ; =============================================================================
