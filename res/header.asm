@@ -30,7 +30,10 @@
 ; Desc  - Push (stack[-1] + stack[-2]) on stack
 ; -----------------------------------------------------------------------------
 %macro O_ADD 0
-  ; TBD
+  POP	RAX					; Get 'a' from stack
+  POP	RBX					; Get 'b' from stack
+  ADD	RAX, RBX			; Sum a + b
+  PUSH	RAX					; Push sum onto stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -41,7 +44,10 @@
 ; Desc  - Push (stack[-2] - stack[-1]) on stack
 ; -----------------------------------------------------------------------------
 %macro O_SUB 0
-  ; TBD
+  POP	RBX					; Get 'a' from stack
+  POP	RAX					; Get 'b' from stack
+  SUB	RAX, RBX			; Subtract a - b
+  PUSH	RAX					; Push difference onto stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -52,7 +58,9 @@
 ; Desc  - Push negative of stack[-1] on stack
 ; -----------------------------------------------------------------------------
 %macro NEGi 0
-  ; TBD
+  POP 	RAX					; Get 'a' from stack
+  NEG	RAX					; Negate a
+  PUSH 	RAX					; Push -(a) onto stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -63,7 +71,10 @@
 ; Desc  - Push (stack[-1] * stack[-2]) on stack
 ; -----------------------------------------------------------------------------
 %macro O_MUL 0
-  ; TBD
+  POP	RAX					; Get 'a' from stack
+  POP	RBX					; Get 'b' from stack
+  IMUL	RBX					; Multiply a * b
+  PUSH	RAX					; Push product onto stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -74,7 +85,10 @@
 ; Desc  - Push (stack[-2] / stack[-1]) on stack
 ; -----------------------------------------------------------------------------
 %macro O_DIV 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  IDIV	RBX					; Divide a / b
+  PUSH	REX					; Push dividend onto stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -85,7 +99,10 @@
 ; Desc  - Push (stack[-2] % stack[-1]) on stack
 ; -----------------------------------------------------------------------------
 %macro O_MOD 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  IDIV	RBX					; Divide a / b
+  PUSH	RDX					; Push remainder onto stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -96,7 +113,15 @@
 ; Desc  - If stack[-1] == stack[-2], push isTrue on stack, else isFalse
 ; -----------------------------------------------------------------------------
 %macro O_EQ 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  CMP	RAX, RBX			; a ?? b
+  JNE	%%a_neq_b
+  PUSH	isTrue				; a == b
+  JMP	%%end
+%%a_neq_b
+  PUSH  isFalse				; a != b
+%%end
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -107,7 +132,15 @@
 ; Desc  - If stack[-1] != stack[-2], push isTrue on stack, else isFalse
 ; -----------------------------------------------------------------------------
 %macro O_NEQ 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  CMP	RAX, RBX			; a ?? b
+  JE	%%a_eq_b
+  PUSH	isTrue				; a != b
+  JMP	%%end
+%%a_eq_b
+  PUSH  isFalse				; a == b
+%%end
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -118,7 +151,15 @@
 ; Desc  - If stack[-2] < stack[-1], push isTrue on stack, else isFalse
 ; -----------------------------------------------------------------------------
 %macro O_LSS 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  CMP	RAX, RBX			; a ?? b
+  JNB	%%a_geq_b
+  PUSH	isTrue				; a < b
+  JMP	%%end
+%%a_geq_b
+  PUSH isFalse				; a >= b
+%%end
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -129,7 +170,15 @@
 ; Desc  - If stack[-2] > stack[-1], push isTrue on stack, else isFalse
 ; -----------------------------------------------------------------------------
 %macro O_GTR 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  CMP	RAX, RBX			; a ?? b
+  JNA	%%a_leq_b
+  PUSH	isTrue				; a > b
+  JMP	%%end
+%%a_leq_b
+  PUSH isFalse				; a <= b
+%%end
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -140,7 +189,15 @@
 ; Desc  - If stack[-2] <= stack[-1], push isTrue on stack, else isFalse
 ; -----------------------------------------------------------------------------
 %macro O_LEQ 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  CMP	RAX, RBX			; a ?? b
+  JA	%%a_gtr_b
+  PUSH	isTrue				; a <= b
+  JMP	%%end
+%%a_gtr_b
+  PUSH  isFalse				; a > b
+%%end
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -151,7 +208,15 @@
 ; Desc  - If stack[-2] >= stack[-1], push isTrue on stack, else isFalse
 ; -----------------------------------------------------------------------------
 %macro O_GEQ 0
-  ; TBD
+  POP	RBX					; Get 'b' from stack
+  POP	RAX					; Get 'a' from stack
+  CMP	RAX, RBX			; a ?? b
+  JB	%%a_less_b
+  PUSH	isTrue				; a >= b
+  JMP	%%end
+%%a_less_b
+  PUSH  isFalse				; a < b
+%%end
 %endmacro
 
 ; =============================================================================
