@@ -298,12 +298,6 @@
   ;Get index of string to print from stack
    POP	RAX				    ; Get the index of the string
 
-   ; Save registers
-   PUSH	RDX
-   PUSH	RBX
-   PUSH	RSI
-   PUSH RDI
-
    ; Add (index*8) to array address to get string address
    MOV  RBX, 8d			    ; Add 8 (in decimal form) to RBX
    IMUL	RBX				    ; Multiply index by 8
@@ -313,7 +307,7 @@
    MOV	RDX, [lens+RAX]	    ; Save string length in RDX
 
    ; Use syscall to print string
-   MOV	RAX, SYS_WRITE	    ; Use the sys_write system call to print
+   MOV  RAX, SYS_WRITE	    ; Use the sys_write system call to print
    MOV	RDI, STDOUT		    ; Set the print output to stdout
    SYSCALL
 %endmacro
@@ -326,7 +320,18 @@
 ; Desc  - Prints integer on top of stack to STDOUT
 ; -----------------------------------------------------------------------------
 %macro O_PRTI 0
-  ; TBD
+  POP   RAX                 ; Gets the integer to be printed from the stack
+  CMP   RAX, 0              ; Check if the number is positive or negative
+  JGE   %%print             ; If the number is positive, we don't need to get the absolute value
+  NEG   RAX                 ; We want the absolute value in RAX
+  PUSH  45                  ; Push negative sign to stack
+  PRTS                      ; Call print string macro to print "-"
+%%print
+  XOR   RSI, RSI            ; Clear out RSI
+%%getdigit
+  XOR   RDX, RDX            ; Clear out RDX
+
+
 %endmacro
 
 ; =============================================================================
