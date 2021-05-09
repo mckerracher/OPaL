@@ -2250,3 +2250,69 @@ short print_asm_code_html(asm_cmd_e cmd_list[], FILE *report_fp)
 
   return EXIT_SUCCESS;
 }
+
+/**
+ * @brief       Get index of an identifier in array, add if missing
+ *
+ * @param[in]   ident_curr   identifier to get index for
+ *
+ * @return      index of identifier in the array
+ */
+int add_var(char *ident_curr)
+{
+  /// If identifier array is not empty
+  if (vars_len > 0)
+    {
+      /// Search it for the current identifier
+      for (int i = 0; i < vars_len; i++)
+        {
+          /// and return its index if found
+          if (strcmp(ident_curr,vars[i]) == 0)
+            {
+              logger (DEBUG, "Identifier '%s' found at index %d.", ident_curr, i);
+              return i;
+            }
+        }
+    }
+
+    int index = vars_len;
+    /// Otherwise append the identifier to the array
+    logger (DEBUG, "Created new identifier '%s' at index %d.", ident_curr, index);
+    vars[vars_len++] = strdup (ident_curr);
+
+    /// and return its index
+    return index;
+}
+
+/**
+ * @brief       Get index of a string in array, add if missing
+ *
+ * @param[in]   str_curr   string to get index for
+ *
+ * @return      index of string in the array
+ */
+int add_str(char *str_curr)
+{
+  /// If string array is not empty
+  if (strs_len > 0)
+    {
+      /// Search it for the current string
+      for (int i = 0; i < strs_len; i++)
+        {
+          /// and return its index if found
+          if (strcmp(str_curr,strs[i]) == 0)
+            {
+              logger (DEBUG, "Identifier '%s' found at index %d.", str_curr, i);
+              return i;
+            }
+        }
+    }
+
+    int index = strs_len;
+    /// Otherwise append the string to the array
+    logger (DEBUG, "Created new identifier '%s' at index %d.", str_curr, index);
+    strs[strs_len++] = strdup (str_curr);
+
+    /// and return its index
+    return index;
+}

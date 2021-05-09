@@ -420,5 +420,9 @@ short gen_asm_code(node_s*);
 short print_asm_code(asm_cmd_e[], FILE*);
 /// Print assembly code list to HTML report file
 short print_asm_code_html(asm_cmd_e[], FILE*);
+/// Create Identifier array
+int add_var(char*);
+/// Create String array
+int add_str(char*);
 
 #endif /* OPAL_H_ */
