@@ -309,7 +309,7 @@
 
   MOV EAX, bss0          ; EAX points to buffer used for storage
   ADD AX, [count]        ; Increment address past current characters
-  XOR EBX, EBX
+  XOR RBX, RBX
   MOV BL, [char]         ; Copy the character to the BL register
   MOV [EAX], BL          ; Append character to the buffer 'bss0'
   INC WORD [count]       ; Increment number of characters
@@ -319,24 +319,24 @@
 ; Convert digits in buffer 'bss0' to integer
 %%atoi:
   MOV ESI, bss0          ; ESI points to string to convert
-  XOR ECX, ECX           ; ECX will hold number of digits processed so far
-  XOR EAX, EAX           ; EAX will hold converted integer, starts off as 0
-  XOR EBX, EBX           ; EBX will be used to convert ASCII to decimal
-  XOR R8, R8             ; R8 will hold flag for negative integer
+  XOR RCX, RCX           ; ECX will hold number of digits processed so far
+  XOR RAX, RAX           ; EAX will hold converted integer, starts off as 0
+  XOR RBX, RBX           ; EBX will be used to convert ASCII to decimal
+  XOR R8, R8             ; R8 will be the flag for negative value
 
   MOV BL, [ESI+ECX]      ; Read in the first character &'bss0+0'
-  CMP BL, 02dh           ; If char is not -ve sign ..
+  CMP BL, 45             ; If char is not -ve sign ..
   JNE %%isPositive       ; .. jump to label isPositive
-  MOV R8, 01h            ; .. else set negative integer flag
+  MOV R8, 1d             ; .. else set negative integer flag
   INC ECX                ; Move to second char in buffer
   DEC WORD [count]       ; Decrement number of digits to be processed ..
   JMP %%atoi_loop        ; .. and convert string to integer
 
 %%isPositive:
-  MOV R8, 0              ; Clear negative integer flag
+  XOR R8, R8             ; Clear negative integer flag
 
 %%atoi_loop:
-  XOR EBX, EBX
+  XOR RBX, RBX
   MOV BL, [ESI+ECX]      ; Read in ASCII character to convert
 
   CMP BL, 48             ; If char ASCII value less than 0 ..
@@ -357,7 +357,7 @@
   JMP %%atoi_loop        ; Process next digit
 
 %%atoi_end:
-  CMP WORD [neg_pos], 1  ; If negative integer flag is not set ..
+  CMP R8, 1d             ; If negative integer flag is not set ..
   JNE %%push_val         ; .. jump to label push_val ..
   NEG RAX                ; .. else negate value
 
@@ -432,21 +432,41 @@
 ; Desc  - Prints string at 'strs[index]' to STDOUT
 ; -----------------------------------------------------------------------------
 %macro O_PRTS 0
-  ;Get index of string to print from stack
-   POP	RAX				    ; Get the index of the string
+  POP  RAX               ; Get index of string to print from stack
 
-   ; Add (index*8) to array address to get string address
-   MOV  RBX, 8d			    ; Add 8 (in decimal form) to RBX
-   IMUL	RBX				    ; Multiply index by 8
-   MOV	RSI, [strs+RAX]	    ; Save address to print in RSI
+  MOV  RBX, 8d           ; Add (index*8) to array address ..
+  IMUL RBX               ; .. to get string address
 
-   ; Get length of string similarly from lens array
-   MOV	RDX, [lens+RAX]	    ; Save string length in RDX
+  MOV  RSI, [strs+RAX]   ; Get address of string to print
+  MOV  RDX, [lens+RAX]   ; Get length of string to print
+  MOV  RAX, SYS_WRITE    ; Use sys_write system call
+  MOV  RDI, STDOUT       ; Output to stdout
+  SYSCALL                ; Call kernel
+  CMP  RDX, RAX          ; If sys_write wrote expected number of bytes ..
+  JE   %%end             ; .. return from macro
+  HALT RAX               ; .. else, exit with difference as code ..
+%%end:
+%endmacro
 
-   ; Use syscall to print string
-   MOV  RAX, SYS_WRITE	    ; Use the sys_write system call to print
-   MOV	RDI, STDOUT		    ; Set the print output to stdout
-   SYSCALL
+; -----------------------------------------------------------------------------
+; Macro - O_PRTS
+; Args  - Char to print
+; Pre   - None
+; Post  - None
+; Desc  - Print given character to STDOUT
+; -----------------------------------------------------------------------------
+%macro O_PRTS 1
+  PUSH %1                ; Push char on stack
+  MOV  RAX, SYS_WRITE    ; Use sys_write system call to print
+  MOV  RDI, STDOUT       ; Output to stdout
+  MOV  RSI, RSP          ; Print char on stack
+  MOV  RDX, 1            ; Length
+  SYSCALL                ; Call kernel
+  CMP  RAX, RDX          ; If sys_write wrote expected number of bytes ..
+  JE   %%end             ; .. return from macro
+  HALT RAX               ; .. else, exit with difference as code ..
+%%end:
+  ADD RSP, 8             ; Remove char from stack
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -457,7 +477,43 @@
 ; Desc  - Prints integer on top of stack to STDOUT
 ; -----------------------------------------------------------------------------
 %macro O_PRTI 0
-; TODO
+  POP  RAX               ; Get integer from stack
+
+  CMP  RAX, 0            ; Check if number is negative
+  JGE  %%start           ; If number is positive, print number
+  PUSH RAX
+  O_PRTS "-"             ; Print '-' sign using macro
+  POP  RAX
+  NEG  RAX               ; If number is negative, get positive value
+%%start:                 ; Macro-Local Label
+  XOR  RSI, RSI          ; Zero out source index register
+%%loop:                  ; Macro-Local Label
+  XOR  RDX, RDX          ; Zero out quotient register
+  MOV  RBX, 10d          ; Keep dividing number by 10
+  DIV  RBX               ; to get remainder (digit) in RDX
+  ADD  RDX, 48d          ; Add 48 to convert decimal to ASCII
+  PUSH RDX               ; Push digits on stack
+  INC  RSI               ; Increment source index register
+  MOV  RBX, RSI          ; Move number of digits to RBX, for printing
+  CMP  RAX, 0            ; If quotient is zero, all digits on stack
+  JZ   %%next            ; If all digits on stack, print them
+  JMP  %%loop            ; If quotient not zero, get next digit
+%%next:                  ; Macro-Local Label
+  CMP  RBX, 0            ; If source index (RBX) is zero, no more digits ..
+  JZ   %%exit            ; .. to add to buffer
+  MOV  RAX, SYS_WRITE    ; Use sys_write system call to print
+  MOV  RDI, STDOUT       ; Output to stdout
+  MOV  RSI, RSP          ; Print digit on stack
+  MOV  RDX, 1            ; Length 1 byte per digit
+  SYSCALL                ; Call kernel
+  CMP  RAX, 1            ; If sys_write wrote more/less bytes ..
+  JNE  %%error           ; .. exit with difference as code
+  DEC  RBX               ; Decrement source index after every digit
+  ADD  RSP, 8            ; Move to next digit
+  JMP  %%next            ; Get next char to print
+%%error:
+  HALT RAX
+%%exit:
 %endmacro
 
 ; =============================================================================
@@ -474,6 +530,19 @@
 %macro HALT 0
   MOV  RAX, SYS_EXIT
   MOV  RDI, 0
+  SYSCALL
+%endmacro
+
+; -----------------------------------------------------------------------------
+; Macro - HALT
+; Args  - Exit code
+; Pre   - None
+; Post  - None
+; Desc  - Runs SYS_EXIT system call with given code
+; -----------------------------------------------------------------------------
+%macro HALT 1
+  MOV  RAX, SYS_EXIT
+  MOV  RDI, %1
   SYSCALL
 %endmacro
 
