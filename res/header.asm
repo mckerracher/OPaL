@@ -432,7 +432,21 @@
 ; Desc  - Prints string at 'strs[index]' to STDOUT
 ; -----------------------------------------------------------------------------
 %macro O_PRTS 0
-  ; TBD
+  ;Get index of string to print from stack
+   POP	RAX				    ; Get the index of the string
+
+   ; Add (index*8) to array address to get string address
+   MOV  RBX, 8d			    ; Add 8 (in decimal form) to RBX
+   IMUL	RBX				    ; Multiply index by 8
+   MOV	RSI, [strs+RAX]	    ; Save address to print in RSI
+
+   ; Get length of string similarly from lens array
+   MOV	RDX, [lens+RAX]	    ; Save string length in RDX
+
+   ; Use syscall to print string
+   MOV  RAX, SYS_WRITE	    ; Use the sys_write system call to print
+   MOV	RDI, STDOUT		    ; Set the print output to stdout
+   SYSCALL
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -443,7 +457,7 @@
 ; Desc  - Prints integer on top of stack to STDOUT
 ; -----------------------------------------------------------------------------
 %macro O_PRTI 0
-  ; TBD
+; TODO
 %endmacro
 
 ; =============================================================================
