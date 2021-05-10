@@ -320,31 +320,7 @@
 ; Desc  - Prints integer on top of stack to STDOUT
 ; -----------------------------------------------------------------------------
 %macro O_PRTI 0
-  POP   RAX                 ; Gets the integer to be printed from the stack
-  CMP   RAX, 0              ; Check if the number is positive or negative
-  JGE   %%getdigit          ; If the number is positive, we don't need to get the absolute value
-  NEG   RAX                 ; We want the absolute value in RAX
-  PUSH  45d                 ; Push negative sign to stack
-  JMP   %%print
-%%getdigit:
-  XOR   RDX, RDX            ; Clear out RDX
-  MOV   RBX, 10d            ; Used to divide the integer by 10
-  DIV   RBX                 ; RBX contains divisor, so dividing RAX by 10.
-  ADD   RDX, 48d            ; Remainder here. This value is converted to ASCII and printed.
-  PUSH  RDX                 ; Push value to the stack to be printed
-  JMP   %%print             ; Print the value on the stack
-%%print:
-  MOV   RCX, RAX            ; Save RAX in RCX
-  MOV   RAX, SYS_WRITE      ; Use sys_write system call to print
-  MOV   RDI, STDOUT         ; Output to stdout
-  MOV   RSI, RSP            ; Print digit on stack
-  MOV   RDX, 1              ; Length 1 byte per digit
-  SYSCALL                   ; Call kernel
-  MOV   RAX, RCX            ; Restore RAX
-  POP   RCX                 ; Remove digit from stack
-  XOR   RCX                 ; Clear RCX for the next print
-  CMP   RAX, 0
-  JNZ    %%getdigit
+; TODO
 %endmacro
 
 ; =============================================================================
