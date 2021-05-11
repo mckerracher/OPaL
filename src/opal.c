@@ -2202,19 +2202,76 @@ traverse_ast(node_s *node, FILE *dest_fp)
  */
 
 /**
+ * @brief Append ASM code to array
+ * @param code      ASM code
+ * @param intval    Integer value
+ * @param label     String value
+ */
+void
+add_asm_code (asm_code_e code, int intval, char *label)
+{
+  // Create struct with given values and append to asm_cmd_list[]
+  // TBD
+
+  return;
+}
+
+/**
  * @brief Generate assembly command list from given abstract syntax tree
  * @param ast   Abstract syntax tree
  *
- * @return      Function exit code
- *
- * @retval      EXIT_SUCCESS    On success
- * @retval      EXIT_FAILURE    On error
+ * @return      NULL
  */
-short gen_asm_code(node_s *ast)
+void
+gen_asm_code (node_s *ast)
 {
-  // Stub implementation
+  // int location_offset = 0;
+  // int int_val = 0;
+  char start_label[64] = { 0 };
+  char else_label[64] = { 0 };
+  char end_label[64] = { 0 };
 
-  return EXIT_SUCCESS;
+  if (!ast)
+    return;
+
+  switch (ast->node_type)
+    {
+    case nd_Sequence:
+      gen_asm_code (ast->left);
+      gen_asm_code (ast->right);
+      break;
+    case nd_While:
+      sprintf (start_label, "_while_loop_%d", asm_cmd_list_len);
+      sprintf (end_label, "_while_end_%d", asm_cmd_list_len);
+
+      add_asm_code (asm_Label, 0, start_label);         // while block start
+      gen_asm_code (ast->left);                             // check condition
+      add_asm_code (asm_Jz, 0, end_label);              // if false, end
+      gen_asm_code (ast->right);                            // body
+      add_asm_code (asm_Jmp, 0, start_label);           // loop back
+      add_asm_code (asm_Label, 0, end_label);           // while block end
+
+      break;
+    case nd_If:
+      sprintf (start_label, "_if_%d", asm_cmd_list_len);
+      sprintf (else_label, "_else_%d", asm_cmd_list_len);
+      sprintf (end_label, "_fi_%d", asm_cmd_list_len);
+
+      add_asm_code (asm_Label, 0, start_label);         // start if
+      gen_asm_code (ast->left);                             // check condition
+      add_asm_code (asm_Jz, 0, else_label);         // false, jump to else block
+      gen_asm_code (ast->right->left);                  // true, execute body ..
+      add_asm_code (asm_Jmp, 0, end_label);             // .. and exit
+      add_asm_code (asm_Label, 0, else_label);          // start else
+      gen_asm_code (ast->right->right);            // execute else body and exit
+      add_asm_code (asm_Label, 0, end_label);           // if/else end
+      break;
+    default:
+      logger(ERROR, "Unexpected operator: %d\n", ast->node_type);
+      exit (opal_exit (EXIT_FAILURE));
+    }
+
+  return;
 }
 
 /**
@@ -2229,7 +2286,77 @@ short gen_asm_code(node_s *ast)
  */
 short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
 {
-  // Stub implementation
+  /*
+   * Traverse and print the assembly code
+   * Steps:
+   * 1. Print macro header
+   * 2. Print user code
+   * 3. Print footer
+   * 4. Create strings and their lengths
+   *    4a. Read each string character and print ASCII value for newline
+   *    4b. NULL terminate string
+   *    4c. Print string length
+   *    4d. Print strings and lengths array
+   * 5. Create variables array
+   */
+
+  /// Copy NASM header file with macros to dest_fp
+
+
+  /// Print user code
+  int i = 0;
+  logger (DEBUG, "Print ASM user code");
+  for (i = 0; i < asm_cmd_list_len; i++)
+    {
+      switch (asm_cmd_list[i].cmd)
+        {
+        case asm_Fetch:
+        case asm_Store:
+        case asm_Push:
+          fprintf (dest_fp, "  %s\t%d\n", asm_cmds[asm_cmd_list[i].cmd],
+                   asm_cmd_list[i].intval);
+          break;
+        case asm_Add:
+        case asm_Sub:
+        case asm_Negate:
+        case asm_Mul:
+        case asm_Div:
+        case asm_Mod:
+        case asm_Eq:
+        case asm_Neq:
+        case asm_Lss:
+        case asm_Gtr:
+        case asm_Leq:
+        case asm_Geq:
+        case asm_And:
+        case asm_Or:
+        case asm_Not:
+        case asm_Prts:
+        case asm_Input:
+        case asm_Prti:
+        case asm_HALT:
+          fprintf (dest_fp, "  %s\n", asm_cmds[asm_cmd_list[i].cmd]);
+          break;
+        case asm_Label:
+          fprintf (dest_fp, "%s:\n", asm_cmd_list[i].label);
+          break;
+        case asm_Jz:
+        case asm_Jmp:
+          fprintf (dest_fp, "  %s\t\t%s\n", asm_cmds[asm_cmd_list[i].cmd],
+                   asm_cmd_list[i].label);
+          break;
+        default:
+          logger (ERROR, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
+          exit (opal_exit (EXIT_FAILURE));
+        }
+    }
+  _DONE;
+
+  /// Copy NASM footer file to dest_fp
+
+  /// Create strings and their lengths
+
+  /// Create integers array
 
   return EXIT_SUCCESS;
 }
@@ -2244,10 +2371,62 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
  * @retval      EXIT_SUCCESS    On success
  * @retval      EXIT_FAILURE    On error
  */
-short print_asm_code_html(asm_cmd_e cmd_list[], FILE *report_fp)
+short
+print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
 {
-  // Stub implementation
 
+  fprintf (dest_fp,
+           "<textarea style='resize: none;' readonly rows='25' cols='80'>");
+
+  int i = 0;
+  logger(DEBUG, "Print ASM user code to HTML");
+  for (i = 0; i < asm_cmd_list_len; i++)
+    {
+      switch (asm_cmd_list[i].cmd)
+        {
+        case asm_Fetch:
+        case asm_Store:
+        case asm_Push:
+          fprintf (dest_fp, "  %s\t%d\n", asm_cmds[asm_cmd_list[i].cmd],
+                   asm_cmd_list[i].intval);
+          break;
+        case asm_Add:
+        case asm_Sub:
+        case asm_Negate:
+        case asm_Mul:
+        case asm_Div:
+        case asm_Mod:
+        case asm_Eq:
+        case asm_Neq:
+        case asm_Lss:
+        case asm_Gtr:
+        case asm_Leq:
+        case asm_Geq:
+        case asm_And:
+        case asm_Or:
+        case asm_Not:
+        case asm_Prts:
+        case asm_Input:
+        case asm_Prti:
+        case asm_HALT:
+          fprintf (dest_fp, "  %s\n", asm_cmds[asm_cmd_list[i].cmd]);
+          break;
+        case asm_Label:
+          fprintf (dest_fp, "%s:\n", asm_cmd_list[i].label);
+          break;
+        case asm_Jz:
+        case asm_Jmp:
+          fprintf (dest_fp, "  %s\t\t%s\n", asm_cmds[asm_cmd_list[i].cmd],
+                   asm_cmd_list[i].label);
+          break;
+        default:
+          logger(ERROR, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
+          exit (opal_exit (EXIT_FAILURE));
+        }
+    }
+  _DONE;
+
+  fprintf (dest_fp, "</textarea>");
   return EXIT_SUCCESS;
 }
 

@@ -601,9 +601,7 @@ main (int argc, char **argv)
   banner ("GENIE start.");
 
   /// Build assembly code table using
-  retVal = gen_asm_code (syntax_tree_pass2);
-  if (retVal != EXIT_SUCCESS)
-      return (opal_exit (retVal));
+  gen_asm_code (syntax_tree_pass2);
 
   /// Print symbol table with print_symbol_table() to destination file
   retVal = print_asm_code (asm_cmd_list, dest_fp);
