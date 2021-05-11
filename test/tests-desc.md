@@ -22,6 +22,9 @@
  - Test17 - Test for parsing valid identifier lexemes
  - Test18 - Tests for parsing invalid identifier lexemes with periods
  - Test19 - Tests for parsing invalid identifier lexemes with symbols
+ - Test 20 - Tests for correct abstract syntax tree creation.
+ - Test 21 - Tests for correct abstract syntax tree creation.
+ - Test 22 - Negative test for correct abstract syntax tree creation.
 
 ## ASTRO
  - Test23 - Tests for correct order of operations
