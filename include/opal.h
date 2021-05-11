@@ -21,6 +21,7 @@
  * function, followed the formatted string & status like PASS, FAIL etc
  * ==================================
  */
+/// Macro function to call opal_log() with source file, line & function name
 #define logger(tag, ...) \
   opal_log(tag, __FILE__, __LINE__, __func__, __VA_ARGS__)
 #define _PASS (logger(RESULT, " - PASS"))   ///< Macro function to log PASS
