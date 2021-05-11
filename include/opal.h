@@ -62,6 +62,7 @@ short LOG_LEVEL = ERROR;        ///< Current log level
 
 /// Buffer used to populate error message string for perror()
 #define perror_msg_len 1024
+/// Message string for perror()
 char perror_msg[perror_msg_len] = { 0 };
 
 /*
@@ -109,8 +110,8 @@ typedef enum lexeme_type
 /// Struct for keyword string/type
 typedef struct keyword
 {
-  const char *str;
-  lexeme_type_e lex_type;
+  const char *str;          ///< holds string name of Keywords
+  lexeme_type_e lex_type;   ///< type of keyword
 } keyword;
 
 /// Array for supported keywords
@@ -136,12 +137,12 @@ const char op_name[][16] =
 /// Struct for lexeme in the symbol table linked list
 typedef struct lexeme
 {
-  lexeme_type_e type;
-  int line;
-  int column;
-  int int_val;
-  char *char_val;
-  struct lexeme *next;
+  lexeme_type_e type;    ///< type of lexeme
+  int line;              ///< line number in source file
+  int column;            ///< column number in source file
+  int int_val;           ///< holds value for integer lexemes
+  char *char_val;        ///< holds value for string an identifier lexemes
+  struct lexeme *next;   ///< pointer for next lexeme in list
 } lexeme_s;
 
 /// Struct to hold next lexeme
@@ -149,6 +150,7 @@ lexeme_s next_lexeme = { 0 };
 
 /// A buffer to hold string value of lexeme
 #define lexeme_str_len 1024
+/// Holds stringified contents of lexeme for printing
 char lexeme_str[lexeme_str_len] = { 0 };
 
 /// Extended regular expression pattern for integers
@@ -199,21 +201,24 @@ const char node_name[][16] =
 /// Struct for abstract syntax tree node
 typedef struct node
 {
-  ast_node_type_e node_type;
-  struct node *left;
-  struct node *right;
-  char *char_val;
-  int int_val;
+  ast_node_type_e node_type;  ///< type of node in tree
+  struct node *left;          ///< pointer this node's left child
+  struct node *right;         ///< pointer this node's right child
+  char *char_val;             ///< holds value of String and Identifier nodes
+  int int_val;                ///< holds value of Integer nodes
 } node_s;
 
 /// Language grammar
 typedef struct attributes
 {
-  char *text, *enum_text;
-  lexeme_type_e lx_type;
-  int right_associative, is_binary, is_unary;
-  short precedence;
-  ast_node_type_e node_type;
+  char *text;                  ///< symbol of lexeme
+  char *enum_text;             ///< full name of lexeme
+  lexeme_type_e lx_type;       ///< type of lexeme
+  int right_associative;       ///< boolean if right_associative
+  int is_binary;               ///< boolean if binary
+  int is_unary;                ///< boolean if unary
+  short precedence;            ///< precedence (for operator types)
+  ast_node_type_e node_type;   ///< corresponding node for abstract syntax tree
 } attributes_s;
 
 /**
@@ -298,9 +303,9 @@ typedef enum asm_code
 /// Struct for assembly code list
 typedef struct asm_cmd
 {
-  asm_code_e cmd;
-  int intval;
-  char *label;
+  asm_code_e cmd;   ///< asm command macro type
+  int intval;       ///< value for integer types
+  char *label;      ///< string for keyword types
 }asm_cmd_e;
 
 /// 0-address assembly commands

@@ -36,7 +36,7 @@
  * @param[in]   tag     Log level of message
  * @param[in]   file    Source file name
  * @param[in]   line    Source file line number
- * @param[in]   line    Source file function
+ * @param[in]   func    Source file function
  * @param[in]   fmt     Formatted message to log
  *
  * @return      None
@@ -372,7 +372,7 @@ read_next_char (void)
 /**
  * @brief   Initialize HTML report file
  *
- * @param[int/out] report_fp    Report file pointer
+ * @param[in,out] report_fp    Report file pointer
  *
  * @return      The error return code of the function.
  *
@@ -478,7 +478,7 @@ init_report (FILE *report_fp)
 /**
  * @brief   Close HTML report file
  *
- * @param[int/out] report_fp    Report file pointer
+ * @param[in,out] report_fp    Report file pointer
  *
  * @return      The error return code of the function.
  *
@@ -824,7 +824,7 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
  * @brief       Append MARC output to HTML report file
  *
  * @param[in]   source_fp     Source to be read from
- * @param[in]   dest_fp       Destination to written to
+ * @param[in]   report_fp       Destination to written to
  *
  * @return      The error return code of the function.
  *
@@ -892,10 +892,12 @@ print_marc_html(FILE *source_fp, FILE *report_fp)
 /**
  * @brief       Get lexeme for a string literal
  *
+ * @param[in]   char_line      line number of char in source file
+ * @param[in]   char_col       column number of char in source file
+ *
  * @return      Next lexeme struct with values populated
  *
- * @retval      struct lexeme
- *
+ * @retval      struct lexeme *
  */
 lexeme_s
 get_string_literal_lexeme (int char_line, int char_col)
@@ -1174,8 +1176,8 @@ get_next_lexeme (void)
 /**
  * @brief       Get lexeme string format
  *
- * @param[in]       lexeme_s    Lexeme to stringify
- * @param[in/out]   buffer      Buffer to store string value of lexeme
+ * @param[in]       lexeme    Lexeme to stringify
+ * @param[in,out]   buffer      Buffer to store string value of lexeme
  * @param[in]       buffer_len  Length of buffer to use
  *
  * @return      The error return code of the function.
@@ -1208,9 +1210,8 @@ get_lexeme_str (const lexeme_s *lexeme, char *buffer, const int buffer_len)
 /**
  * @brief       Populate symbol table with lexemes in source file pointer
  *
- * @param[in/out]   symbol_table    Symbol table linked list to populate
- * @param[in/out]   symbol_count    Pointer to count of lexemes found
- * @param[in/out]   source_fp       Source file pointer
+ * @param[in,out]   *symbol_table    Symbol table linked list to populate
+ * @param[in,out]   *symbol_count    Pointer to count of lexemes found
  *
  * @return      The error return code of the function.
  *
@@ -1277,8 +1278,8 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
 /**
  * @brief       Print symbol table to destination file pointer
  *
- * @param[in/out]   symbol_table    Symbol table to print
- * @param[in/out]   dest_fp         Destination file pointer
+ * @param[in,out]   symbol_table    Symbol table to print
+ * @param[in,out]   dest_fp         Destination file pointer
  *
  * @return      The error return code of the function.
  *
@@ -1333,8 +1334,8 @@ print_symbol_table (lexeme_s *symbol_table, FILE *dest_fp)
 /**
  * @brief       Print symbol table HTML report to report file pointer
  *
- * @param[in/out]   symbol_table    Symbol table to print
- * @param[in/out]   report_fp       Report file pointer
+ * @param[in,out]   symbol_table    Symbol table to print
+ * @param[in,out]   report_fp       Report file pointer
  *
  * @return      The error return code of the function.
  *
@@ -1428,7 +1429,7 @@ print_symbol_table_html (lexeme_s *symbol_table, FILE *report_fp)
 /**
  * @brief       Free memory allocated for symbol table linked list
  *
- * @param[in/out]   symbol_table    Symbol table to deallocate
+ * @param[in,out]   symbol_table    Symbol table to deallocate
  *
  * @return      NULL
  *
@@ -1468,9 +1469,9 @@ free_symbol_table (lexeme_s *symbol_table)
 /**
  * @brief       Return syntax tree node with given left and right child nodes
  *
- * @param[in]   ast_node_type_e     Node type to create
- * @param[in]   node_s*             Left child node pointer
- * @param[in]   node_s*             Right child node pointer
+ * @param[in]   type            Node type to create
+ * @param[in]   left_child      Left child node pointer
+ * @param[in]   right_child     Right child node pointer
  *
  * @return      Abstract syntax tree node pointer
  *
@@ -1514,10 +1515,9 @@ make_ast_node(ast_node_type_e type, node_s *left_child, node_s *right_child)
 }
 
 /**
- * @brief           Build abstract syntax tree from symbol table
+ * @brief       Build abstract syntax tree from symbol table
  *
- * @param[in]       lexeme_s*       Lexeme symbol table
- * @param[in/out]   node_s*          Abstract syntax tree
+ * @param       symbol_table       Lexeme symbol table
  *
  * @return      Abstract syntax tree built from the symbol table
  *
@@ -1553,7 +1553,7 @@ build_syntax_tree (lexeme_s *symbol_table)
 /**
  * @brief       Check if lexeme is of expected type, else print error and exit
  *
- * @param[in]   lexeme_type_e   Expected lexeme type
+ * @param[in]   expected_type   Expected lexeme type
  *
  * @return      NULL
  */
@@ -1604,6 +1604,10 @@ make_parentheses_expression(void)
 
 /**
  * @brief
+ *
+ * @param[in]   type            type of node in tree
+ * @param[in]   curr_lexeme     lexeme to make leaf with
+ *
  * @return      Syntax tree node pointer
  *
  * @retval      node_s*     On success
@@ -1642,7 +1646,7 @@ make_leaf_node (ast_node_type_e type, lexeme_s *curr_lexeme)
 /**
  * @brief       Build and return expression node
  *
- * @param[in]   int     Precedence of mathematical operation
+ * @param[in]   precedence    Precedence of mathematical operation
  *
  * @return      Syntax tree node pointer
  *
@@ -1758,7 +1762,6 @@ make_expression_node(int precedence)
 
 /**
  * @brief       Build and return syntax tree node for a statement
- * @param       None
  *
  * @return      Syntax tree node pointer
  *
@@ -1931,7 +1934,7 @@ make_statement_node (void)
 
 /**
  * @brief       Optimize the abstract syntax tree
- * @param[in]   syntax_tree
+ * @param[in]   tree
  *
  * @return      Optimized abstract syntax tree root pointer
  *
@@ -1981,14 +1984,14 @@ optimize_syntax_tree(node_s *tree)
 /**
  * @brief           Print abstract syntax tree to destination file
  *
- * @param[in]       node_s*       Abstract syntax tree
- * @param[in/out]   FILE*        Destination file pointer
+ * @param[in]       syntax_tree       Abstract syntax tree
+ * @param[in,out]   dest_fp           Destination file pointer
  *
  * @return      The error return code of the function.
  *
- * @retval      EXIT_SUCCESS    On success
- * @retval      EXIT_FAILURE    On error
- * @retval      errno           On system call failure
+ * @retval          EXIT_SUCCESS    On success
+ * @retval          EXIT_FAILURE    On error
+ * @retval          errno           On system call failure
  *
  */
 short
@@ -2010,9 +2013,9 @@ print_ast (node_s *syntax_tree, FILE *dest_fp)
 
 /**
  * @brief           Traverse abstract syntax tree pre-order
- * @param node      Abstract syntax tree node to print
- * @param uml_fp    Destination report file pointer
- * @param level     Level in tree
+ * @param[in]    node       Abstract syntax tree node to print
+ * @param[in]    report_fp  Destination report file pointer
+ * @param[in]    level      Level in tree
  */
 void
 traversePreOrder_graph (node_s *node, FILE *report_fp, int level)
@@ -2059,8 +2062,8 @@ traversePreOrder_graph (node_s *node, FILE *report_fp, int level)
 /**
  * @brief           Print abstract syntax tree tree to HTML report file
  *
- * @param[in]       node_s*       Abstract syntax tree
- * @param[in/out]   FILE*        Report file pointer
+ * @param[in]       syntax_tree       Abstract syntax tree
+ * @param[in,out]   report_fp         Report file pointer
  *
  * @return      The error return code of the function.
  *
@@ -2147,7 +2150,7 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
 /**
  * @brief       Free memory allocated for syntax tree
  *
- * @param[in/out]   syntax_tree    Syntax tree to deallocate
+ * @param[in,out]   syntax_tree    Syntax tree to deallocate
  *
  * @return      NULL
  *
@@ -2203,7 +2206,7 @@ traverse_ast(node_s *node, FILE *dest_fp)
 
 /**
  * @brief Generate assembly command list from given abstract syntax tree
- * @param ast   Abstract syntax tree
+ * @param       ast   Abstract syntax tree
  *
  * @return      Function exit code
  *
@@ -2219,8 +2222,9 @@ short gen_asm_code(node_s *ast)
 
 /**
  * @brief Print assembly command list
- * @param cmd_list  Assembly command list to print
- * @param dest_fp   Destination file pointer
+ *
+ * @param       cmd_list    Assembly command list to print
+ * @param       dest_fp     Destination file pointer
  *
  * @return      Function exit code
  *
@@ -2236,8 +2240,9 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
 
 /**
  * @brief Print assembly code list to HTML report file
- * @param cmd_list  Assembly command list to print
- * @param report_fp   Destination HTML reportfile pointer
+ *
+ * @param       cmd_list    Assembly command list to print
+ * @param       report_fp   Destination HTML reportfile pointer
  *
  * @return      Function exit code
  *

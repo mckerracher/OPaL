@@ -15,11 +15,14 @@ static void
 argp_print_version (FILE *stream, struct argp_state *state)
 {
   fprintf (stream, "OPaL Compiler version: %.2f\n", __VERSION_NUM);
-}
+};
+
+/// Hook for printing build version
 void
 (*argp_program_version_hook) (FILE *stream, struct argp_state *state) =
 argp_print_version;
 
+/// Link for reporting bugs
 const char *argp_program_bug_address =
     "https://github.com/mckerracher/OPaL/issues";
 
@@ -36,12 +39,13 @@ static struct argp_option options[] =       ///< The options we understand
     { 0 }
   };
 
+/// Struct to hold Command Line arguments
 struct arguments
 {
-  char *args[1]; /* source file */
-  char *logfile;
-  char *destfile;
-  char *report;
+  char *args[1];     ///< Source file
+  char *logfile;     ///< filename for logger
+  char *destfile;    ///< filename for destination file
+  char *report;      ///< filename for html report
 };
 
 static error_t
