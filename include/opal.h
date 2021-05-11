@@ -421,7 +421,7 @@ void free_syntax_tree (node_s*);
  * ==================================
  */
 /// Build assembly code list from abstract syntax tree
-short gen_asm_code(node_s*);
+void gen_asm_code(node_s*);
 /// Print assembly code list
 short print_asm_code(asm_cmd_e[], FILE*);
 /// Print assembly code list to HTML report file
