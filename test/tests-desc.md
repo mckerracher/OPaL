@@ -22,3 +22,9 @@
  - Test17 - Test for parsing valid identifier lexemes
  - Test18 - Tests for parsing invalid identifier lexemes with periods
  - Test19 - Tests for parsing invalid identifier lexemes with symbols
+
+## ASTRO
+ - Test23 - Tests for correct order of operations
+ - Test24 - Tests for Input and Not lexeme types
+
+## GENIE
