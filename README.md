@@ -35,7 +35,7 @@ process will help us learn compiler development and understand how a high level
 language can be translated into lower level code to run on a computer.
 The compiler is split into following stages:
 1. MARC - The preprocessor replaces macros in the source file. The language 
-currently supports the #include directive, which reads in the given file.
+currently supports the \#include directive, which reads in the given file.
 2. ALEX - The lexical analyzer reads the source file resulting from MARC and 
 creates lexemes for the supported syntax to append to the symbol table.
 3. ASTRO - The syntax analyzer walks symbol table created by ALEX and creates a 
