@@ -1569,7 +1569,7 @@ expect_lexeme (lexeme_type_e expected_type)
     }
 
   /// ... else print error and exit
-  logger(ERROR, "%s expected but %s found.", grammar[expected_type].text,
+  fprintf(stderr, "%s expected but %s found.", grammar[expected_type].text,
          grammar[ast_curr_lexeme->type].text);
   exit (opal_exit (EXIT_FAILURE));
 }
