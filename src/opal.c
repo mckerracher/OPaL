@@ -2281,7 +2281,7 @@ gen_asm_code (node_s *ast)
       add_asm_code (asm_Label, 0, end_label);           // if/else end
       break;
     default:
-      logger(ERROR, "Unexpected operator: %d\n", ast->node_type);
+      logger(ERROR, "Unexpected operator: %s\n", node_name[ast->node_type]);
       exit (opal_exit (EXIT_FAILURE));
     }
 

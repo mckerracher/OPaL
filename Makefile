@@ -86,6 +86,12 @@ test: clean all
 	@printf "\n=== Test 24 ===\n"
 	build/astro --debug --output=output/test24.ast input/test24.opl
 	diff -s output/test24.ast test/test24.ast
+	
+	#GENIE tests
+	@printf "\n=== Test 25 ===\n"
+	#build/genie --debug --output=output/test25.asm input/test25.opl
+	#diff -s output/test24.ast test/test24.ast
+	@printf "=== Uncomment when GENIE code complete ===\n"
 
 all_tests: test
 	# Negative tests

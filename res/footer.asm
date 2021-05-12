@@ -5,6 +5,5 @@ SECTION .bss
 
 SECTION .data
   char  DB 0             ; Used for user input
-  count DW 0             ; Used for user input
 
   ;=== User variables ===;
