@@ -2436,7 +2436,7 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
                    asm_cmd_list[i].label);
           break;
         default:
-          logger(ERROR, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
+          fprintf(stderr, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
           exit (opal_exit (EXIT_FAILURE));
         }
     }
