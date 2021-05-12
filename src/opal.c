@@ -2221,13 +2221,12 @@ add_asm_code (asm_code_e code, int intval, char *label)
   /// Add the asm_code label if there is one
   if (label)
   {
-      asm_cmd.label = calloc (64, sizeof(char));
       asm_cmd.label = strdup(label);
   }
 
-  logger(DEBUG, "Added command - cmd: %s, label: %s", asm_cmd.cmd, asm_cmd.label);
+  logger(DEBUG, "Added command - cmd: %s, label: %s", asm_cmds[asm_cmd.cmd], asm_cmd.label ? asm_cmd.label : "NULL");
 
-  /// Adds the asm_cmd
+    /// Adds the asm_cmd
   asm_cmd_list[asm_cmd_list_len++] = asm_cmd;
 }
 
