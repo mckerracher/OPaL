@@ -2213,10 +2213,22 @@ traverse_ast(node_s *node, FILE *dest_fp)
 void
 add_asm_code (asm_code_e code, int intval, char *label)
 {
-  // Create struct with given values and append to asm_cmd_list[]
-  // TBD
+  /// Create struct with given intval and code
+  asm_cmd_e asm_cmd = { 0 };
+  asm_cmd.intval = intval;
+  asm_cmd.cmd = code;
 
-  return;
+  /// Add the asm_code label if there is one
+  if (label)
+  {
+      asm_cmd.label = calloc (64, sizeof(char));
+      asm_cmd.label = strdup(label);
+  }
+
+  logger(DEBUG, "Added command - cmd: %s, label: %s", asm_cmd.cmd, asm_cmd.label);
+
+  /// Adds the asm_cmd
+  asm_cmd_list[asm_cmd_list_len++] = asm_cmd;
 }
 
 /**
