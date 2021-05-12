@@ -2248,9 +2248,9 @@ gen_asm_code (node_s *ast)
       sprintf (end_label, "_while_end_%d", asm_cmd_list_len);
 
       add_asm_code (asm_Label, 0, start_label);         // while block start
-      gen_asm_code (ast->left);                             // check condition
+      gen_asm_code (ast->left);                         // check condition
       add_asm_code (asm_Jz, 0, end_label);              // if false, end
-      gen_asm_code (ast->right);                            // body
+      gen_asm_code (ast->right);                        // body
       add_asm_code (asm_Jmp, 0, start_label);           // loop back
       add_asm_code (asm_Label, 0, end_label);           // while block end
 
@@ -2261,13 +2261,35 @@ gen_asm_code (node_s *ast)
       sprintf (end_label, "_fi_%d", asm_cmd_list_len);
 
       add_asm_code (asm_Label, 0, start_label);         // start if
-      gen_asm_code (ast->left);                             // check condition
-      add_asm_code (asm_Jz, 0, else_label);         // false, jump to else block
+      gen_asm_code (ast->left);                         // check condition
+      add_asm_code (asm_Jz, 0, else_label);             // false, jump to else block
       gen_asm_code (ast->right->left);                  // true, execute body ..
       add_asm_code (asm_Jmp, 0, end_label);             // .. and exit
       add_asm_code (asm_Label, 0, else_label);          // start else
-      gen_asm_code (ast->right->right);            // execute else body and exit
+      gen_asm_code (ast->right->right);                 // execute else body and exit
       add_asm_code (asm_Label, 0, end_label);           // if/else end
+      break;
+    case nd_Add:
+    case nd_Sub:
+    case nd_Mul:
+    case nd_Div:
+    case nd_Mod:
+    case nd_Eq:
+    case nd_Neq:
+    case nd_Lss:
+    case nd_Gtr:
+    case nd_Leq:
+    case nd_Geq:
+    case nd_And:
+    case nd_Or:
+      gen_asm_code(ast->left);
+      gen_asm_code(ast->right);
+      add_asm_code(ast->node_type, 0, NULL);
+      break;
+    case nd_Negate:
+    case nd_Not:
+      gen_asm_code(ast->left);
+      add_asm_code(ast->node_type, 0, NULL);
       break;
     default:
       logger(ERROR, "Unexpected operator: %d\n", ast->node_type);
