@@ -51,7 +51,8 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
   assert(log_fp);
 
   /// Allocate buffer to hold message to log
-  char buf[4096] = { 0 };
+  char buf[4096] =
+    { 0 };
 
   /// Read formatted user message string into the buffer
   va_list ap;
@@ -67,12 +68,12 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
     {
       retVal = fprintf (log_fp, "%s", buf);
       if (retVal < 0)
-        opal_exit(retVal);
+        opal_exit (retVal);
 
       if (fflush (log_fp) != EXIT_SUCCESS)
         {
-          perror("fflush (log_fp)");
-          opal_exit(errno);
+          perror ("fflush (log_fp)");
+          opal_exit (errno);
         }
       return;
     }
@@ -93,8 +94,8 @@ opal_log (log_level_e tag, const char *file, int line, const char *func,
   /// Flush message to log file
   if (fflush (log_fp) != EXIT_SUCCESS)
     {
-      perror("fflush (log_fp)");
-      opal_exit(errno);
+      perror ("fflush (log_fp)");
+      opal_exit (errno);
     }
 }
 
@@ -120,7 +121,8 @@ void
 banner (const char *msg)
 {
   /// Create buffer of 64 characters size and fill with 63 stars
-  char stars[64] = { 0 };
+  char stars[64] =
+    { 0 };
   memset (stars, '*', 63 * sizeof(char));
 
   /// Call logger macro to print newline, 63 stars, string, 63 stars & newline
@@ -311,25 +313,26 @@ opal_exit (short code)
 short
 opal_error (short exit_code, char *log_msg, int fmt_option, char *fmt, ...)
 {
-    if (fmt_option == 1)
+  if (fmt_option == 1)
     {
-        /// Allocate buffer to hold message to log
-        char buf[4096] = { 0 };
+      /// Allocate buffer to hold message to log
+      char buf[4096] =
+        { 0 };
 
-        /// Read formatted user message string into the buffer
-        va_list ap;
-        va_start(ap, fmt);
-        vsprintf (buf, fmt, ap);
-        va_end(ap);
+      /// Read formatted user message string into the buffer
+      va_list ap;
+      va_start(ap, fmt);
+      vsprintf (buf, fmt, ap);
+      va_end(ap);
 
-        logger (ERROR, buf);
+      logger(ERROR, buf);
     }
-    else
+  else
     {
-        logger (ERROR, log_msg);
+      logger(ERROR, log_msg);
     }
-    fprintf(stderr, "%s", log_msg);
-    return opal_exit(exit_code);
+  fprintf (stderr, "%s", log_msg);
+  return opal_exit (exit_code);
 }
 
 /**
@@ -400,7 +403,7 @@ init_report (FILE *report_fp)
 
   /// Open res/styles.css in read-only mode
   sprintf (perror_msg, "css_fp = fopen ('%s', 'r')", css_fn);
-  logger (DEBUG, perror_msg);
+  logger(DEBUG, perror_msg);
 
   errno = EXIT_SUCCESS;
   FILE *css_fp = fopen (css_fn, "r");
@@ -410,11 +413,11 @@ init_report (FILE *report_fp)
     {
       perror (perror_msg);
       _FAIL;
-      exit (opal_exit(errno));
+      exit (opal_exit (errno));
     }
 
   /// Copy CSS to HTML report
-  logger (DEBUG, "Copying CSS to HTML report");
+  logger(DEBUG, "Copying CSS to HTML report");
   char ch = 0;
   while ((ch = fgetc (css_fp)) != EOF)
     fputc (ch, report_fp);
@@ -422,7 +425,7 @@ init_report (FILE *report_fp)
 
   /// Close res/styles.css file
   sprintf (perror_msg, "fclose(css_fp)");
-  logger (DEBUG, perror_msg);
+  logger(DEBUG, perror_msg);
   if (fclose (css_fp) == EXIT_SUCCESS)
     _PASS;
   else
@@ -432,7 +435,7 @@ init_report (FILE *report_fp)
       exit (opal_exit (errno));
     }
 
-  fprintf(report_fp,"</style>\n"
+  fprintf (report_fp, "</style>\n"
            "</head>\n");
 
   /// Start HTML body tag
@@ -463,12 +466,12 @@ init_report (FILE *report_fp)
 
   /// If current value of source file position not 0, print error and exit
   if (ftell (source_fp) == 0)
-      _DONE;
+    _DONE;
   else
     {
       perror (perror_msg);
       _FAIL;
-      exit (opal_exit(errno));
+      exit (opal_exit (errno));
     }
 
   logger(DEBUG, "=== END ===");
@@ -615,7 +618,7 @@ rem_comments (FILE *source_fp, FILE *dest_fp)
 
           /// If char is a newline, write to file to preserve line numbers
           if (ch == '\n')
-              fputc (ch, dest_fp);
+            fputc (ch, dest_fp);
 
         }
     }
@@ -665,7 +668,7 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
     {
       perror (perror_msg);
       _FAIL;
-      exit (opal_exit(errno));
+      exit (opal_exit (errno));
     }
 
   /// Copy each character to the destination file, while checking for include files.
@@ -685,7 +688,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
             logger(DEBUG, "Found hashtag symbol.");
 
             ///Reads in 8 chars to check if they are "include ".
-            char include_buffer[9] = { 0 };
+            char include_buffer[9] =
+              { 0 };
             ssize_t sz = fread (include_buffer, sizeof(char), sizeof(char) * 8,
                                 source_fp);
 
@@ -699,7 +703,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
 
                 /// Move file pointer to the point after "include "
                 fseek (source_fp, sz, SEEK_CUR);
-                char filename_buffer[256] = { 0 };
+                char filename_buffer[256] =
+                  { 0 };
                 int filename_len = 0;
 
                 /// Get the filename for the include file.
@@ -713,7 +718,8 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
                 logger(DEBUG, "Finished reading in the filename.");
 
                 char *include_basename = basename (filename_buffer);
-                char include_fn[512] = { 0 };
+                char include_fn[512] =
+                  { 0 };
                 FILE *include_fp = NULL;
 
                 /// If given file name is relative path, prefix source file dir
@@ -834,7 +840,7 @@ proc_includes (FILE *source_fp, FILE *dest_fp)
  *
  */
 short
-print_marc_html(FILE *source_fp, FILE *report_fp)
+print_marc_html (FILE *source_fp, FILE *report_fp)
 {
   logger(DEBUG, "=== START ===");
 
@@ -854,7 +860,7 @@ print_marc_html(FILE *source_fp, FILE *report_fp)
            "<textarea style='resize: none;' readonly rows='25' cols='80'>\n");
 
   /// Append MARC output file to report file
-  logger (DEBUG, "Copying MARC output to HTML report");
+  logger(DEBUG, "Copying MARC output to HTML report");
   char ch = 0;
   while ((ch = fgetc (source_fp)) != EOF)
     fputc (ch, report_fp);
@@ -903,7 +909,8 @@ lexeme_s
 get_string_literal_lexeme (int char_line, int char_col)
 {
   /// Initialize the string
-  char string[256] = { 0 };
+  char string[256] =
+    { 0 };
 
   int index = 0;
 
@@ -923,13 +930,8 @@ get_string_literal_lexeme (int char_line, int char_col)
   read_next_char ();
 
   lexeme_s retVal =
-    {
-      .type = lx_String,
-      .line = char_line,
-      .column = char_col,
-      .int_val = 0,
-      .char_val = strdup(string)
-    };
+    { .type = lx_String, .line = char_line, .column = char_col, .int_val = 0,
+        .char_val = strdup (string) };
 
   return retVal;
 }
@@ -956,7 +958,7 @@ binary_unary (char compound_char, lexeme_type_e compound_type,
     {
       /// Illegal character found.
       logger(ERROR, "[%d:%d] Illegal End of file.", char_line, char_col);
-      opal_exit(EXIT_FAILURE);
+      opal_exit (EXIT_FAILURE);
     }
   else if (next_char == compound_char)
     {
@@ -982,10 +984,12 @@ binary_unary (char compound_char, lexeme_type_e compound_type,
 lexeme_s
 get_identifier_lexeme (int char_line, int char_col)
 {
-  lexeme_s retVal = { 0 };
+  lexeme_s retVal =
+    { 0 };
   retVal.line = char_line;
   retVal.column = char_col;
-  char identifier_str[1024] = { 0 };
+  char identifier_str[1024] =
+    { 0 };
   int str_len = 0;
   bool regex_match = false;
 
@@ -1004,7 +1008,7 @@ get_identifier_lexeme (int char_line, int char_col)
     {
       fprintf (stderr, "[%d: %d] Invalid identifier: %c.", char_line, char_col,
                next_char);
-      exit (opal_exit(EXIT_FAILURE));
+      exit (opal_exit (EXIT_FAILURE));
     }
 
   /// Determine if string is a reserved keyword
@@ -1030,7 +1034,7 @@ get_identifier_lexeme (int char_line, int char_col)
         {
           perror (identifier_str);
           _FAIL;
-          exit (opal_exit(EXIT_FAILURE));
+          exit (opal_exit (EXIT_FAILURE));
         }
       else
         {
@@ -1043,7 +1047,7 @@ get_identifier_lexeme (int char_line, int char_col)
     {
       /// String must be an identifier
       retVal.type = lx_Ident;
-      retVal.char_val = strdup(identifier_str);
+      retVal.char_val = strdup (identifier_str);
     }
 
   return retVal;
@@ -1096,7 +1100,8 @@ get_next_lexeme (void)
 {
 
   /// Create a empty struct to populate and return
-  lexeme_s retVal = { 0 };
+  lexeme_s retVal =
+    { 0 };
 
   /// Call read_next_char() to get the next character from source
   while (isspace(next_char))
@@ -1198,11 +1203,10 @@ get_lexeme_str (const lexeme_s *lexeme, char *buffer, const int buffer_len)
   memset (buffer, 0, buffer_len * sizeof(char));
 
   /// Populate the buffer with values from the struct
-  sprintf (
-      buffer,
-      "line: %3d, column: %3d, type: %16s, int_val: %6d, char_val: '%s'",
-      lexeme->line, lexeme->column, op_name[lexeme->type],
-      lexeme->int_val, lexeme->char_val ? lexeme->char_val : "");
+  sprintf (buffer,
+           "line: %3d, column: %3d, type: %16s, int_val: %6d, char_val: '%s'",
+           lexeme->line, lexeme->column, op_name[lexeme->type], lexeme->int_val,
+           lexeme->char_val ? lexeme->char_val : "");
 
   return EXIT_SUCCESS;
 }
@@ -1252,11 +1256,11 @@ build_symbol_table (lexeme_s *symbol_table, int *symbol_count)
       new_symbol->int_val = next_lexeme.int_val;
 
       new_symbol->char_val =
-          next_lexeme.char_val ? strdup(next_lexeme.char_val) : NULL;
+          next_lexeme.char_val ? strdup (next_lexeme.char_val) : NULL;
 
       /// Call get_lexeme_str() to stringify next_lexeme
       if (get_lexeme_str (new_symbol, lexeme_str,
-                          lexeme_str_len) != EXIT_SUCCESS)
+      lexeme_str_len) != EXIT_SUCCESS)
         return (EXIT_FAILURE);
 
       /// Append lexeme to symbol table
@@ -1304,14 +1308,14 @@ print_symbol_table (lexeme_s *symbol_table, FILE *dest_fp)
   _PASS;
 
   /// Write ALEX to destination file
-  logger (DEBUG, "Writing ALEX output to destination file.");
+  logger(DEBUG, "Writing ALEX output to destination file.");
 
   lexeme_s *current = symbol_table;
   while (current->next)
     {
       /// Call get_lexeme_str() to stringify next_lexeme
       retVal = get_lexeme_str (current, lexeme_str,
-                               lexeme_str_len);
+      lexeme_str_len);
       if (retVal != EXIT_SUCCESS)
         return (EXIT_FAILURE);
 
@@ -1371,7 +1375,7 @@ print_symbol_table_html (lexeme_s *symbol_table, FILE *report_fp)
            "</tr>");
 
   /// Append symbol table to report file
-  logger (DEBUG, "Copying ALEX output to HTML report");
+  logger(DEBUG, "Copying ALEX output to HTML report");
 
   lexeme_s *current = symbol_table;
   while (current->next)
@@ -1380,8 +1384,7 @@ print_symbol_table_html (lexeme_s *symbol_table, FILE *report_fp)
       fprintf (report_fp, "<td>%d</td>\n"
                "<td>%d</td>\n"
                "<td>%s</td>\n",
-               current->line, current->column,
-               op_name[current->type]);
+               current->line, current->column, op_name[current->type]);
 
       if (current->type == lx_Integer)
         {
@@ -1446,7 +1449,7 @@ free_symbol_table (lexeme_s *symbol_table)
       next_symbol = symbol_table;
       symbol_table = symbol_table->next;
 
-      get_lexeme_str (next_symbol, lexeme_str,lexeme_str_len);
+      get_lexeme_str (next_symbol, lexeme_str, lexeme_str_len);
       logger(DEBUG, "Free symbol: %s", lexeme_str);
       free (next_symbol);
     }
@@ -1478,7 +1481,7 @@ free_symbol_table (lexeme_s *symbol_table)
  * @retval      node_s*     On success
  */
 node_s*
-make_ast_node(ast_node_type_e type, node_s *left_child, node_s *right_child)
+make_ast_node (ast_node_type_e type, node_s *left_child, node_s *right_child)
 {
 
   /// Create node with given children and return
@@ -1488,7 +1491,8 @@ make_ast_node(ast_node_type_e type, node_s *left_child, node_s *right_child)
   tree->node_type = type;
 
   /// Create buffer for logging
-  char buffer[1024] = { 0 };
+  char buffer[1024] =
+    { 0 };
 
   /// Append left child node type to log buffer
   strcat (buffer, "left->");
@@ -1509,7 +1513,7 @@ make_ast_node(ast_node_type_e type, node_s *left_child, node_s *right_child)
     strcat (buffer, "NULL");
 
   /// Log node message
-  logger (DEBUG, buffer);
+  logger(DEBUG, buffer);
 
   return tree;
 }
@@ -1542,9 +1546,11 @@ build_syntax_tree (lexeme_s *symbol_table)
   ast_curr_lexeme = symbol_table;
 
   /// Call make_ast_node() until lexeme with lx_EOF is seen
-  do {
-      tree = make_ast_node(nd_Sequence, tree, make_statement_node());
-  } while (tree != NULL && ast_curr_lexeme->type != lx_EOF);
+  do
+    {
+      tree = make_ast_node (nd_Sequence, tree, make_statement_node ());
+    }
+  while (tree != NULL && ast_curr_lexeme->type != lx_EOF);
 
   logger(DEBUG, "=== END ===");
   return tree;
@@ -1584,7 +1590,7 @@ expect_lexeme (lexeme_type_e expected_type)
  *
  */
 node_s*
-make_parentheses_expression(void)
+make_parentheses_expression (void)
 {
   /// Expect left parantheses before the expression
   expect_lexeme (lx_Lparen);
@@ -1654,22 +1660,25 @@ make_leaf_node (ast_node_type_e type, lexeme_s *curr_lexeme)
  * @retval      NULL        On error
  */
 node_s*
-make_expression_node(int precedence)
+make_expression_node (int precedence)
 {
   /// Create the tree node to return
-  node_s* tree = NULL;
-  node_s* node = NULL;
+  node_s *tree = NULL;
+  node_s *node = NULL;
 
   lexeme_type_e operator = lx_NOP;
 
-  switch(ast_curr_lexeme->type){
+  switch (ast_curr_lexeme->type)
+    {
 
     case lx_Not:
       /// If lexeme type is Not, get next lexeme
       ast_curr_lexeme = ast_curr_lexeme->next;
 
       /// ...make Not node with the children next_lexeme and NULL
-      tree = make_ast_node(nd_Not,make_expression_node(grammar[lx_Not].precedence),NULL);
+      tree = make_ast_node (nd_Not,
+                            make_expression_node (grammar[lx_Not].precedence),
+                            NULL);
       break;
 
     case lx_Add:
@@ -1679,13 +1688,13 @@ make_expression_node(int precedence)
       ast_curr_lexeme = ast_curr_lexeme->next;
 
       /// Get next lexeme and make new expression node with it
-      node = make_expression_node(grammar[lx_Negate].precedence);
+      node = make_expression_node (grammar[lx_Negate].precedence);
 
       /// If original node type was Sub
       if (operator == lx_Sub)
 
         /// ...make a Negate node with the children new node and NULL
-        tree = make_ast_node(nd_Negate, node, NULL);
+        tree = make_ast_node (nd_Negate, node, NULL);
 
       /// Else only use the new node
       else
@@ -1694,13 +1703,13 @@ make_expression_node(int precedence)
 
     case lx_Integer:
       /// If lexeme type is Integer, make leaf node and get next lexeme
-      tree = make_leaf_node(nd_Integer, ast_curr_lexeme);
+      tree = make_leaf_node (nd_Integer, ast_curr_lexeme);
       ast_curr_lexeme = ast_curr_lexeme->next;
       break;
 
     case lx_Ident:
       /// If lexeme type is Ident, make leaf node and get next lexeme
-      tree = make_leaf_node(nd_Ident, ast_curr_lexeme);
+      tree = make_leaf_node (nd_Ident, ast_curr_lexeme);
       ast_curr_lexeme = ast_curr_lexeme->next;
       break;
 
@@ -1709,17 +1718,18 @@ make_expression_node(int precedence)
       ast_curr_lexeme = ast_curr_lexeme->next;
 
       /// ...expect LParen
-      expect_lexeme(lx_Lparen);
+      expect_lexeme (lx_Lparen);
 
       /// ... and make Input node with NULL as one child
-      node_s *input_tree = make_ast_node (nd_Input,make_leaf_node(nd_String, ast_curr_lexeme), NULL);
+      node_s *input_tree = make_ast_node (
+          nd_Input, make_leaf_node (nd_String, ast_curr_lexeme), NULL);
 
       /// ... and expect String contents as the other
-      expect_lexeme(lx_String);
-      tree = make_ast_node(nd_Sequence, input_tree, tree);
+      expect_lexeme (lx_String);
+      tree = make_ast_node (nd_Sequence, input_tree, tree);
 
       /// ... finally expect Rparen to close Input
-      expect_lexeme(lx_Rparen);
+      expect_lexeme (lx_Rparen);
       break;
 
     case lx_Lparen:
@@ -1733,29 +1743,30 @@ make_expression_node(int precedence)
                ast_curr_lexeme->line, ast_curr_lexeme->column,
                op_name[ast_curr_lexeme->type]);
       exit (opal_exit (EXIT_FAILURE));
-  }
+    }
 
-    /// While the next lexeme is binary and its precedence is at least as high as the current lexeme
-    while (grammar[ast_curr_lexeme->type].is_binary && grammar[ast_curr_lexeme->type].precedence >= precedence)
-      {
-        /// Save lexeme type and get next lexeme
-        lexeme_type_e orig_op = ast_curr_lexeme->type;
-        ast_curr_lexeme = ast_curr_lexeme->next;
+  /// While the next lexeme is binary and its precedence is at least as high as the current lexeme
+  while (grammar[ast_curr_lexeme->type].is_binary
+      && grammar[ast_curr_lexeme->type].precedence >= precedence)
+    {
+      /// Save lexeme type and get next lexeme
+      lexeme_type_e orig_op = ast_curr_lexeme->type;
+      ast_curr_lexeme = ast_curr_lexeme->next;
 
-         /// Search for higher precedence in a later lexeme
-         int precedence_ctr = grammar[orig_op].precedence;
+      /// Search for higher precedence in a later lexeme
+      int precedence_ctr = grammar[orig_op].precedence;
 
-         /// and increment counter to work up precedence hierarchy
-         if(!grammar[orig_op].right_associative)
-             precedence_ctr++;
+      /// and increment counter to work up precedence hierarchy
+      if (!grammar[orig_op].right_associative)
+        precedence_ctr++;
 
-         /// Recursively make new expression node with incremented precedence
-         node = make_expression_node(precedence_ctr);
+      /// Recursively make new expression node with incremented precedence
+      node = make_expression_node (precedence_ctr);
 
-         /// ...and add it to a working tree
-         tree = make_ast_node(grammar[orig_op].node_type, tree, node);
+      /// ...and add it to a working tree
+      tree = make_ast_node (grammar[orig_op].node_type, tree, node);
 
-      }/// ...until all higher precedented lexemes in expression are processed
+    } /// ...until all higher precedented lexemes in expression are processed
 
   return tree;
 }
@@ -1833,8 +1844,8 @@ make_statement_node (void)
             {
               /// Build tree with left child as op-code to print integer &
               /// right child as the expression node representing the integer
-              expression = make_ast_node (
-                  nd_Prti, make_expression_node (0), NULL);
+              expression = make_ast_node (nd_Prti, make_expression_node (0),
+                                          NULL);
 
               /// make_expression_node() will read next lexeme
             }
@@ -1901,10 +1912,10 @@ make_statement_node (void)
       /// If next lexeme is left brace, build tree for code block until
       /// right brace lexeme is found
       /*for ( expect (lx_Lbrace); ast_curr_lexeme->type != lx_Rbrace && ast_curr_lexeme->type != lx_EOF; )
-        {
-          tree = make_ast_node (nd_Sequence, tree, make_statement_node ());
-        }
-        */
+       {
+       tree = make_ast_node (nd_Sequence, tree, make_statement_node ());
+       }
+       */
       expect_lexeme (lx_Lbrace);
       while (ast_curr_lexeme->type != lx_Rbrace
           && ast_curr_lexeme->type != lx_EOF)
@@ -1923,10 +1934,10 @@ make_statement_node (void)
 
     default:
       /// Statements cannot start with any other type of lexeme
-      fprintf(stderr, "[%d:%d] Cannot start statement with '%s': %s\n",
-             ast_curr_lexeme->line, ast_curr_lexeme->column,
-             grammar[ast_curr_lexeme->type].text, ast_curr_lexeme->char_val);
-      exit(opal_exit(EXIT_FAILURE));
+      fprintf (stderr, "[%d:%d] Cannot start statement with '%s': %s\n",
+               ast_curr_lexeme->line, ast_curr_lexeme->column,
+               grammar[ast_curr_lexeme->type].text, ast_curr_lexeme->char_val);
+      exit (opal_exit (EXIT_FAILURE));
     }
 
   return tree;
@@ -1942,7 +1953,7 @@ make_statement_node (void)
  * @retval      NULL        On error
  */
 node_s*
-optimize_syntax_tree(node_s *tree)
+optimize_syntax_tree (node_s *tree)
 {
 
   /// Return NULL if no node
@@ -2031,8 +2042,8 @@ traversePreOrder_graph (node_s *node, FILE *report_fp, int level)
 
   /// If node is identifier, print name
   else if (node->node_type == nd_Ident)
-      fprintf (report_fp, "%d[%s]:::%s\n", level, node->char_val,
-               node_name[node->node_type]);
+    fprintf (report_fp, "%d[%s]:::%s\n", level, node->char_val,
+             node_name[node->node_type]);
 
   /// ... if node is integer, print the int_val
   else if (node->node_type == nd_Integer)
@@ -2046,16 +2057,16 @@ traversePreOrder_graph (node_s *node, FILE *report_fp, int level)
 
   /// If node has left/right child nodes, create connection with array index
   if (node->left)
-    fprintf (report_fp,"%d --> %d\n", level, level*2 + 1);
+    fprintf (report_fp, "%d --> %d\n", level, level * 2 + 1);
 
   if (node->right)
-    fprintf (report_fp,"%d --> %d\n", level, level*2 + 2);
+    fprintf (report_fp, "%d --> %d\n", level, level * 2 + 2);
 
   /// Print child nodes of tree recursively for left and right child nodes
   if (node->left || node->right)
     {
-      traversePreOrder_graph (node->left, report_fp, level*2 + 1);
-      traversePreOrder_graph (node->right, report_fp, level*2 + 2);
+      traversePreOrder_graph (node->left, report_fp, level * 2 + 1);
+      traversePreOrder_graph (node->right, report_fp, level * 2 + 2);
     }
 }
 
@@ -2083,12 +2094,12 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
   _PASS;
 
   /// Write mermaid graph header
-  fprintf(report_fp, "<div class='mermaid'>\ngraph TD;\n");
+  fprintf (report_fp, "<div class='mermaid'>\ngraph TD;\n");
 
   /// Open res/mermaid.styles in read-only mode
   char *mermaid_fn = "res/mermaid.styles";
   sprintf (perror_msg, "css_fp = fopen ('%s', 'r')", mermaid_fn);
-  logger (DEBUG, perror_msg);
+  logger(DEBUG, perror_msg);
 
   errno = EXIT_SUCCESS;
   FILE *mermaid_fp = fopen (mermaid_fn, "r");
@@ -2098,20 +2109,20 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
     {
       perror (perror_msg);
       _FAIL;
-      exit (opal_exit(errno));
+      exit (opal_exit (errno));
     }
 
   /// Copy CSS to HTML report
-  logger (DEBUG, "Copying Mermaid styles to HTML report");
+  logger(DEBUG, "Copying Mermaid styles to HTML report");
   char ch = 0;
   while ((ch = fgetc (mermaid_fp)) != EOF)
     fputc (ch, report_fp);
   _DONE;
-  fprintf(report_fp, "\n");
+  fprintf (report_fp, "\n");
 
   /// Close res/styles.css file
   sprintf (perror_msg, "fclose(mermaid_fp)");
-  logger (DEBUG, perror_msg);
+  logger(DEBUG, perror_msg);
   if (fclose (mermaid_fp) == EXIT_SUCCESS)
     _PASS;
   else
@@ -2125,12 +2136,14 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
   traversePreOrder_graph (syntax_tree, report_fp, 0);
 
   /// Write mermaid graph footer
-  fprintf(report_fp, "</div>\n"
-          "<script src='https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js'></script>\n"
-          "<script>mermaid.initialize({startOnLoad:true, flowchart: {curve:'cardinal', useMaxWidth:false, }, });</script>\n");
+  fprintf (
+      report_fp,
+      "</div>\n"
+      "<script src='https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js'></script>\n"
+      "<script>mermaid.initialize({startOnLoad:true, flowchart: {curve:'cardinal', useMaxWidth:false, }, });</script>\n");
 
   sprintf (perror_msg, "fflush(graph_fp)");
-  logger (DEBUG, perror_msg);
+  logger(DEBUG, perror_msg);
 
   errno = EXIT_SUCCESS;
   fflush (report_fp);
@@ -2138,7 +2151,7 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
     _PASS;
   else
     {
-      perror(perror_msg);
+      perror (perror_msg);
       _FAIL;
       return (errno);
     }
@@ -2163,7 +2176,7 @@ free_syntax_tree (node_s *syntax_tree)
   /// Walk the tree free each node starting with the leaf nodes
   logger(DEBUG, "TODO: Replace stub implementation.");
 
-  logger(DEBUG, "=== START ===");
+  logger(DEBUG, "=== END ===");
 }
 
 /**
@@ -2175,27 +2188,27 @@ free_syntax_tree (node_s *syntax_tree)
  * @return                  NULL
  */
 void
-traverse_ast(node_s *node, FILE *dest_fp)
+traverse_ast (node_s *node, FILE *dest_fp)
 {
-    /// We have reached a NULL leaf
-    if (!node)
-        return;
+  /// We have reached a NULL leaf
+  if (!node)
+    return;
 
-    /// If node is identifier or string, print char_val
-    if (node->node_type == nd_Ident || node->node_type == nd_String)
-        fprintf (dest_fp, "%s\n", node->char_val);
+  /// If node is identifier or string, print char_val
+  if (node->node_type == nd_Ident || node->node_type == nd_String)
+    fprintf (dest_fp, "%s\n", node->char_val);
 
-    /// ... if node is integer, print the int_val
-    else if (node->node_type == nd_Integer)
-        fprintf (dest_fp, "%d\n", node->int_val);
+  /// ... if node is integer, print the int_val
+  else if (node->node_type == nd_Integer)
+    fprintf (dest_fp, "%d\n", node->int_val);
 
-    /// ... else, print node type name
-    else
-        fprintf (dest_fp, "%s\n", node_name[node->node_type]);
+  /// ... else, print node type name
+  else
+    fprintf (dest_fp, "%s\n", node_name[node->node_type]);
 
-    /// Recursive calls for further tree traversal
-    traverse_ast (node->left, dest_fp);
-    traverse_ast (node->right, dest_fp);
+  /// Recursive calls for further tree traversal
+  traverse_ast (node->left, dest_fp);
+  traverse_ast (node->right, dest_fp);
 }
 
 /*
@@ -2214,19 +2227,21 @@ void
 add_asm_code (asm_code_e code, int intval, char *label)
 {
   /// Create struct with given intval and code
-  asm_cmd_e asm_cmd = { 0 };
+  asm_cmd_e asm_cmd =
+    { 0 };
   asm_cmd.intval = intval;
   asm_cmd.cmd = code;
 
   /// Add the asm_code label if there is one
   if (label)
-  {
-      asm_cmd.label = strdup(label);
-  }
+    {
+      asm_cmd.label = strdup (label);
+    }
 
-  logger(DEBUG, "Added command - cmd: %s, label: %s", asm_cmds[asm_cmd.cmd], asm_cmd.label ? asm_cmd.label : "NULL");
+  logger(DEBUG, "Added command - cmd: %s, label: %s", asm_cmds[asm_cmd.cmd],
+         asm_cmd.label ? asm_cmd.label : "NULL");
 
-    /// Adds the asm_cmd
+  /// Adds the asm_cmd
   asm_cmd_list[asm_cmd_list_len++] = asm_cmd;
 }
 
@@ -2241,9 +2256,12 @@ gen_asm_code (node_s *ast)
 {
   // int location_offset = 0;
   // int int_val = 0;
-  char start_label[64] = { 0 };
-  char else_label[64] = { 0 };
-  char end_label[64] = { 0 };
+  char start_label[64] =
+    { 0 };
+  char else_label[64] =
+    { 0 };
+  char end_label[64] =
+    { 0 };
 
   if (!ast)
     return;
@@ -2299,8 +2317,11 @@ gen_asm_code (node_s *ast)
  * @retval      EXIT_SUCCESS    On success
  * @retval      EXIT_FAILURE    On error
  */
-short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
+short
+print_asm_code (asm_cmd_e cmd_list[], FILE *dest_fp)
 {
+  logger(DEBUG, "=== START ===");
+
   /*
    * Traverse and print the assembly code
    * Steps:
@@ -2316,11 +2337,9 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
    */
 
   /// Copy NASM header file with macros to dest_fp
-
-
   /// Print user code
   int i = 0;
-  logger (DEBUG, "Print ASM user code");
+  logger(DEBUG, "Print ASM user code");
   for (i = 0; i < asm_cmd_list_len; i++)
     {
       switch (asm_cmd_list[i].cmd)
@@ -2361,7 +2380,7 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
                    asm_cmd_list[i].label);
           break;
         default:
-          logger (ERROR, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
+          logger(ERROR, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
           exit (opal_exit (EXIT_FAILURE));
         }
     }
@@ -2372,6 +2391,8 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
   /// Create strings and their lengths
 
   /// Create integers array
+
+  logger(DEBUG, "=== END ===");
 
   return EXIT_SUCCESS;
 }
@@ -2453,7 +2474,8 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
  *
  * @return      index of identifier in the array
  */
-int add_var(char *ident_curr)
+int
+add_var (char *ident_curr)
 {
   /// If identifier array is not empty
   if (vars_len > 0)
@@ -2462,31 +2484,32 @@ int add_var(char *ident_curr)
       for (int i = 0; i < vars_len; i++)
         {
           /// and return its index if found
-          if (strcmp(ident_curr,vars[i]) == 0)
+          if (strcmp (ident_curr, vars[i]) == 0)
             {
-              logger (DEBUG, "Identifier '%s' found at index %d.", ident_curr, i);
+              logger(DEBUG, "Identifier '%s' found at index %d.", ident_curr,
+                     i);
               return i;
             }
         }
     }
 
-    int index = vars_len;
-    /// Otherwise append the identifier to the array
-    logger (DEBUG, "Created new identifier '%s' at index %d.", ident_curr, index);
-    vars[vars_len++] = strdup (ident_curr);
+  int index = vars_len;
+  /// Otherwise append the identifier to the array
+  logger(DEBUG, "Created new identifier '%s' at index %d.", ident_curr, index);
+  vars[vars_len++] = strdup (ident_curr);
 
-    /// and return its index
-    return index;
+  /// and return its index
+  return index;
 }
 
 /**
  * @brief       Get index of a string in array, add if missing
- *
  * @param[in]   str_curr   string to get index for
  *
  * @return      index of string in the array
  */
-int add_str(char *str_curr)
+int
+add_str (char *str_curr)
 {
   /// If string array is not empty
   if (strs_len > 0)
@@ -2495,19 +2518,71 @@ int add_str(char *str_curr)
       for (int i = 0; i < strs_len; i++)
         {
           /// and return its index if found
-          if (strcmp(str_curr,strs[i]) == 0)
+          if (strcmp (str_curr, strs[i]) == 0)
             {
-              logger (DEBUG, "Identifier '%s' found at index %d.", str_curr, i);
+              logger(DEBUG, "Identifier '%s' found at index %d.", str_curr, i);
               return i;
             }
         }
     }
 
-    int index = strs_len;
-    /// Otherwise append the string to the array
-    logger (DEBUG, "Created new identifier '%s' at index %d.", str_curr, index);
-    strs[strs_len++] = strdup (str_curr);
+  int index = strs_len;
+  /// Otherwise append the string to the array
+  logger(DEBUG, "Created new identifier '%s' at index %d.", str_curr, index);
+  strs[strs_len++] = strdup (str_curr);
 
-    /// and return its index
-    return index;
+  /// and return its index
+  return index;
+}
+
+/*
+ * ==================================
+ * START ORCHESTRATOR FUNCTION DEFINITIONS
+ * ==================================
+ */
+
+/**
+ * @brief          Assemble object file using NASM
+ * @param asm_fn   Assembly source file name
+ * @param obj_fn   Object destination file name
+ */
+short
+gen_obj (char *asm_fn, char *obj_fn)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert assembly file name is not null
+  assert(asm_fn);
+
+  /// Assert object file name is not null
+  assert(obj_fn);
+
+  // TODO
+
+  logger(DEBUG, "=== END ===");
+
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief           Link object using LD
+ * @param obj_fn    Source object file name
+ * @param dest_fn   Destination binary file name
+ */
+short
+gen_bin (char *obj_fn, char *dest_fn)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert object file name is not null
+  assert(obj_fn);
+
+  /// Assert destination file name is not null
+  assert(dest_fn);
+
+  // TODO
+
+  logger(DEBUG, "=== END ===");
+
+  return EXIT_SUCCESS;
 }

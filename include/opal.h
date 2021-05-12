@@ -433,4 +433,14 @@ int add_var(char*);
 /// Create String array
 int add_str(char*);
 
+/*
+ * ==================================
+ * ORCHESTRATOR FUNCTION DECLARATIONS
+ * ==================================
+ */
+/// Assemble object using NASM
+short gen_obj(char*, char*);
+/// Link object using LD
+short gen_bin(char*, char*);
+
 #endif /* OPAL_H_ */
