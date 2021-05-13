@@ -8,7 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "../include/opal.h"
+#include "../include/libopal.h"
 
 /// Get build number from compiler
 static void
