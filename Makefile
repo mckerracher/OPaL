@@ -10,9 +10,9 @@ dirs:
 	mkdir -pv build tmp log report doc output
 
 # Build OPaL library
-libopal: src/opal.c include/opal.h
-	$(CC) -g -O0 -fPIC -c -Wall src/opal.c -o build/opal.o
-	ld -shared build/opal.o -o build/libopal.so
+libopal: src/libopal.c include/libopal.h
+	$(CC) -g -O0 -fPIC -c -Wall src/libopal.c -o build/libopal.o
+	ld -shared build/libopal.o -o build/libopal.so
 
 # Build MARC preprocessor
 marc: libopal src/marc.c
@@ -32,7 +32,8 @@ genie: libopal src/genie.c
 
 # Tar all files for release
 tar: libopal marc alex astro genie
-	tar -cvf build/opal.tar build/libopal.so build/opal.o build/marc build/alex build/astro build/genie
+	tar -cvf build/opal.tar build/libopal.so build/libopal.o build/marc \
+	build/alex build/astro build/genie
 
 .PHONY: test
 test: clean all

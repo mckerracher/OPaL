@@ -7,7 +7,7 @@
 #include <errno.h>
 #include <argp.h>
 
-#include "../include/opal.h"
+#include "../include/libopal.h"
 
 /// Get build number from compiler
 static void argp_print_version(FILE *stream, struct argp_state *state)
