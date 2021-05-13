@@ -1569,7 +1569,7 @@ expect_lexeme (lexeme_type_e expected_type)
     }
 
   /// ... else print error and exit
-  logger(ERROR, "%s expected but %s found.", grammar[expected_type].text,
+  fprintf(stderr, "%s expected but %s found.", grammar[expected_type].text,
          grammar[ast_curr_lexeme->type].text);
   exit (opal_exit (EXIT_FAILURE));
 }
@@ -2258,12 +2258,12 @@ gen_asm_code (node_s *ast)
       sprintf (start_label, "_while_loop_%d", asm_cmd_list_len);
       sprintf (end_label, "_while_end_%d", asm_cmd_list_len);
 
-      add_asm_code (asm_Label, 0, start_label);         // while block start
-      gen_asm_code (ast->left);                             // check condition
-      add_asm_code (asm_Jz, 0, end_label);              // if false, end
-      gen_asm_code (ast->right);                            // body
-      add_asm_code (asm_Jmp, 0, start_label);           // loop back
-      add_asm_code (asm_Label, 0, end_label);           // while block end
+      add_asm_code (asm_Label, 0, start_label);     // while block start
+      gen_asm_code (ast->left);                     // check condition
+      add_asm_code (asm_Jz, 0, end_label);          // if false, end
+      gen_asm_code (ast->right);                    // body
+      add_asm_code (asm_Jmp, 0, start_label);       // loop back
+      add_asm_code (asm_Label, 0, end_label);       // while block end
 
       break;
     case nd_If:
@@ -2271,17 +2271,17 @@ gen_asm_code (node_s *ast)
       sprintf (else_label, "_else_%d", asm_cmd_list_len);
       sprintf (end_label, "_fi_%d", asm_cmd_list_len);
 
-      add_asm_code (asm_Label, 0, start_label);         // start if
-      gen_asm_code (ast->left);                             // check condition
-      add_asm_code (asm_Jz, 0, else_label);         // false, jump to else block
-      gen_asm_code (ast->right->left);                  // true, execute body ..
-      add_asm_code (asm_Jmp, 0, end_label);             // .. and exit
-      add_asm_code (asm_Label, 0, else_label);          // start else
+      add_asm_code (asm_Label, 0, start_label);    // start if
+      gen_asm_code (ast->left);                    // check condition
+      add_asm_code (asm_Jz, 0, else_label);        // false, jump to else block
+      gen_asm_code (ast->right->left);             // true, execute body ..
+      add_asm_code (asm_Jmp, 0, end_label);        // .. and exit
+      add_asm_code (asm_Label, 0, else_label);     // start else
       gen_asm_code (ast->right->right);            // execute else body and exit
-      add_asm_code (asm_Label, 0, end_label);           // if/else end
+      add_asm_code (asm_Label, 0, end_label);      // if/else end
       break;
     default:
-      logger(ERROR, "Unexpected operator: %d\n", ast->node_type);
+      fprintf(stderr, "Unexpected operator: %s\n", node_name[ast->node_type]);
       exit (opal_exit (EXIT_FAILURE));
     }
 
@@ -2436,7 +2436,7 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
                    asm_cmd_list[i].label);
           break;
         default:
-          logger(ERROR, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
+          fprintf(stderr, "Unknown opcode %d\n", asm_cmd_list[i].cmd);
           exit (opal_exit (EXIT_FAILURE));
         }
     }

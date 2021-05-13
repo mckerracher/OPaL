@@ -420,6 +420,8 @@ void free_syntax_tree (node_s*);
  * GENIE FUNCTION DECLARATIONS
  * ==================================
  */
+/// Append ASM code to array
+void add_asm_code (asm_code_e, int, char*);
 /// Build assembly code list from abstract syntax tree
 void gen_asm_code(node_s*);
 /// Print assembly code list
