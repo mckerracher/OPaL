@@ -95,8 +95,13 @@ test: clean all
 	#GENIE tests
 	@printf "\n=== Test 25 ===\n"
 	#build/genie --debug --output=output/test25.asm input/test25.opl
-	#diff -s output/test24.ast test/test24.ast
-	@printf "=== Uncomment when GENIE code complete ===\n"
+	#diff -s output/test25.asm test/test25.asm
+	@printf "=== Uncomment when all GENIE code is done ===\n"
+	
+	@printf "\n=== Test 26 ===\n"
+	#build/genie --debug --output=output/test26.asm input/test26.opl
+	#diff -s output/test26.asm test/test26.asm
+	@printf "=== Uncomment when all GENIE code is done ===\n"
 
 all_tests: test
 	# Negative tests
