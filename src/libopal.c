@@ -2278,6 +2278,29 @@ gen_asm_code (node_s *ast)
       add_asm_code (asm_Label, 0, else_label);     // start else
       gen_asm_code (ast->right->right);            // execute else body and exit
       add_asm_code (asm_Label, 0, end_label);      // if/else end
+
+      break;
+    case nd_Add:
+    case nd_Sub:
+    case nd_Mul:
+    case nd_Div:
+    case nd_Mod:
+    case nd_Eq:
+    case nd_Neq:
+    case nd_Lss:
+    case nd_Gtr:
+    case nd_Leq:
+    case nd_Geq:
+    case nd_And:
+    case nd_Or:
+      gen_asm_code(ast->left);
+      gen_asm_code(ast->right);
+      add_asm_code(ast->node_type, 0, NULL);
+      break;
+    case nd_Negate:
+    case nd_Not:
+      gen_asm_code(ast->left);
+      add_asm_code(ast->node_type, 0, NULL);
       break;
     default:
       fprintf(stderr, "Unexpected operator: %s\n", node_name[ast->node_type]);
