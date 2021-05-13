@@ -606,6 +606,7 @@ main (int argc, char **argv)
 
   /// Build assembly code table using
   gen_asm_code (syntax_tree_pass2);
+  add_asm_code (asm_HALT, 0, NULL);
 
   /// Print symbol table with print_symbol_table() to destination file
   retVal = print_asm_code (asm_cmd_list, dest_fp);

@@ -237,10 +237,10 @@
   POP  RBX               ; Get 'b' from stack
   AND  RAX, RBX          ; a && b
   JNZ  %%a_and_b
-  PUSH isFalse           ; If (a && b) is zero, push isFalse ..
+  PUSH isFalse
   JMP  %%end
 %%a_and_b:
-  PUSH isTrue            ; .. else, push isTrue
+  PUSH isTrue
 %%end:
 %endmacro
 
@@ -256,10 +256,10 @@
   POP  RBX               ; Get 'b' from stack
   OR   RAX, RBX          ; a || b
   JNZ  %%a_or_b
-  PUSH isFalse           ; If (a || b) is zero, push isFalse ..
+  PUSH isFalse
   JMP  %%end
 %%a_or_b:
-  PUSH isTrue            ; .. else, push isTrue
+  PUSH isTrue
 %%end:
 %endmacro
 
@@ -268,16 +268,16 @@
 ; Args  - None
 ; Pre   - Operand integers on top of stack
 ; Post  - Logical NOT result of integer on top of stack
-; Desc  - If stack[-1] is non-zero, push isFalse, if value is 0, push isTrue
+; Desc  - If stack[-1] is non-zero, push 0, if value is 0, push 1
 ; -----------------------------------------------------------------------------
 %macro O_NOT 0
   POP  RAX               ; Get integer from stack
   CMP  RAX, 0            ; Compare value with 0
   JNE  %%nz
-  PUSH isTrue            ; If value is zero, push isTrue on stack ..
+  PUSH 1                 ; If 0, push 1 on stack
   JMP  %%end
 %%nz:
-  PUSH isFalse           ; .. else, push isFalse on stack
+  PUSH 0                 ; If non-zero, push 0 on stack
 %%end:
 %endmacro
 
@@ -293,10 +293,9 @@
 ; Desc  - Reads integer from user and pushes on top of stack
 ; -----------------------------------------------------------------------------
 %macro _INPUT_ 0
-  ;O_PRTS                 ; Print prompt string with macro
+  O_PRTS                 ; Print prompt string with macro
 
 ; Read digits from STDIN and store in buffer 'bss0' in a loop until newline
-  XOR R9, R9             ; R9 will hold number of characters read
 %%readi_start:
   MOV RDX, 1             ; Read 1 character ..
   MOV RDI, STDIN         ; .. of user input from STDIN ..
@@ -304,33 +303,33 @@
   MOV RSI, char          ; .. and save character to memory location 'char'
   SYSCALL                ; Call kernel
 
-  MOV AL, [char]         ; Move character read into RAX
+  MOV EAX, [char]        ; Move character read into EAX
   CMP AL, 0ah            ; If character is newline ..
   JE  %%readi_end        ; .. end reading user input
 
-  MOV RAX, bss0          ; RAX points to buffer used for storage
-  ADD RAX, R9            ; Increment address past current characters
+  MOV EAX, bss0          ; EAX points to buffer used for storage
+  ADD AX, [count]        ; Increment address past current characters
   XOR RBX, RBX
   MOV BL, [char]         ; Copy the character to the BL register
   MOV [EAX], BL          ; Append character to the buffer 'bss0'
-  INC R9                 ; Increment number of characters
+  INC WORD [count]       ; Increment number of characters
   JMP %%readi_start      ; Read next character from screen
 %%readi_end:
 
 ; Convert digits in buffer 'bss0' to integer
 %%atoi:
-  MOV RSI, bss0          ; RSI points to string to convert
-  XOR RCX, RCX           ; RCX will hold number of digits processed so far
-  XOR RAX, RAX           ; RAX will hold converted integer, starts off as 0
-  XOR RBX, RBX           ; RBX will be used to convert ASCII to decimal
+  MOV ESI, bss0          ; ESI points to string to convert
+  XOR RCX, RCX           ; ECX will hold number of digits processed so far
+  XOR RAX, RAX           ; EAX will hold converted integer, starts off as 0
+  XOR RBX, RBX           ; EBX will be used to convert ASCII to decimal
   XOR R8, R8             ; R8 will be the flag for negative value
 
-  MOV BL, [RSI+RCX]      ; Read in the first character &'bss0+0'
+  MOV BL, [ESI+ECX]      ; Read in the first character &'bss0+0'
   CMP BL, 45             ; If char is not -ve sign ..
   JNE %%isPositive       ; .. jump to label isPositive
   MOV R8, 1d             ; .. else set negative integer flag
-  INC RCX                ; Move to second char in buffer
-  DEC R9                 ; Decrement number of digits to be processed ..
+  INC ECX                ; Move to second char in buffer
+  DEC WORD [count]       ; Decrement number of digits to be processed ..
   JMP %%atoi_loop        ; .. and convert string to integer
 
 %%isPositive:
@@ -346,15 +345,15 @@
   JG  %%atoi_end         ; .. jump to end
 
   SUB BL, 48             ; Get decimal value from ASCII
-  ADD RAX, RBX           ; Add value to RAX
+  ADD EAX, EBX           ; Add value to EAX
 
-  DEC R9                 ; Decrement number of digits to be processed
-  CMP R9, 0              ; If no more digits to process ..
+  DEC WORD [count]       ; Decrement number of digits to be processed
+  CMP WORD [count], 0    ; If no more digits to process ..
   JE  %%atoi_end         ; .. jump to end
 
-  MOV RBX, 10            ; Multiply current value in RAX by 10
-  MUL RBX                ;
-  INC RCX                ; Increment counter used for character address
+  MOV EBX, 10            ; Multiply current value in EAX by 10
+  MUL EBX                ;
+  INC ECX                ; Increment counter used for character address
   JMP %%atoi_loop        ; Process next digit
 
 %%atoi_end:
@@ -403,9 +402,9 @@
 ; Desc  - If top of stack is 0, jump to given label
 ; -----------------------------------------------------------------------------
 %macro O_JZ 1
-  POP  RAX               ; Get value from top of stack ..
-  CMP  RAX, 0            ; .. and compare with zero
-  JE   %1                ; If value is zero, jump to given label
+  POP  RAX
+  CMP  RAX, 0
+  JE   %1
 %endmacro
 
 ; -----------------------------------------------------------------------------
@@ -416,9 +415,9 @@
 ; Desc  - If top of stack is non-zero, jump to given label
 ; -----------------------------------------------------------------------------
 %macro O_JNZ 1
-  POP  RAX               ; Get value from top of stack ..
-  CMP  RAX, 0            ; .. and compare with zero
-  JNE  %1                ; If value is non-zero, jump to given label
+  POP  RAX
+  CMP  RAX, 0
+  JNE  %1
 %endmacro
 
 ; =============================================================================
@@ -482,13 +481,13 @@
 
   CMP  RAX, 0            ; Check if number is negative
   JGE  %%start           ; If number is positive, print number
-  PUSH RAX               ; Backup number before printing -ve sign
+  PUSH RAX
   O_PRTS "-"             ; Print '-' sign using macro
-  POP  RAX               ; Restore number after printing -ve sign
+  POP  RAX
   NEG  RAX               ; If number is negative, get positive value
-%%start:
+%%start:                 ; Macro-Local Label
   XOR  RSI, RSI          ; Zero out source index register
-%%loop:
+%%loop:                  ; Macro-Local Label
   XOR  RDX, RDX          ; Zero out quotient register
   MOV  RBX, 10d          ; Keep dividing number by 10
   DIV  RBX               ; to get remainder (digit) in RDX
@@ -499,7 +498,7 @@
   CMP  RAX, 0            ; If quotient is zero, all digits on stack
   JZ   %%next            ; If all digits on stack, print them
   JMP  %%loop            ; If quotient not zero, get next digit
-%%next:
+%%next:                  ; Macro-Local Label
   CMP  RBX, 0            ; If source index (RBX) is zero, no more digits ..
   JZ   %%exit            ; .. to add to buffer
   MOV  RAX, SYS_WRITE    ; Use sys_write system call to print
@@ -529,8 +528,8 @@
 ; Desc  - Runs SYS_EXIT system call with code - 0
 ; -----------------------------------------------------------------------------
 %macro HALT 0
-  MOV  RAX, SYS_EXIT     ; Use SYS_EXIT system call to exit ..
-  MOV  RDI, 0            ; .. with exit code 0
+  MOV  RAX, SYS_EXIT
+  MOV  RDI, 0
   SYSCALL
 %endmacro
 
@@ -542,8 +541,8 @@
 ; Desc  - Runs SYS_EXIT system call with given code
 ; -----------------------------------------------------------------------------
 %macro HALT 1
-  MOV  RAX, SYS_EXIT     ; Use SYS_EXIT system call to exit ..
-  MOV  RDI, %1           ; .. with given argument as exit code
+  MOV  RAX, SYS_EXIT
+  MOV  RDI, %1
   SYSCALL
 %endmacro
 
@@ -557,3 +556,41 @@ global _start
 
   NOP
   ;=== User code start ===;
+  PUSH	1
+  STORE 0
+  PUSH	2
+  STORE 1
+  FETCH 0
+  FETCH 1
+  O_ADD
+  STORE 2
+  FETCH 1
+  FETCH 0
+  O_SUB
+  STORE 3
+  FETCH 0
+  FETCH 1
+  O_MUL
+  STORE 4
+  FETCH 1
+  FETCH 0
+  O_DIV
+  STORE 5
+  FETCH 1
+  FETCH 0
+  O_MOD
+  STORE 6
+  HALT
+  ;=== User code end ===;
+
+SECTION .bss
+  bss0 RESB 255          ; reserve 255 bytes for user input
+
+SECTION .data
+  char  DB 0             ; Used for user input
+  count DW 0             ; Used for user input
+
+  ;=== User variables ===;
+  ;=== Strings ===;
+  ; === Integers ===;
+  data  TIMES 7 DQ 0
