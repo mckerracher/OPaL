@@ -2,8 +2,6 @@
 /// @authors Damle Kedar, Mckerracher Joshua, Leon Sarah Louise
 ///
 
-#include "../include/opal.h"
-
 #include <assert.h>             /* assert() */
 #include <ctype.h>              /* isspace(), isalnum() */
 #include <errno.h>              /* errno macros and codes */
@@ -15,6 +13,7 @@
 #include <strings.h>
 #include <unistd.h>
 #include <libgen.h>             /* basename(), dirname() */
+#include "../include/libopal.h"
 
 /*
  * ==================================
