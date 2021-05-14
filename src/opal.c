@@ -612,13 +612,12 @@ main (int argc, char **argv)
   /// Start orchestrator
   banner ("ORCHESTRATOR start.");
 
-  /// Check if destination object file exists
+  /// If object object file exists, delete it
   char *obj_tmp = "tmp/obj.tmp";
   sprintf (perror_msg, "access('%s', F_OK)", obj_tmp);
   logger(DEBUG, perror_msg);
   if (access (obj_tmp, F_OK) == EXIT_SUCCESS)
     {
-      /// If object object file exists, delete it
       sprintf (perror_msg, "remove(%s)", obj_tmp);
       logger(DEBUG, perror_msg);
       if (remove (obj_tmp) == EXIT_SUCCESS)
