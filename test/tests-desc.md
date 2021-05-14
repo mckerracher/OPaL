@@ -34,4 +34,4 @@
 ## GENIE
  - Test25 - Test assembly code generated for arithematic operations
  - Test26 - Test assembly code generated for while loop structure
- - Test27 - Test assembly code generated for if/else control structure (TODO)
+ - Test27 - Test assembly code generated for if/else control structure
