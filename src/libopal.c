@@ -2411,7 +2411,7 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
         }
 
       /// NULL terminate string
-      fprintf (dest_fp, ", NULL\n");
+      fprintf (dest_fp, "\", NULL\n");
 
       /// Print string length
       fprintf (dest_fp, "len%d EQU $ - msg%d\n", i, i);
