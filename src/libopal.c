@@ -2398,16 +2398,9 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
       /// Read each string character
       for (int j = 0; j < strlen(strs[i])+1; j++)
         {
-           ///print ASCII values for carriage returns
-           if (strs[i][j] == 13 && strs[i][j+1] == 10)
-             {
+           ///print ASCII values for newlines
+           if (strs[i][j] == 10)
                fprintf (dest_fp, "\", 13, 10, \"");
-               j++;
-             }
-
-           /// ...and for newlines
-           else if (strs[i][j] == 10)
-             fprintf (dest_fp, "\", 10, \"");
 
            /// directly print all other characters
            else
