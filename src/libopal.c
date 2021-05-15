@@ -1,4 +1,4 @@
-/// @file opal.c
+/// @file libopal.c
 /// @authors Damle Kedar, Mckerracher Joshua, Leon Sarah Louise
 ///
 
@@ -2392,6 +2392,49 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
   /// Copy NASM footer file to dest_fp
 
   /// Create strings and their lengths
+  for (int i = 0; i < strs_len; i++)
+    {
+      fprintf (dest_fp, "msg%d: DB \"", i);
+      /// Read each string character
+      for (int j = 0; j < strlen(strs[i])+1; j++)
+        {
+           ///print ASCII values for carriage returns
+           if (strs[i][j] == 13 && strs[i][j+1] == 10)
+             {
+               fprintf (dest_fp, "\", 13, 10, \"");
+               j++;
+             }
+
+           /// ...and for newlines
+           else if (strs[i][j] == 10)
+             fprintf (dest_fp, "\", 10, \"");
+
+           /// directly print all other characters
+           else
+             fprintf (dest_fp, "%c", strs[i][j]);
+        }
+
+      /// NULL terminate string
+      fprintf (dest_fp, ", NULL\n");
+
+      /// Print string length
+      fprintf (dest_fp, "len%d EQU $ - msg%d\n", i, i);
+    }
+  /// Print string array
+  fprintf (dest_fp, "strs: DQ ");
+  for (int i = 0; i < strs_len; i++)
+    {
+      fprintf (dest_fp, "msg%d, ",i);
+    }
+  fprintf (dest_fp, "\n");
+
+  /// ...and length array
+  fprintf (dest_fp, "lens: DQ ");
+  for (int i = 0; i < strs_len; i++)
+    {
+      fprintf (dest_fp, "len%d, ",i);
+    }
+  fprintf (dest_fp, "\n");
 
   /// Create integers array
 
@@ -2402,7 +2445,7 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
  * @brief Print assembly code list to HTML report file
  *
  * @param       cmd_list    Assembly command list to print
- * @param       report_fp   Destination HTML reportfile pointer
+ * @param       dest_fp   Destination HTML reportfile pointer
  *
  * @return      Function exit code
  *
