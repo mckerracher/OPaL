@@ -26,6 +26,7 @@
  - Test20 - Tests for correct abstract syntax tree creation.
  - Test21 - Tests for correct abstract syntax tree creation.
  - Test22 - Negative test for correct abstract syntax tree creation.
+ - Bug98  - Test EOF & newline in string literal 
 
 ## ASTRO
  - Test23 - Tests for correct order of operations
