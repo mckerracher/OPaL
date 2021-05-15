@@ -7,7 +7,7 @@ all: dirs libopal marc alex astro genie opal tar
 
 # Create required directory structure
 dirs:
-	mkdir -pv build tmp log report doc output
+	mkdir -pv build tmp log report doc output build/man
 
 # Build OPaL library
 libopal: src/libopal.c include/libopal.h
@@ -142,7 +142,7 @@ all_tests: test
 	
 	@printf "\n=== Test 19 ===\n"
 	@bash test/test19.sh
-		
+	
 	@printf "\n=== Test 22 ===\n"
 	@bash test/test22.sh
 	
@@ -151,6 +151,4 @@ all_tests: test
 .PHONY: clean
 clean:
 	# Delete binaries, output, temporary & report files 
-	rm -fv build/* output/* tmp/* report/*
-
-	
+	rm -fv build/* output/* tmp/* report/*	
