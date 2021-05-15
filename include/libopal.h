@@ -1,4 +1,4 @@
-/// @file opal.h
+/// @file libopal.h
 
 #ifndef OPAL_H_
 #define OPAL_H_
