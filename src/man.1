@@ -1,0 +1,36 @@
+.\" Manpage for opal.
+.TH man 1 "18 May 2021" "1.0" "OPaL"
+
+.SH NAME
+OPaL \- OSU Programming Language Compiler
+ 
+.SH SYNOPSIS
+opal [-d] [-l logfile] [-r reportfile] [-o outfile] infile
+
+.SH DESCRIPTION
+A compiler using C/C++ for a dynamically typed language, that is inspired by 
+Python and C. It produces assembly code modelled after Java bytecode using a 
+0-address stack machine. The opal binary is an orchestrator tool that is used 
+by the end user which runs individual components of the compiler sequentially 
+and then invokes NASM & LD to output an executable.
+When you invoke OPaL, it  does preprocessing, compilation, assembly and linking.
+The opal program accepts options and file names as operands.
+You can mix options and other arguments. The order you use doesn't matter.
+All options take one argument separated either by a space or by the equals sign 
+(=) from the option name.
+
+.SH OPTIONS
+Options Summary
+
+.SH SEE ALSO
+gcc(1), python(1)
+
+.SH BUGS
+Please find a list of issues at https://github.com/mckerracher/OPaL/issues
+
+.SH AUTHORS
+Damle Kedar (damlek@oregonstate.edu)
+
+Josh Mckerracher (mckerraj@oregonstate.edu)
+
+Sarah Leon (leons@oregonstate.edu)
