@@ -146,6 +146,9 @@ all_tests: test
 	@printf "\n=== Test 22 ===\n"
 	@bash test/test22.sh
 	
+	@printf "\n=== Bug 98 ===\n"
+	@bash test/testbug98.sh
+	
 	$(MAKE) clean
 	
 .PHONY: clean
