@@ -2396,11 +2396,14 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
     {
       fprintf (dest_fp, "msg%d: DB \"", i);
       /// Read each string character
-      for (int j = 0; j < strlen(strs[i])+1; j++)
+      for (int j = 0; j < strlen(strs[i]); j++)
         {
            ///print ASCII values for newlines
-           if (strs[i][j] == 10)
+           if (strs[i][j] == '\\' && strs[i][j+1] == 'n')
+             {
                fprintf (dest_fp, "\", 13, 10, \"");
+               j = j+ 1;
+             }
 
            /// directly print all other characters
            else
