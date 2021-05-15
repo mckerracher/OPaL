@@ -911,8 +911,18 @@ get_string_literal_lexeme (int char_line, int char_col)
 
   while (next_char != '"')
     {
-      if ((next_char == EOF) || (next_char == '\n'))
-        logger(ERROR, "[%d:%d] Illegal End of file.", char_line, char_col);
+      if (next_char == EOF)
+        {
+          fprintf (stderr, "[%d:%d] Illegal End of file in string.\n", char_line,
+                   char_col);
+          exit (opal_exit (EXIT_FAILURE));
+        }
+      else if (next_char == '\n')
+        {
+          fprintf (stderr, "[%d:%d] Illegal newline character in string.\n",
+                   char_line, char_col);
+          exit (opal_exit (EXIT_FAILURE));
+        }
       else
         string[index++] = next_char;
 
