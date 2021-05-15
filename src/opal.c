@@ -16,7 +16,6 @@ argp_print_version (FILE *stream, struct argp_state *state)
 {
   fprintf (stream, "OPaL Compiler version: %.2f\n", __VERSION_NUM);
 }
-;
 
 /// Hook for printing build version
 void
