@@ -2312,6 +2312,13 @@ gen_asm_code (node_s *ast)
       gen_asm_code(ast->left);
       add_asm_code(ast->node_type, 0, NULL);
       break;
+    case nd_Ident:
+    case nd_Integer:
+    case nd_String:
+    case nd_Assign:
+    case nd_Input:
+    case nd_Prti:
+    case nd_Prts:
     default:
       fprintf(stderr, "Unexpected operator: %s\n", node_name[ast->node_type]);
       exit (opal_exit (EXIT_FAILURE));
@@ -2347,8 +2354,29 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
    * 5. Create variables array
    */
 
-  /// Copy NASM header file with macros to dest_fp
+  /// Open and assert header file pointer is not NULL
+  logger(DEBUG, "assert(header_fp)");
+  FILE *header_fp;
+  header_fp = fopen ("res/header.asm", "r");
+  assert(header_fp);
+  _PASS;
 
+  /// Assert destination file pointer is not NULL
+  logger(DEBUG, "assert(dest_fp)");
+  assert(dest_fp);
+  _PASS;
+
+  /// Copy contents of header char by char to dest_fp
+  logger(DEBUG, "Copying contents of header.asm in print_asm_code()");
+  char ch = fgetc (header_fp);
+  while (ch != EOF)
+  {
+      fputc (ch, dest_fp);
+      ch = fgetc (header_fp);
+  }
+
+  /// Close header file
+  fclose(header_fp);
 
   /// Print user code
   int i = 0;
@@ -2399,7 +2427,24 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
     }
   _DONE;
 
-  /// Copy NASM footer file to dest_fp
+  /// Open and assert footer file pointer is not NULL
+  logger(DEBUG, "assert(footer_fp)");
+  FILE *footer_fp;
+  footer_fp = fopen ("res/footer.asm", "r");
+  assert(footer_fp);
+  _PASS;
+
+  /// Copy contents of footer char by char to dest_fp
+  logger(DEBUG, "Copying contents of footer.asm in print_asm_code()");
+  ch = fgetc (footer_fp);
+  while (ch != EOF)
+  {
+      fputc (ch, dest_fp);
+      ch = fgetc (footer_fp);
+  }
+
+  /// Close header file
+  fclose(footer_fp);
 
   /// Create strings and their lengths
   for (int i = 0; i < strs_len; i++)
