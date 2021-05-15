@@ -1,4 +1,4 @@
-/// @file opal.c
+/// @file libopal.c
 /// @authors Damle Kedar, Mckerracher Joshua, Leon Sarah Louise
 ///
 
@@ -911,8 +911,18 @@ get_string_literal_lexeme (int char_line, int char_col)
 
   while (next_char != '"')
     {
-      if ((next_char == EOF) || (next_char == '\n'))
-        logger(ERROR, "[%d:%d] Illegal End of file.", char_line, char_col);
+      if (next_char == EOF)
+        {
+          fprintf (stderr, "[%d:%d] Illegal End of file in string.\n", char_line,
+                   char_col);
+          exit (opal_exit (EXIT_FAILURE));
+        }
+      else if (next_char == '\n')
+        {
+          fprintf (stderr, "[%d:%d] Illegal newline character in string.\n",
+                   char_line, char_col);
+          exit (opal_exit (EXIT_FAILURE));
+        }
       else
         string[index++] = next_char;
 
@@ -2392,6 +2402,45 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
   /// Copy NASM footer file to dest_fp
 
   /// Create strings and their lengths
+  for (int i = 0; i < strs_len; i++)
+    {
+      fprintf (dest_fp, "msg%d: DB \"", i);
+      /// Read each string character
+      for (int j = 0; j < strlen(strs[i]); j++)
+        {
+           ///print ASCII values for newlines
+           if (strs[i][j] == '\\' && strs[i][j+1] == 'n')
+             {
+               fprintf (dest_fp, "\", 13, 10, \"");
+               j = j+ 1;
+             }
+
+           /// directly print all other characters
+           else
+             fprintf (dest_fp, "%c", strs[i][j]);
+        }
+
+      /// NULL terminate string
+      fprintf (dest_fp, "\", NULL\n");
+
+      /// Print string length
+      fprintf (dest_fp, "len%d EQU $ - msg%d\n", i, i);
+    }
+  /// Print string array
+  fprintf (dest_fp, "strs: DQ ");
+  for (int i = 0; i < strs_len; i++)
+    {
+      fprintf (dest_fp, "msg%d, ",i);
+    }
+  fprintf (dest_fp, "\n");
+
+  /// ...and length array
+  fprintf (dest_fp, "lens: DQ ");
+  for (int i = 0; i < strs_len; i++)
+    {
+      fprintf (dest_fp, "len%d, ",i);
+    }
+  fprintf (dest_fp, "\n");
 
   /// Create integers array
 
@@ -2402,7 +2451,7 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
  * @brief Print assembly code list to HTML report file
  *
  * @param       cmd_list    Assembly command list to print
- * @param       report_fp   Destination HTML reportfile pointer
+ * @param       dest_fp   Destination HTML reportfile pointer
  *
  * @return      Function exit code
  *
