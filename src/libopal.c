@@ -2354,12 +2354,21 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
    * 5. Create variables array
    */
 
-  /// Open and assert header file pointer is not NULL
-  logger(DEBUG, "assert(header_fp)");
-  FILE *header_fp;
-  header_fp = fopen ("res/header.asm", "r");
-  assert(header_fp);
-  _PASS;
+    /// Open header file in 'r' mode
+    sprintf (perror_msg, "header_fp = fopen('res/header.asm', 'r')");
+    logger(DEBUG, perror_msg);
+    FILE *header_fp = NULL;
+    errno = EXIT_SUCCESS;
+    header_fp = fopen ("res/header.asm", "r");
+    if (errno == EXIT_SUCCESS)
+        _PASS;
+    else
+    {
+        perror (perror_msg);
+        _FAIL;
+        return (errno);
+    }
+
 
   /// Assert destination file pointer is not NULL
   logger(DEBUG, "assert(dest_fp)");
@@ -2375,8 +2384,23 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
       ch = fgetc (header_fp);
   }
 
-  /// Close header file
-  fclose(header_fp);
+  /// Close header file pointer if not NULL
+  sprintf (perror_msg, "fclose(header_fp)");
+  logger(DEBUG, perror_msg);
+  if (header_fp)
+  {
+      if (fclose (header_fp) == EXIT_SUCCESS)
+      {
+          _PASS;
+          header_fp = NULL;
+      }
+      else
+      {
+          perror (perror_msg);
+          _FAIL;
+          return (errno);
+      }
+  }
 
   /// Print user code
   int i = 0;
@@ -2427,12 +2451,20 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
     }
   _DONE;
 
-  /// Open and assert footer file pointer is not NULL
-  logger(DEBUG, "assert(footer_fp)");
-  FILE *footer_fp;
+  /// Open footer file in 'r' mode
+  sprintf (perror_msg, "footer_fp = fopen('res/footer.asm', 'r')");
+  logger(DEBUG, perror_msg);
+  FILE *footer_fp = NULL;
+  errno = EXIT_SUCCESS;
   footer_fp = fopen ("res/footer.asm", "r");
-  assert(footer_fp);
-  _PASS;
+  if (errno == EXIT_SUCCESS)
+      _PASS;
+  else
+  {
+      perror (perror_msg);
+      _FAIL;
+      return (errno);
+  }
 
   /// Copy contents of footer char by char to dest_fp
   logger(DEBUG, "Copying contents of footer.asm in print_asm_code()");
@@ -2443,8 +2475,23 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
       ch = fgetc (footer_fp);
   }
 
-  /// Close header file
-  fclose(footer_fp);
+  /// Close footer file pointer if not NULL
+  sprintf (perror_msg, "fclose(footer_fp)");
+  logger(DEBUG, perror_msg);
+  if (footer_fp)
+  {
+      if (fclose (footer_fp) == EXIT_SUCCESS)
+      {
+          _PASS;
+          footer_fp = NULL;
+      }
+      else
+      {
+          perror (perror_msg);
+          _FAIL;
+          return (errno);
+      }
+  }
 
   /// Create strings and their lengths
   for (int i = 0; i < strs_len; i++)
