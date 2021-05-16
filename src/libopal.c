@@ -2324,8 +2324,8 @@ gen_asm_code (node_s *ast)
       add_asm_code(asm_Push, location_offset, NULL);
       break;
     case nd_Assign:
-      gen_asm_code(ast->left);
-      location_offset = add_var(ast->int_val);
+      gen_asm_code(ast->right);
+      location_offset = add_var(ast->left->char_val);
       add_asm_code(asm_Store, location_offset, NULL);
       break;
     case nd_Input:
@@ -2515,9 +2515,10 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
   }
 
   /// Create strings and their lengths
+  fprintf (dest_fp, "  ; === Strings ===;\n");
   for (int i = 0; i < strs_len; i++)
     {
-      fprintf (dest_fp, "msg%d: DB \"", i);
+      fprintf (dest_fp, "  msg%d: DB \"", i);
       /// Read each string character
       for (int j = 0; j < strlen(strs[i]); j++)
         {
@@ -2537,25 +2538,35 @@ short print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
       fprintf (dest_fp, "\", NULL\n");
 
       /// Print string length
-      fprintf (dest_fp, "len%d EQU $ - msg%d\n", i, i);
+      fprintf (dest_fp, "  len%d EQU $ - msg%d\n", i, i);
     }
-  /// Print string array
-  fprintf (dest_fp, "strs: DQ ");
-  for (int i = 0; i < strs_len; i++)
-    {
-      fprintf (dest_fp, "msg%d, ",i);
-    }
-  fprintf (dest_fp, "\n");
 
-  /// ...and length array
-  fprintf (dest_fp, "lens: DQ ");
-  for (int i = 0; i < strs_len; i++)
+  if (strs_len > 0)
     {
-      fprintf (dest_fp, "len%d, ",i);
+      /// Print string array
+      fprintf (dest_fp, "  strs: DQ ");
+      for (int i = 0; i < strs_len; i++)
+        {
+          fprintf (dest_fp, "msg%d, ", i);
+        }
+      fprintf (dest_fp, "\n");
+
+      /// ...and length array
+      fprintf (dest_fp, "  lens: DQ ");
+      for (int i = 0; i < strs_len; i++)
+        {
+          fprintf (dest_fp, "len%d, ", i);
+        }
+      fprintf (dest_fp, "\n");
     }
-  fprintf (dest_fp, "\n");
 
   /// Create integers array
+  if (vars_len > 0)
+  {
+      logger (DEBUG, "Create data array of length: %d", vars_len);
+      fprintf (dest_fp, "  ; === Integers ===;\n  data  TIMES %d DQ 0\n",
+               vars_len);
+  }
 
   return EXIT_SUCCESS;
 }
