@@ -2248,7 +2248,7 @@ add_asm_code (asm_code_e code, int intval, char *label)
 void
 gen_asm_code (node_s *ast)
 {
-  // int location_offset = 0;
+  int location_offset = 0;
   // int int_val = 0;
   char start_label[64] = { 0 };
   char else_label[64] = { 0 };
@@ -2313,12 +2313,33 @@ gen_asm_code (node_s *ast)
       add_asm_code(ast->node_type, 0, NULL);
       break;
     case nd_Ident:
+      location_offset = add_var(ast->char_val);
+      add_asm_code(asm_Fetch, location_offset, NULL);
+      break;
     case nd_Integer:
+      add_asm_code(asm_Push, ast->int_val, NULL);
+      break;
     case nd_String:
+      location_offset = add_str(ast->char_val);
+      add_asm_code(asm_Push, location_offset, NULL);
+      break;
     case nd_Assign:
+      gen_asm_code(ast->left);
+      location_offset = add_var(ast->int_val);
+      add_asm_code(asm_Store, location_offset, NULL);
+      break;
     case nd_Input:
+      gen_asm_code(ast->left);
+      add_asm_code(asm_Input, 0, NULL);
+      break;
     case nd_Prti:
+      gen_asm_code(ast->left);
+      add_asm_code(asm_Prti, 0, NULL);
+      break;
     case nd_Prts:
+      gen_asm_code(ast->left);
+      add_asm_code(asm_Prts, 0, NULL);
+      break;
     default:
       fprintf(stderr, "Unexpected operator: %s\n", node_name[ast->node_type]);
       exit (opal_exit (EXIT_FAILURE));
