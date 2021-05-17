@@ -104,6 +104,14 @@ test: clean all
 	@printf "\n=== Test 27 ===\n"
 	build/genie --debug --output=output/test27.asm input/test27.opl
 	diff -s output/test27.asm test/test27.asm
+	
+	@printf "\n=== Test 28 ===\n"
+	build/genie --debug --output=output/test28.asm input/test28.opl
+	diff -s output/test28.asm test/test28.asm
+	
+	@printf "\n=== Test 29 ===\n"
+	build/genie --debug --output=output/test29.asm input/test29.opl
+	diff -s output/test29.asm test/test29.asm
 
 all_tests: test
 	# Negative tests

@@ -36,3 +36,5 @@
  - Test25 - Test assembly code generated for arithematic operations
  - Test26 - Test assembly code generated for while loop structure
  - Test27 - Test assembly code generated for if/else control structure
+ - Test28 - Test assembly code generated for strings and newline characters.
+ - Test29 - Test assembly code generated for negate and logical operators.
