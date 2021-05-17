@@ -439,9 +439,7 @@ main (int argc, char **argv)
   /// Remove comments from includes files with rem_comments(), write to rc_tmp
   retVal = rem_comments (pi_fp, rc_fp);
   if (retVal != EXIT_SUCCESS)
-    {
-      return (opal_exit (retVal));
-    }
+    return (opal_exit (retVal));
 
   /// Close proc_includes() temp file pointer, else print error and exit
   sprintf (perror_msg, "fclose(pi_fp)");
@@ -490,9 +488,7 @@ main (int argc, char **argv)
   /// Append MARC output to HTML report
   retVal = print_marc_html(rc_fp, report_fp);
   if (retVal != EXIT_SUCCESS)
-    {
-      return (opal_exit (retVal));
-    }
+    return (opal_exit (retVal));
 
   /// Close rem_comments() temp file pointer, else print error and exit
   sprintf (perror_msg, "fclose(rc_fp)");
@@ -562,12 +558,29 @@ main (int argc, char **argv)
   /// Print symbol table with print_symbol_table() to alex temp file
   retVal = print_symbol_table (symbol_table, alex_fp);
   if (retVal != EXIT_SUCCESS)
-      return (opal_exit (retVal));
+    return (opal_exit (retVal));
 
   /// Print symbol table HTML report with print_symbol_table_html()
   retVal = print_symbol_table_html (symbol_table, report_fp);
   if (retVal != EXIT_SUCCESS)
       return (opal_exit (retVal));
+
+  if (alex_fp)
+    {
+      sprintf (perror_msg, "fclose(alex_fp)");
+      logger(DEBUG, perror_msg);
+      if (fclose (alex_fp) == EXIT_SUCCESS)
+        {
+          _PASS;
+          alex_fp = NULL;
+        }
+      else
+        {
+          perror (perror_msg);
+          _FAIL;
+          return (errno);
+        }
+    }
 
   /// Start syntax analyzer code
   banner ("ASTRO start.");
@@ -606,12 +619,12 @@ main (int argc, char **argv)
   /// Print symbol table with print_symbol_table() to destination file
   retVal = print_asm_code (asm_cmd_list, dest_fp);
   if (retVal != EXIT_SUCCESS)
-      return (opal_exit (retVal));
+    return (opal_exit (retVal));
 
   /// Print assembly code with print_asm_code_html()
   retVal = print_asm_code_html (asm_cmd_list, report_fp);
   if (retVal != EXIT_SUCCESS)
-      return (opal_exit (retVal));
+    return (opal_exit (retVal));
 
   /// Close HTML report file
   retVal = close_report(report_fp);
@@ -625,6 +638,11 @@ main (int argc, char **argv)
   /// Free memory used by syntax_tree
   free_syntax_tree (syntax_tree);
   syntax_tree = NULL;
+
+  /// Free memory used by ASM array
+  retVal = free_asm_arrays();
+  if (retVal != EXIT_SUCCESS)
+    return (opal_exit (retVal));
 
   /// source_fp, dest_fp, log_fp & report_fp closed by opal_exit()
   return (opal_exit (EXIT_SUCCESS));
