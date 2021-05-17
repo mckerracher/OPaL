@@ -2532,11 +2532,12 @@ print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
 
   /// Create strings and their lengths
   fprintf (dest_fp, "  ; === Strings ===;\n");
-  for (int i = 0; i < strs_len; i++)
+  for (i = 0; i < strs_len; i++)
     {
       fprintf (dest_fp, "  msg%d: DB \"", i);
       /// Read each string character
-      for (int j = 0; j < strlen (strs[i]); j++)
+      int j = 0;
+      for (j = 0; j < strlen (strs[i]); j++)
         {
           ///print ASCII values for newlines
           if (strs[i][j] == '\\' && strs[i][j + 1] == 'n')
@@ -2561,7 +2562,7 @@ print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
     {
       /// Print string array
       fprintf (dest_fp, "  strs: DQ ");
-      for (int i = 0; i < strs_len; i++)
+      for (i = 0; i < strs_len; i++)
         {
           fprintf (dest_fp, "msg%d, ", i);
         }
@@ -2569,7 +2570,7 @@ print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
 
       /// ...and length array
       fprintf (dest_fp, "  lens: DQ ");
-      for (int i = 0; i < strs_len; i++)
+      for (i = 0; i < strs_len; i++)
         {
           fprintf (dest_fp, "len%d, ", i);
         }
@@ -2659,11 +2660,12 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
 
   /// Create strings and their lengths
   fprintf (dest_fp, "  ; === Strings ===;\n");
-  for (int i = 0; i < strs_len; i++)
+  for (i = 0; i < strs_len; i++)
     {
       fprintf (dest_fp, "  msg%d: DB \"", i);
       /// Read each string character
-      for (int j = 0; j < strlen (strs[i]); j++)
+      int j = 0;
+      for (j = 0; j < strlen (strs[i]); j++)
         {
           ///print ASCII values for newlines
           if (strs[i][j] == '\\' && strs[i][j + 1] == 'n')
@@ -2688,18 +2690,16 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
     {
       /// Print string array
       fprintf (dest_fp, "  strs: DQ ");
-      for (int i = 0; i < strs_len; i++)
-        {
-          fprintf (dest_fp, "msg%d, ", i);
-        }
+      for (i = 0; i < strs_len; i++)
+        fprintf (dest_fp, "msg%d, ", i);
+
       fprintf (dest_fp, "\n");
 
       /// ...and length array
       fprintf (dest_fp, "  lens: DQ ");
-      for (int i = 0; i < strs_len; i++)
-        {
-          fprintf (dest_fp, "len%d, ", i);
-        }
+      for (i = 0; i < strs_len; i++)
+        fprintf (dest_fp, "len%d, ", i);
+
       fprintf (dest_fp, "\n");
     }
 
@@ -2731,7 +2731,8 @@ add_var (char *ident_curr)
   if (vars_len > 0)
     {
       /// Search it for the current identifier
-      for (int i = 0; i < vars_len; i++)
+      int i = 0;
+      for (i = 0; i < vars_len; i++)
         {
           /// and return its index if found
           if (strcmp (ident_curr, vars[i]) == 0)
@@ -2766,7 +2767,8 @@ add_str (char *str_curr)
   if (strs_len > 0)
     {
       /// Search it for the current string
-      for (int i = 0; i < strs_len; i++)
+      int i = 0;
+      for (i = 0; i < strs_len; i++)
         {
           /// and return its index if found
           if (strcmp (str_curr, strs[i]) == 0)
