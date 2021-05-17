@@ -27,7 +27,7 @@ const char *argp_program_bug_address =
     "https://github.com/mckerracher/OPaL/issues";
 
 /// Program documentation
-static char doc[] = "alex - OPaL Compiler - Syntax analyzer";
+static char doc[] = "astro - OPaL Compiler - Syntax analyzer";
 static char args_doc[] = "FILE";            ///< Arguments we accept
 static struct argp_option options[] =       ///< The options we understand
   {

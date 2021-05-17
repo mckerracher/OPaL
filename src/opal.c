@@ -27,7 +27,7 @@ const char *argp_program_bug_address =
     "https://github.com/mckerracher/OPaL/issues";
 
 /// Program documentation
-static char doc[] = "alex - OPaL Compiler - Orchestrator";
+static char doc[] = "opal - OPaL Compiler";
 static char args_doc[] = "FILE";            ///< Arguments we accept
 static struct argp_option options[] =       ///< The options we understand
       {
@@ -96,12 +96,14 @@ static struct argp argp =
   { options, parse_opt, args_doc, doc };
 
 /**
- * @brief       Main function for code generator GENIE
- * @details     Calls the function remove_comments() and proc_includes()
- * to process the user input file. Calls the build_symbol_table() to build
- * symbol table and writes to the destination. Calls build_syntax_tree()
- * to build the abstract syntax tree and writes to destination. Calls gen_asm()
- * to build the assembly code table and write to destination.
+ * @brief       Main function for opal - OPaL compiler
+ * @details
+ * 1. Calls the remove_comments() and proc_includes() to process source file.
+ * 2. Calls the build_symbol_table() to build symbol table.
+ * 3. Calls build_syntax_tree() to build the abstract syntax tree.
+ * 4. Calls gen_asm() to build the assembly code table and write to destination.
+ * 5. Calls gen_obj() to assemble object file using NASM.
+ * 6. Calls gen_bin() to link binary file using ld.
  *
  * @param[in]   argc    Number of command line arguments
  * @param[in]   argv    Vector of individual command line argument strings
@@ -612,14 +614,14 @@ main (int argc, char **argv)
   banner ("ORCHESTRATOR start.");
 
   /// If object object file exists, delete it
-  char *obj_tmp = "tmp/obj.tmp";
-  sprintf (perror_msg, "access('%s', F_OK)", obj_tmp);
+  char *obj_fn = "tmp/opal.o";
+  sprintf (perror_msg, "access('%s', F_OK)", obj_fn);
   logger(DEBUG, perror_msg);
-  if (access (obj_tmp, F_OK) == EXIT_SUCCESS)
+  if (access (obj_fn, F_OK) == EXIT_SUCCESS)
     {
-      sprintf (perror_msg, "remove(%s)", obj_tmp);
+      sprintf (perror_msg, "remove(%s)", obj_fn);
       logger(DEBUG, perror_msg);
-      if (remove (obj_tmp) == EXIT_SUCCESS)
+      if (remove (obj_fn) == EXIT_SUCCESS)
         _PASS;
       else
         {
@@ -630,12 +632,12 @@ main (int argc, char **argv)
     }
 
   /// Assemble object using NASM
-  retVal = gen_obj (asm_tmp, obj_tmp);
+  retVal = gen_obj (asm_tmp, obj_fn);
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
   /// Link object using LD
-  retVal = gen_bin (obj_tmp, dest_fn);
+  retVal = gen_bin (obj_fn, dest_fn);
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
