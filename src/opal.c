@@ -614,7 +614,7 @@ main (int argc, char **argv)
   banner ("ORCHESTRATOR start.");
 
   /// If object object file exists, delete it
-  char *obj_fn = "tmp/opal.o";
+  char *obj_fn = "tmp/nasm.o";
   sprintf (perror_msg, "access('%s', F_OK)", obj_fn);
   logger(DEBUG, perror_msg);
   if (access (obj_fn, F_OK) == EXIT_SUCCESS)
