@@ -1,0 +1,9 @@
+print ("Text without a newline.");
+
+print ("Text ending with newline\n");
+
+print ("Text split bewteen \n two lines.\n");
+
+print ("Printing consecutive newline characters \n\n above.");
+
+lines = input ("How many lines are printed?\n");

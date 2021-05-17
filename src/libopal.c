@@ -2378,7 +2378,7 @@ gen_asm_code (node_s *ast)
  * @retval      EXIT_FAILURE    On error
  */
 short
-print_asm_code (asm_cmd_e cmd_list[], FILE *dest_fp)
+print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
 {
   logger(DEBUG, "=== START ===");
 
@@ -2521,19 +2521,19 @@ print_asm_code (asm_cmd_e cmd_list[], FILE *dest_fp)
   sprintf (perror_msg, "fclose(footer_fp)");
   logger(DEBUG, perror_msg);
   if (footer_fp)
-  {
+    {
       if (fclose (footer_fp) == EXIT_SUCCESS)
-      {
+        {
           _PASS;
           footer_fp = NULL;
-      }
+        }
       else
-      {
+        {
           perror (perror_msg);
           _FAIL;
           return (errno);
-      }
-  }
+        }
+    }
 
   /// Create strings and their lengths
   fprintf (dest_fp, "  ; === Strings ===;\n");
@@ -2541,18 +2541,18 @@ print_asm_code (asm_cmd_e cmd_list[], FILE *dest_fp)
     {
       fprintf (dest_fp, "  msg%d: DB \"", i);
       /// Read each string character
-      for (int j = 0; j < strlen(strs[i]); j++)
+      for (int j = 0; j < strlen (strs[i]); j++)
         {
-           ///print ASCII values for newlines
-           if (strs[i][j] == '\\' && strs[i][j+1] == 'n')
-             {
-               fprintf (dest_fp, "\", 13, 10, \"");
-               j = j+ 1;
-             }
+          ///print ASCII values for newlines
+          if (strs[i][j] == '\\' && strs[i][j + 1] == 'n')
+            {
+              fprintf (dest_fp, "\", 13, 10, \"");
+              j = j + 1;
+            }
 
-           /// directly print all other characters
-           else
-             fprintf (dest_fp, "%c", strs[i][j]);
+          /// directly print all other characters
+          else
+            fprintf (dest_fp, "%c", strs[i][j]);
         }
 
       /// NULL terminate string
@@ -2583,11 +2583,11 @@ print_asm_code (asm_cmd_e cmd_list[], FILE *dest_fp)
 
   /// Create integers array
   if (vars_len > 0)
-  {
-      logger (DEBUG, "Create data array of length: %d", vars_len);
+    {
+      logger(DEBUG, "Create data array of length: %d", vars_len);
       fprintf (dest_fp, "  ; === Integers ===;\n  data  TIMES %d DQ 0\n",
                vars_len);
-  }
+    }
 
   logger(DEBUG, "=== END ===");
 
@@ -2608,6 +2608,10 @@ print_asm_code (asm_cmd_e cmd_list[], FILE *dest_fp)
 short
 print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
 {
+  logger(DEBUG, "=== START ===");
+
+  fprintf (dest_fp, "<h3>0-address stack machine code by Code generator "
+           "<code>GENIE</code></h3>\n<hr>\n");
 
   fprintf (dest_fp,
            "<textarea style='resize: none;' readonly rows='25' cols='80'>");
@@ -2660,7 +2664,63 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
     }
   _DONE;
 
+  /// Create strings and their lengths
+  fprintf (dest_fp, "  ; === Strings ===;\n");
+  for (int i = 0; i < strs_len; i++)
+    {
+      fprintf (dest_fp, "  msg%d: DB \"", i);
+      /// Read each string character
+      for (int j = 0; j < strlen (strs[i]); j++)
+        {
+          ///print ASCII values for newlines
+          if (strs[i][j] == '\\' && strs[i][j + 1] == 'n')
+            {
+              fprintf (dest_fp, "\", 13, 10, \"");
+              j = j + 1;
+            }
+
+          /// directly print all other characters
+          else
+            fprintf (dest_fp, "%c", strs[i][j]);
+        }
+
+      /// NULL terminate string
+      fprintf (dest_fp, "\", NULL\n");
+
+      /// Print string length
+      fprintf (dest_fp, "  len%d EQU $ - msg%d\n", i, i);
+    }
+
+  if (strs_len > 0)
+    {
+      /// Print string array
+      fprintf (dest_fp, "  strs: DQ ");
+      for (int i = 0; i < strs_len; i++)
+        {
+          fprintf (dest_fp, "msg%d, ", i);
+        }
+      fprintf (dest_fp, "\n");
+
+      /// ...and length array
+      fprintf (dest_fp, "  lens: DQ ");
+      for (int i = 0; i < strs_len; i++)
+        {
+          fprintf (dest_fp, "len%d, ", i);
+        }
+      fprintf (dest_fp, "\n");
+    }
+
+  /// Create integers array
+  if (vars_len > 0)
+    {
+      logger(DEBUG, "Create data array of length: %d", vars_len);
+      fprintf (dest_fp, "  ; === Integers ===;\n  data  TIMES %d DQ 0\n",
+               vars_len);
+    }
+
   fprintf (dest_fp, "</textarea>");
+  logger(DEBUG, "=== END ===");
+
   return EXIT_SUCCESS;
 }
 

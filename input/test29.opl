@@ -1,0 +1,15 @@
+a = 10;
+
+b = -a;
+
+if ( a != b)
+    print ( "a is not equal to b.\n");
+
+if ( a && b)
+    print ( "a and b are true.\n");
+
+if ( a || b)
+    print ( "Either a or b are true.\n");
+
+if ( !a )
+    print ( "a is not true.\n");
