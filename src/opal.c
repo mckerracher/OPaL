@@ -543,6 +543,23 @@ main (int argc, char **argv)
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
+  if (alex_fp)
+    {
+      sprintf (perror_msg, "fclose(alex_fp)");
+      logger(DEBUG, perror_msg);
+      if (fclose (alex_fp) == EXIT_SUCCESS)
+        {
+          _PASS;
+          alex_fp = NULL;
+        }
+      else
+        {
+          perror (perror_msg);
+          _FAIL;
+          return (errno);
+        }
+    }
+
   /// Start syntax analyzer code
   banner ("ASTRO start.");
 
@@ -653,6 +670,11 @@ main (int argc, char **argv)
   /// Free memory used by syntax_tree
   free_syntax_tree (syntax_tree);
   syntax_tree = NULL;
+
+  /// Free memory used by ASM array
+  retVal = free_asm_arrays();
+  if (retVal != EXIT_SUCCESS)
+    return (opal_exit (retVal));
 
   /// source_fp, dest_fp, log_fp & report_fp closed by opal_exit()
   return (opal_exit (EXIT_SUCCESS));

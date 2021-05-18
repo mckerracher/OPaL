@@ -2856,6 +2856,8 @@ gen_bin (char *obj_fn, char *dest_fn)
   // TODO
 
   logger(DEBUG, "=== END ===");
+
+  return EXIT_SUCCESS;
 }
 
 /**
