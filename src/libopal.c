@@ -2829,3 +2829,55 @@ free_asm_arrays ()
 
   return EXIT_SUCCESS;
 }
+
+/*
+ * ==================================
+ * START ORCHESTRATOR FUNCTION DEFINITIONS
+ * ==================================
+ */
+
+/**
+ * @brief          Assemble object file using NASM
+ * @param asm_fn   Assembly source file name
+ * @param obj_fn   Object destination file name
+ */
+short
+gen_obj (char *asm_fn, char *obj_fn)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert assembly file name is not null
+  assert(asm_fn);
+
+  /// Assert object file name is not null
+  assert(obj_fn);
+
+  // TODO
+
+  logger(DEBUG, "=== END ===");
+
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief           Link object using LD
+ * @param obj_fn    Source object file name
+ * @param dest_fn   Destination binary file name
+ */
+short
+gen_bin (char *obj_fn, char *dest_fn)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert object file name is not null
+  assert(obj_fn);
+
+  /// Assert destination file name is not null
+  assert(dest_fn);
+
+  // TODO
+
+  logger(DEBUG, "=== END ===");
+
+  return EXIT_SUCCESS;
+}
