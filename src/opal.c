@@ -570,11 +570,6 @@ main (int argc, char **argv)
   assert(syntax_tree);
   _PASS;
 
-  /// Print abstract syntax tree with print_ast() to destination file
-  retVal = print_ast (syntax_tree, dest_fp);
-  if (retVal != EXIT_SUCCESS)
-    return (opal_exit (retVal));
-
   /// Print abstract syntax tree HTML report with print_ast_html()
   fprintf (report_fp, "<h3>Output by syntax analyzer <code>ASTRO</code></h3>\n"
            "<hr>\n");
