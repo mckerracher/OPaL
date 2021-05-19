@@ -3,16 +3,17 @@ CFLAGS := -g -O0 -Wall -L./build -Wl,-rpath=./
 LD_LIBRARY_PATH := build:$(LD_LIBRARY_PATH)
 SHELL := env LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) /bin/bash
 
-all: dirs libopal marc alex astro genie opal tar
+all: dirs libopal marc alex astro genie opal doc_res tar
 
 # Create required directory structure
 dirs:
-	mkdir -pv build tmp log report doc output
+	mkdir -pv build/{doc,log,report,res,tmp}
 
 # Build OPaL library
 libopal: src/libopal.c include/libopal.h
 	$(CC) -g -O0 -fPIC -c -Wall src/libopal.c -o build/libopal.o
 	ld -shared build/libopal.o -o build/libopal.so
+	rm build/libopal.o
 
 # Build MARC preprocessor
 marc: libopal src/marc.c
@@ -30,14 +31,18 @@ astro: libopal src/astro.c
 genie: libopal src/genie.c
 	$(CC) $(CFLAGS) src/genie.c -g -lopal -o build/genie
 
+# Copy man page to build directory
+doc_res:
+	cp -v ref/* build/doc/
+	cp -v res/* build/res/
+
 # Build orchestrator
 opal: libopal src/opal.c
 	$(CC) $(CFLAGS) src/opal.c -g -lopal -o build/opal
 
 # Tar all files for release
-tar: libopal marc alex astro genie
-	tar -cvf build/opal.tar build/libopal.so build/libopal.o build/marc \
-	build/alex build/astro build/genie build/opal
+tar: libopal marc alex astro genie doc_res
+	tar -cvf build/opal.tar build/
 
 .PHONY: test
 test: clean all
@@ -159,6 +164,6 @@ all_tests: test
 .PHONY: clean
 clean:
 	# Delete binaries, output, temporary & report files 
-	rm -fv build/* output/* tmp/* report/*
+	rm -rfv build/* output/* tmp/* report/*
 
 	
