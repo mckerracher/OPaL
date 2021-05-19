@@ -157,6 +157,13 @@ char lexeme_str[lexeme_str_len] = { 0 };
 /// Extended regular expression pattern for integers
 char *int_regex_pattern = "^[-+]?[0-9]+$";
 
+
+/*
+ * ==================================
+ * ASTRO data structures and variables used
+ * ==================================
+ */
+
 /// Enum for abstract syntax tree node type
 typedef enum ast_node_type
 {
@@ -264,6 +271,12 @@ const attributes_s grammar[] =
 /// Lexeme currently being processed by build_syntax_tree()
 lexeme_s *ast_curr_lexeme = NULL;
 
+/*
+ * ==================================
+ * GENIE data structures and variables used
+ * ==================================
+ */
+
 /// Enum for assembly code
 typedef enum asm_code
 {
@@ -317,15 +330,24 @@ const char asm_cmds[][16] =
       "JMP", "O_JZ", "O_JNZ", "O_PRTS", "O_PRTI", "HALT", "_LABEL_", "_INPUT_"
 };
 
-asm_cmd_e asm_cmd_list[1024] = { {0} }; ///< Assembly commands list
+/// Maximum ASM commands
+#define MAX_ASM_CMD 4096
 
+/// Maximum strings in program
+#define MAX_STR 4096
+
+/// Maximum variables
+#define MAX_VAR 4096
+
+asm_cmd_e asm_cmd_list[MAX_ASM_CMD] = { {0} }; ///< Assembly commands list
 unsigned int asm_cmd_list_len = 0;  ///< Assembly commands list length
-char *strs[1024] = { 0 };   ///< Strings used in program
 
+char *strs[MAX_STR] = { 0 };   ///< Strings used in program
 unsigned int strs_len = 0;  ///< Strings used count
-char *vars[1024] = { 0 };   ///< Vars used in program
 
+char *vars[MAX_VAR] = { 0 };   ///< Vars used in program
 unsigned int vars_len = 0;  ///< Vars used count
+
 unsigned int int_count = 0; ///< Integers used
 unsigned int usr_vars = 0;  ///< User input varss used count
 
@@ -432,5 +454,17 @@ short print_asm_code_html(asm_cmd_e[], FILE*);
 int add_var(char*);
 /// Create String array
 int add_str(char*);
+/// Free memory used by ASM arrays
+short free_asm_arrays();
+
+/*
+ * ==================================
+ * ORCHESTRATOR FUNCTION DECLARATIONS
+ * ==================================
+ */
+/// Assemble object using NASM
+short gen_obj(char*, char*);
+/// Link object using LD
+short gen_bin(char*, char*);
 
 #endif /* OPAL_H_ */

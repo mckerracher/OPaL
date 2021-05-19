@@ -293,7 +293,7 @@
 ; Desc  - Reads integer from user and pushes on top of stack
 ; -----------------------------------------------------------------------------
 %macro _INPUT_ 0
-  ;O_PRTS                 ; Print prompt string with macro
+  O_PRTS                 ; Print prompt string with macro
 
 ; Read digits from STDIN and store in buffer 'bss0' in a loop until newline
   XOR R9, R9             ; R9 will hold number of characters read

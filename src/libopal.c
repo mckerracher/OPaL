@@ -1449,15 +1449,23 @@ free_symbol_table (lexeme_s *symbol_table)
   logger(DEBUG, "=== START ===");
   /// Walk symbol table and free individual lexemes
 
-  lexeme_s *next_symbol;
+  lexeme_s *next_symbol = NULL;
   while (symbol_table)
     {
       next_symbol = symbol_table;
       symbol_table = symbol_table->next;
 
-      get_lexeme_str (next_symbol, lexeme_str,lexeme_str_len);
+      get_lexeme_str (next_symbol, lexeme_str, lexeme_str_len);
       logger(DEBUG, "Free symbol: %s", lexeme_str);
+
+      if (next_symbol->char_val)
+        {
+          free(next_symbol->char_val);
+          next_symbol->char_val = NULL;
+        }
+
       free (next_symbol);
+      next_symbol = NULL;
     }
 
   logger(DEBUG, "=== END ===");
@@ -2165,14 +2173,22 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
  *
  */
 void
-free_syntax_tree (node_s *syntax_tree)
+free_syntax_tree (node_s *node)
 {
-  logger(DEBUG, "=== START ===");
+  if (!node)
+    return;
 
-  /// Walk the tree free each node starting with the leaf nodes
-  logger(DEBUG, "TODO: Replace stub implementation.");
+  free_syntax_tree(node->left);
+  free_syntax_tree(node->right);
 
-  logger(DEBUG, "=== START ===");
+  if (node->char_val)
+    {
+      free(node->char_val);
+      node->char_val = NULL;
+    }
+
+  free(node);
+  node = NULL;
 }
 
 /**
@@ -2229,13 +2245,12 @@ add_asm_code (asm_code_e code, int intval, char *label)
 
   /// Add the asm_code label if there is one
   if (label)
-  {
-      asm_cmd.label = strdup(label);
-  }
+    asm_cmd.label = strdup (label);
 
-  logger(DEBUG, "Added command - cmd: %s, label: %s", asm_cmds[asm_cmd.cmd], asm_cmd.label ? asm_cmd.label : "NULL");
+  logger(DEBUG, "Added command - cmd: %s, label: %s", asm_cmds[asm_cmd.cmd],
+         asm_cmd.label ? asm_cmd.label : "NULL");
 
-    /// Adds the asm_cmd
+  /// Adds the asm_cmd
   asm_cmd_list[asm_cmd_list_len++] = asm_cmd;
 }
 
@@ -2517,11 +2532,12 @@ print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
 
   /// Create strings and their lengths
   fprintf (dest_fp, "  ; === Strings ===;\n");
-  for (int i = 0; i < strs_len; i++)
+  for (i = 0; i < strs_len; i++)
     {
       fprintf (dest_fp, "  msg%d: DB \"", i);
       /// Read each string character
-      for (int j = 0; j < strlen (strs[i]); j++)
+      int j = 0;
+      for (j = 0; j < strlen (strs[i]); j++)
         {
           ///print ASCII values for newlines
           if (strs[i][j] == '\\' && strs[i][j + 1] == 'n')
@@ -2546,7 +2562,7 @@ print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
     {
       /// Print string array
       fprintf (dest_fp, "  strs: DQ ");
-      for (int i = 0; i < strs_len; i++)
+      for (i = 0; i < strs_len; i++)
         {
           fprintf (dest_fp, "msg%d, ", i);
         }
@@ -2554,7 +2570,7 @@ print_asm_code(asm_cmd_e cmd_list[], FILE *dest_fp)
 
       /// ...and length array
       fprintf (dest_fp, "  lens: DQ ");
-      for (int i = 0; i < strs_len; i++)
+      for (i = 0; i < strs_len; i++)
         {
           fprintf (dest_fp, "len%d, ", i);
         }
@@ -2644,11 +2660,12 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
 
   /// Create strings and their lengths
   fprintf (dest_fp, "  ; === Strings ===;\n");
-  for (int i = 0; i < strs_len; i++)
+  for (i = 0; i < strs_len; i++)
     {
       fprintf (dest_fp, "  msg%d: DB \"", i);
       /// Read each string character
-      for (int j = 0; j < strlen (strs[i]); j++)
+      int j = 0;
+      for (j = 0; j < strlen (strs[i]); j++)
         {
           ///print ASCII values for newlines
           if (strs[i][j] == '\\' && strs[i][j + 1] == 'n')
@@ -2673,18 +2690,16 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
     {
       /// Print string array
       fprintf (dest_fp, "  strs: DQ ");
-      for (int i = 0; i < strs_len; i++)
-        {
-          fprintf (dest_fp, "msg%d, ", i);
-        }
+      for (i = 0; i < strs_len; i++)
+        fprintf (dest_fp, "msg%d, ", i);
+
       fprintf (dest_fp, "\n");
 
       /// ...and length array
       fprintf (dest_fp, "  lens: DQ ");
-      for (int i = 0; i < strs_len; i++)
-        {
-          fprintf (dest_fp, "len%d, ", i);
-        }
+      for (i = 0; i < strs_len; i++)
+        fprintf (dest_fp, "len%d, ", i);
+
       fprintf (dest_fp, "\n");
     }
 
@@ -2710,30 +2725,32 @@ print_asm_code_html (asm_cmd_e cmd_list[], FILE *dest_fp)
  * @return      index of identifier in the array
  */
 int
-add_var(char *ident_curr)
+add_var (char *ident_curr)
 {
   /// If identifier array is not empty
   if (vars_len > 0)
     {
       /// Search it for the current identifier
-      for (int i = 0; i < vars_len; i++)
+      int i = 0;
+      for (i = 0; i < vars_len; i++)
         {
           /// and return its index if found
-          if (strcmp(ident_curr,vars[i]) == 0)
+          if (strcmp (ident_curr, vars[i]) == 0)
             {
-              logger (DEBUG, "Identifier '%s' found at index %d.", ident_curr, i);
+              logger(DEBUG, "Identifier '%s' found at index %d.", ident_curr,
+                     i);
               return i;
             }
         }
     }
 
-    int index = vars_len;
-    /// Otherwise append the identifier to the array
-    logger (DEBUG, "Created new identifier '%s' at index %d.", ident_curr, index);
-    vars[vars_len++] = strdup (ident_curr);
+  int index = vars_len;
+  /// Otherwise append the identifier to the array
+  logger(DEBUG, "Created new identifier '%s' at index %d.", ident_curr, index);
+  vars[vars_len++] = strdup (ident_curr);
 
-    /// and return its index
-    return index;
+  /// and return its index
+  return index;
 }
 
 /**
@@ -2744,28 +2761,123 @@ add_var(char *ident_curr)
  * @return      index of string in the array
  */
 int
-add_str(char *str_curr)
+add_str (char *str_curr)
 {
   /// If string array is not empty
   if (strs_len > 0)
     {
       /// Search it for the current string
-      for (int i = 0; i < strs_len; i++)
+      int i = 0;
+      for (i = 0; i < strs_len; i++)
         {
           /// and return its index if found
-          if (strcmp(str_curr,strs[i]) == 0)
+          if (strcmp (str_curr, strs[i]) == 0)
             {
-              logger (DEBUG, "Identifier '%s' found at index %d.", str_curr, i);
+              logger(DEBUG, "Identifier '%s' found at index %d.", str_curr, i);
               return i;
             }
         }
     }
 
-    int index = strs_len;
-    /// Otherwise append the string to the array
-    logger (DEBUG, "Created new identifier '%s' at index %d.", str_curr, index);
-    strs[strs_len++] = strdup (str_curr);
+  int index = strs_len;
+  /// Otherwise append the string to the array
+  logger(DEBUG, "Created new identifier '%s' at index %d.", str_curr, index);
+  strs[strs_len++] = strdup (str_curr);
 
-    /// and return its index
-    return index;
+  /// and return its index
+  return index;
+}
+
+/**
+ * @brief Free vars & strs arrays used for generating assembly code
+ * @param NONE
+ */
+short
+free_asm_arrays ()
+{
+
+  /// Walk the list of vars & free as needed
+  int i = 0;
+  for (i = 0; i < vars_len; i++)
+    {
+      if (vars[i])
+        {
+          free (vars[i]);
+          vars[i] = NULL;
+        }
+    }
+
+  /// Walk the list of strs & free as needed
+  for (i = 0; i < strs_len; i++)
+    {
+      if (strs[i])
+        {
+          free (strs[i]);
+          strs[i] = NULL;
+        }
+    }
+
+  /// Walk the list of ASM commands & free as needed
+  for (i = 0; i < asm_cmd_list_len; i++)
+    {
+      if (asm_cmd_list[i].label)
+        {
+          free (asm_cmd_list[i].label);
+          asm_cmd_list[i].label = NULL;
+        }
+    }
+
+  return EXIT_SUCCESS;
+}
+
+/*
+ * ==================================
+ * START ORCHESTRATOR FUNCTION DEFINITIONS
+ * ==================================
+ */
+
+/**
+ * @brief          Assemble object file using NASM
+ * @param asm_fn   Assembly source file name
+ * @param obj_fn   Object destination file name
+ */
+short
+gen_obj (char *asm_fn, char *obj_fn)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert assembly file name is not null
+  assert(asm_fn);
+
+  /// Assert object file name is not null
+  assert(obj_fn);
+
+  // TODO
+
+  logger(DEBUG, "=== END ===");
+
+  return EXIT_SUCCESS;
+}
+
+/**
+ * @brief           Link object using LD
+ * @param obj_fn    Source object file name
+ * @param dest_fn   Destination binary file name
+ */
+short
+gen_bin (char *obj_fn, char *dest_fn)
+{
+  logger(DEBUG, "=== START ===");
+
+  /// Assert object file name is not null
+  assert(obj_fn);
+
+  /// Assert destination file name is not null
+  assert(dest_fn);
+
+  // TODO
+
+  logger(DEBUG, "=== END ===");
+
+  return EXIT_SUCCESS;
 }
