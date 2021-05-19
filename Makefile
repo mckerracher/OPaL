@@ -30,24 +30,18 @@ astro: libopal src/astro.c
 genie: libopal src/genie.c
 	$(CC) $(CFLAGS) src/genie.c -g -lopal -o build/genie
 
-<<<<<<< HEAD
 # Copy man page to build directory
 man:
 	cp -v src/opal.man.1 build/man/opal.1
-=======
+
 # Build orchestrator
 opal: libopal src/opal.c
 	$(CC) $(CFLAGS) src/opal.c -g -lopal -o build/opal
->>>>>>> main
 
 # Tar all files for release
 tar: libopal marc alex astro genie man
 	tar -cvf build/opal.tar build/libopal.so build/libopal.o build/marc \
-<<<<<<< HEAD
-	build/alex build/astro build/genie build/man
-=======
-	build/alex build/astro build/genie build/opal
->>>>>>> main
+	build/alex build/astro build/genie build/opal build/man
 
 .PHONY: test
 test: clean all
