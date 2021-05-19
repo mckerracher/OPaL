@@ -157,6 +157,13 @@ char lexeme_str[lexeme_str_len] = { 0 };
 /// Extended regular expression pattern for integers
 char *int_regex_pattern = "^[-+]?[0-9]+$";
 
+
+/*
+ * ==================================
+ * ASTRO data structures and variables used
+ * ==================================
+ */
+
 /// Enum for abstract syntax tree node type
 typedef enum ast_node_type
 {
@@ -263,6 +270,12 @@ const attributes_s grammar[] =
 
 /// Lexeme currently being processed by build_syntax_tree()
 lexeme_s *ast_curr_lexeme = NULL;
+
+/*
+ * ==================================
+ * GENIE data structures and variables used
+ * ==================================
+ */
 
 /// Enum for assembly code
 typedef enum asm_code
@@ -443,5 +456,15 @@ int add_var(char*);
 int add_str(char*);
 /// Free memory used by ASM arrays
 short free_asm_arrays();
+
+/*
+ * ==================================
+ * ORCHESTRATOR FUNCTION DECLARATIONS
+ * ==================================
+ */
+/// Assemble object using NASM
+short gen_obj(char*, char*);
+/// Link object using LD
+short gen_bin(char*, char*);
 
 #endif /* OPAL_H_ */
