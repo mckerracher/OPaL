@@ -7,7 +7,7 @@ all: dirs libopal marc alex astro genie opal man_res tar
 
 # Create required directory structure
 dirs:
-	mkdir -pv build/{man,log,report,res, tmp}
+	mkdir -pv build/{man,log,report,res,tmp}
 
 # Build OPaL library
 libopal: src/libopal.c include/libopal.h
