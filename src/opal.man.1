@@ -1,0 +1,103 @@
+.Dd May 19, 2021
+.Os GNU/Linux x86_64/1.0
+.Dt OPAL 1 LOC
+.Sh NAME
+.Nm OPaL
+.Nd OSU Programming Language Compiler
+.Sh SYNOPSIS
+opal [-d] [-l logfile] [-r reportfile] [-o outfile] infile
+.Sh DESCRIPTION
+A compiler developed using C for a dynamically typed language, inspired by 
+Python and C. It produces assembly code modelled after Java bytecode using a 
+0-address stack machine. The opal binary is an orchestrator tool that is used 
+by the end user which runs individual components of the compiler sequentially 
+and then invokes NASM & LD to output an executable for Linux x86_64 platform.
+When you invoke OPaL, it  does preprocessing, compilation, assembly and linking.
+The opal program accepts options and file names as operands.
+You can mix options and other arguments. The order you use doesn't matter.
+All options take one argument separated either by a space or by the equals sign 
+(=) from the option name.
+.Sh COMMAND LINE OPTIONS
+.Bl -compact
+.It
+.Sy -d,
+.Sy --debug
+.Dl Enable debug level logging
+.It
+.Sy -l FILE,
+.Sy --log=FILE
+.Dl Save log to FILE instead of 'log/oc_log'
+.It
+.Sy -o FILE,
+.Sy --output=FILE
+.Dl Output to FILE instead of 'a.out'
+.It
+.Sy -r FILE, 
+.Sy --report=FILE
+.Dl Save compilation report to FILE instead of 'report/oc_report.html'
+.It
+.Sy -?,
+.Sy --help,
+.Sy --usage
+.Dl Show help list
+.It
+.Sy -V, 
+.Sy --version
+.Dl Print program version & exit
+.El
+.Sh LANGUAGE REFERENCE
+Please see the OPaL language reference in the 
+.Sy ref/
+directory
+.Sh EXAMPLES
+  $ cat 'test.opl' 
+  a = 0;
+  while (a < 5)
+  {
+    if (a < 2)
+      print("a: ", a, " is less than 2.\\n");
+    else
+    {
+      if (a == 2)
+        print("a: ", a, " is equal to 2.\\n");
+      else
+        print("a: ", a, " is more than 2.\\n");
+    }
+    a = a + 1;
+  }
+  $ ./opal.sh --output=test.bin test.opl
+  $ ./test.bin
+  a: 0 is less than 2.
+  a: 1 is less than 2.
+  a: 2 is equal to 2.
+  a: 3 is more than 2.
+  a: 4 is more than 2.
+  $ 
+
+.Sh DIAGNOSTICS
+Run
+.Sy make all_tests
+to run the builtin tests and verify compilation was successful.
+.Sh REPORTING BUGS
+Please report issues or enhancement requests at: <https://github.com/mckerracher/OPaL/issues>
+.Sh SEE ALSO
+.Bl -compact
+.It
+Developer resources: <https://mckerracher.github.io/OPaL/>
+.It
+gcc(1), python(1)
+.It
+libopal.h(3), libopal.c(3), opal.c(3)
+.El
+.Sh AUTHORS
+.An Damle Kedar <damlek@oregonstate.edu>
+.An Sarah Leon <leons@oregonstate.edu>
+.An Josh Mckerracher <mckerraj@oregonstate.edu>
+.Sh RETURN VALUE
+On success (all stages of compiler, assembler and linker), zero is returned. If
+a system call fails during any stage, the errno is returned. If some other error
+occurred, -1 is returned.
+.Sh LICENSEING
+OPaL is distributed under an Open Source license. See the file "LICENSE" for
+information on terms & conditions  for  accessing  and  otherwise  using OPaL
+and for distribution.

@@ -127,12 +127,10 @@ main (int argc, char **argv)
 
   /// Populate variables for source, destination, log, report files
   source_fn = strdup (arguments.args[0]);
-  dest_fn = arguments.destfile ? strdup (arguments.destfile) : "a.out";
-  log_fn =
-      arguments.logfile ? strdup (arguments.logfile) : strdup ("log/oc_log");
+  dest_fn = arguments.destfile ? strdup (arguments.destfile) : strdup ("a.out");
+  log_fn = arguments.logfile ? strdup (arguments.logfile) : strdup ("log/oc_log");
   report_fn =
-      arguments.report ?
-          strdup (arguments.report) : strdup ("report/oc_report.html");
+      arguments.report ? strdup (arguments.report) : strdup ("report/oc_report.html");
 
   /// Open log file in append mode, else exit program
   sprintf (perror_msg, "log_fp = fopen(%s, 'a')", log_fn);
