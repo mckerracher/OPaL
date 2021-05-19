@@ -617,6 +617,24 @@ main (int argc, char **argv)
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
+  /// Close asm temp file pointer asm_fp if not NULL
+  sprintf (perror_msg, "fclose(asm_fp)");
+  logger(DEBUG, perror_msg);
+  if (asm_fp)
+    {
+      if (fclose (asm_fp) == EXIT_SUCCESS)
+        {
+          _PASS;
+          asm_fp = NULL;
+        }
+      else
+        {
+          perror (perror_msg);
+          _FAIL;
+          return (errno);
+        }
+    }
+
   /// Print assembly code with print_asm_code_html()
   retVal = print_asm_code_html (asm_cmd_list, report_fp);
   if (retVal != EXIT_SUCCESS)
