@@ -72,18 +72,17 @@ visualization charts
 ### Installation:
 1. Untar the release file to a directory.
 2. Change to the directory and run `make`
-3. The binaries and library are saved in the `build/` directory. 
 
 ### Running tests:
 After building, run `make all_tests` to run all the canned tests.
 
 ### Usage:
-1. Export LD_LIBRARY_PATH to include the build directory  
-`export LD_LIBRARY_PATH=build `
-2. Run the required component binary with `--help` for usage instructions.
-3. Write your program in the OPaL language.
-4. Run the orchestrator tool `oc` with the argument as your source file.  
-The tool will create the binary as per the `--output` argument.  
+1. Run the required component binary with `--help` for usage instructions.
+2. Write your program in the OPaL language.
+3. Run the compiler `opal` with the argument as your source file.  
+
+A binary as per the `--output` argument is created.
+
 A compilation report is created as an HTML file as per the `--report` argument.
 
 ## Feedback
