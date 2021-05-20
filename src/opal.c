@@ -30,14 +30,15 @@ const char *argp_program_bug_address =
 static char doc[] = "opal - OPaL Compiler";
 static char args_doc[] = "FILE";            ///< Arguments we accept
 static struct argp_option options[] =       ///< The options we understand
-      {
-        { "debug", 'd', 0, 0, "Log debug messages" },
-        { "log", 'l', "FILE", 0, "Save log to FILE instead of 'log/oc_log'" },
-            { "output", 'o', "FILE", 0,
-                "Output to FILE instead of standard ouput" },
-            { "report", 'r', "FILE", 0,
-                "Output report to FILE instead of 'report/oc_report.html'" },
-            { 0 } };
+  {
+    { "debug", 'd', 0, 0, "Log debug messages" },
+    { "quiet", 'q', 0, 0, "Quiet; do not write anything to standard output."},
+    { "log", 'l', "FILE", 0, "Save log to FILE instead of 'log/oc_log'" },
+    { "output", 'o', "FILE", 0, "Output to FILE instead of 'a.out'" },
+    { "report", 'r', "FILE", 0,
+        "Save report to FILE instead of 'report/oc_report.html'" },
+    { 0 }
+  };
 
 /// Struct to hold Command Line arguments
 struct arguments
@@ -46,21 +47,30 @@ struct arguments
   char *logfile;     ///< filename for logger
   char *destfile;    ///< filename for destination file
   char *report;      ///< filename for html report
+  bool quiet;        ///< Print messages to standard output during execution
 };
 
+/**
+ * @brief Get the input argument from argp_parse, which we know is a pointer to
+ * our arguments structure.
+ * @param [in] key An integer specifying which option this is
+ * @param [in] arg For an option KEY, the string value of its argument, or NULL
+ * @param [in] state A pointer to a struct argp_state
+ * @return
+ */
 static error_t
 parse_opt (int key, char *arg, struct argp_state *state)
 {
-  /* Get the input argument from argp_parse, which we
-   * know is a pointer to our arguments structure.
-   */
   struct arguments *arguments = state->input;
 
   switch (key)
     {
-
     case 'd':
       LOG_LEVEL = DEBUG;
+      break;
+
+    case 'q':
+      arguments->quiet = true;
       break;
 
     case 'l':
@@ -92,8 +102,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
   return EXIT_SUCCESS;
 }
 
-static struct argp argp =
-  { options, parse_opt, args_doc, doc };
+static struct argp argp = { options, parse_opt, args_doc, doc };
 
 /**
  * @brief       Main function for opal - OPaL compiler
@@ -120,7 +129,7 @@ main (int argc, char **argv)
 
   /// Create structure to process command line arguments
   struct arguments arguments =
-    { .destfile = NULL, .logfile = NULL, .report = NULL };
+    { .destfile = NULL, .logfile = NULL, .report = NULL, .quiet = false };
 
   /// Parse arguments
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
@@ -128,9 +137,12 @@ main (int argc, char **argv)
   /// Populate variables for source, destination, log, report files
   source_fn = strdup (arguments.args[0]);
   dest_fn = arguments.destfile ? strdup (arguments.destfile) : strdup ("a.out");
-  log_fn = arguments.logfile ? strdup (arguments.logfile) : strdup ("log/oc_log");
+  log_fn =
+      arguments.logfile ? strdup (arguments.logfile) : strdup ("log/oc_log");
   report_fn =
-      arguments.report ? strdup (arguments.report) : strdup ("report/oc_report.html");
+      arguments.report ?
+          strdup (arguments.report) : strdup ("report/oc_report.html");
+  bool quiet = arguments.quiet;
 
   /// Open log file in append mode, else exit program
   sprintf (perror_msg, "log_fp = fopen(%s, 'a')", log_fn);
@@ -147,6 +159,13 @@ main (int argc, char **argv)
   logger(DEBUG, "Log: %s", log_fn);
   logger(DEBUG, "source_fn: '%s'", source_fn);
   logger(DEBUG, "report_fn: '%s'", report_fn);
+
+  if (!quiet)
+    {
+      fprintf (stdout,
+               "Source file:\t%s\nLog file:\t%s\nTemp directory:\ttmp/\n",
+               source_fn, log_fn);
+    }
 
   /// If source file does not exist, print error and exit
   sprintf (perror_msg, "access('%s', F_OK)", source_fn);
@@ -267,6 +286,9 @@ main (int argc, char **argv)
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
+  if (!quiet)
+    fprintf(stdout, "Removed comments from source file.\n");
+
   /// Close source file pointer source_fp if not NULL
   sprintf (perror_msg, "fclose(source_fp)");
   logger(DEBUG, perror_msg);
@@ -342,6 +364,9 @@ main (int argc, char **argv)
       return (opal_exit (retVal));
     }
 
+  if (!quiet)
+    fprintf(stdout, "Processed #include files.\n");
+
   /// Close rem_comments temp file pointer if not NULL
   if (rc_fp)
     {
@@ -407,6 +432,10 @@ main (int argc, char **argv)
       _FAIL;
       return (errno);
     }
+
+
+  if (!quiet)
+    fprintf(stdout, "Removed comments from included files.\n");
 
   /// Remove comments from includes files with rem_comments(), write to rc_tmp
   retVal = rem_comments (pi_fp, rc_fp);
@@ -504,6 +533,9 @@ main (int argc, char **argv)
 
   int symbol_count = 0;                ///< Number of lexemes identified
 
+  if (!quiet)
+    fprintf(stdout, "Symbol table of lexemes created.\n");
+
   /// Build symbol table using rem_comments() temp file as source
   retVal = build_symbol_table (symbol_table, &symbol_count);
   if (retVal != EXIT_SUCCESS)
@@ -568,6 +600,9 @@ main (int argc, char **argv)
   assert(syntax_tree);
   _PASS;
 
+  if (!quiet)
+    fprintf(stdout, "Abstract Syntax Tree created.\n");
+
   /// Print abstract syntax tree HTML report with print_ast_html()
   fprintf (report_fp, "<h3>Output by syntax analyzer <code>ASTRO</code></h3>\n"
            "<hr>\n");
@@ -578,6 +613,9 @@ main (int argc, char **argv)
   /// Optimize the abstract syntax tree
   node_s *syntax_tree_pass1 = optimize_syntax_tree (syntax_tree);
   node_s *syntax_tree_pass2 = optimize_syntax_tree (syntax_tree_pass1);
+
+  if (!quiet)
+    fprintf(stdout, "Abstract Syntax Tree optimization done.\n");
 
   /// Print optimized syntax tree HTML report with print_ast_html()
   fprintf (report_fp, "<h3>Optimized abstract syntax tree: </h3>\n<hr>\n");
@@ -591,6 +629,9 @@ main (int argc, char **argv)
   /// Build assembly code table using
   gen_asm_code (syntax_tree_pass2);
   add_asm_code (asm_HALT, 0, NULL);
+
+  if (!quiet)
+    fprintf(stdout, "Assembly code generated.\n");
 
   /// Create and open temp destination file for print_asm_code()
   char *asm_tmp = "tmp/asm.tmp";
@@ -664,15 +705,25 @@ main (int argc, char **argv)
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
+  if (!quiet)
+    fprintf(stdout, "Assemble object file using 'NASM'.\n");
+
   /// Link object using LD
   retVal = gen_bin (obj_fn, dest_fn);
   if (retVal != EXIT_SUCCESS)
     return (opal_exit (retVal));
 
+  if (!quiet)
+    fprintf(stdout, "Link object file using 'ld'.\n");
+
   /// Close HTML report file
   retVal = close_report (report_fp);
   if (retVal != EXIT_SUCCESS)
     opal_exit (retVal);
+
+  if (!quiet)
+    fprintf(stdout, "Output file:\t%s\nCompilation report:\t%s\n",
+            dest_fn, report_fn);
 
   /// Free memory used by symbol_table
   free_symbol_table (symbol_table);
