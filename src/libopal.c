@@ -2852,35 +2852,8 @@ gen_obj (char *asm_fn, char *obj_fn)
   /// Assert object file name is not null
   assert(obj_fn);
 
-  /// Create the NASM call with -g, -f and -o flags
-  logger(DEBUG, "Calling NASM to assemble object.");
-  char NASM_cmd[1024] = { 0 };
-  sprintf(NASM_cmd, "NASM -g -f elf64 -o %s %s", asm_fn, obj_fn);
+  // TODO
 
-  /// Check if asm_fn can be read
-  logger(DEBUG, "access (%s, R_OK)", asm_fn);
-  if (access(asm_fn, R_OK))
-  {
-    _PASS;
-
-    /// Check if obj_fn can be written to
-    logger(DEBUG, "access (%s, W_OK)", obj_fn);
-    if (access(obj_fn,  W_OK))
-    {
-        _PASS;
-
-        /// Call NASM to create the object
-        logger(DEBUG, "NASM -g -f elf64 -o %s %s", asm_fn, obj_fn);
-        if (system (NASM_cmd) == 0)
-            _PASS;
-        else
-            _FAIL;
-    }
-    else
-        _FAIL;
-  }
-  else
-      _FAIL;
   logger(DEBUG, "=== END ===");
 
   return EXIT_SUCCESS;
