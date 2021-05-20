@@ -1,0 +1,45 @@
+/*
+ * Simple calculator program in OPaL language 
+ */
+
+// Header that defines True/False
+#include "bool.hpl"
+
+_run = True;
+
+while (_run != False)
+{
+  
+  print("\nOPaL Calculator\n");
+  op = input("Operation: \n0)Exit\n1)Add\n2)Subtract\n3)Multiply\n4)Divide\n5)Remainder\n");
+  
+  if (op == 0)
+    _run = False;
+    
+  else {
+  
+    if (op < 0 || op > 5)
+      print("Invalid operation\n");
+    
+    else {
+      x = input("First number: ");
+        y = input("Second number: ");
+        
+        if (op == 1)
+          print(x, " + ", y, " = ", x+y, " ");
+
+        if (op == 2)
+          print(x, " - ", y, " = ", x-y, " ");
+
+        if (op == 3)
+          print(x, " * ", y, " = ", x*y, " ");
+
+        if (op == 4)
+          print(x, " / ", y, " = ", x/y, " ");
+        
+        if (op == 5)
+          print(x, " % ", y, " = ", x%y, " ");
+          
+    }
+  }
+}

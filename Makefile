@@ -7,7 +7,7 @@ all: dirs libopal marc alex astro genie opal doc_res tar
 
 # Create required directory structure
 dirs:
-	mkdir -pv build/{doc,log,report,res,tmp}
+	mkdir -pv build/{doc,log,report,res,tmp,examples}
 
 # Build OPaL library
 libopal: src/libopal.c include/libopal.h
@@ -31,17 +31,18 @@ astro: libopal src/astro.c
 genie: libopal src/genie.c
 	$(CC) $(CFLAGS) src/genie.c -g -lopal -o build/genie
 
-# Copy man page to build directory
+# Copy man page, resource files and examples to build directory
 doc_res:
 	cp -v ref/* build/doc/
 	cp -v res/* build/res/
+	cp -v input/calculator.opl build/examples/calculator.opl
 
 # Build orchestrator
 opal: libopal src/opal.c
 	$(CC) $(CFLAGS) src/opal.c -g -lopal -o build/opal
 
 # Tar all files for release
-tar: libopal marc alex astro genie doc_res
+tar: libopal opal doc_res
 	tar -cvf build/opal.tar build/
 
 .PHONY: test
