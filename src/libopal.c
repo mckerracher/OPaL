@@ -2855,8 +2855,7 @@ gen_obj (char *asm_fn, char *obj_fn)
   /// Create the NASM call with -g, -f and -o flags
   logger(DEBUG, "Calling NASM to assemble object.");
   char NASM_cmd[1024] = { 0 };
-  sprintf(NASM_cmd, "NASM -g -f elf64 -o %s %s", asm_fn, obj_fn);
-  sprintf(perror_msg, "NASM -g -f elf64 -o %s %s", asm_fn, obj_fn);
+  sprintf(NASM_cmd, "NASM -g -f elf64 -o %s %s", obj_fn, asm_fn);
 
   /// Check if asm_fn can be read
   logger(DEBUG, "access (%s, R_OK)", asm_fn);
@@ -2873,13 +2872,13 @@ gen_obj (char *asm_fn, char *obj_fn)
           _PASS;
 
           /// Call NASM to create the object
-          logger(DEBUG, "NASM -g -f elf64 -o %s %s", asm_fn, obj_fn);
+          logger(DEBUG, "nasm -g -f elf64 -o %s %s", obj_fn, asm_fn);
           errno = EXIT_SUCCESS;
           int sys_call = system (NASM_cmd);
           if (sys_call == EXIT_SUCCESS)
               _PASS;
           else
-              perror(perror_msg);
+              perror(NASM_cmd);
           return (sys_call);
       }
       else
