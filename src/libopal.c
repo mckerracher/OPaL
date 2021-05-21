@@ -2864,25 +2864,24 @@ gen_obj (char *asm_fn, char *obj_fn)
   {
       _PASS;
 
-      /// Check if obj_fn can be written to
-      logger(DEBUG, "access (%s, W_OK)", obj_fn);
-      errno = EXIT_SUCCESS;
-      if (access(obj_fn,  W_OK) == EXIT_SUCCESS)
+      /// Call NASM to create the object
+      logger(DEBUG, "nasm -g -f elf64 -o %s %s", obj_fn, asm_fn);
+      int sys_call = system (NASM_cmd);
+      if (sys_call == EXIT_SUCCESS)
       {
           _PASS;
 
-          /// Call NASM to create the object
-          logger(DEBUG, "nasm -g -f elf64 -o %s %s", obj_fn, asm_fn);
+          /// Check if obj_fn can be read
+          logger(DEBUG, "access (%s, R_OK)", obj_fn);
           errno = EXIT_SUCCESS;
-          int sys_call = system (NASM_cmd);
-          if (sys_call == EXIT_SUCCESS)
+          if (access(obj_fn,  R_OK) == EXIT_SUCCESS)
               _PASS;
           else
-              perror(NASM_cmd);
-          return (sys_call);
+              return(errno);
       }
       else
-          return (errno);
+          perror(NASM_cmd);
+      return (sys_call);
   }
   else
       return (errno);
