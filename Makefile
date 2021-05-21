@@ -35,7 +35,7 @@ genie: libopal src/genie.c
 doc_res:
 	cp -v ref/* build/doc/
 	cp -v res/* build/res/
-	cp -v input/calculator.opl build/examples/calculator.opl
+	cp -v input/calc.opl build/examples/calculator.opl
 
 # Build orchestrator
 opal: libopal src/opal.c
