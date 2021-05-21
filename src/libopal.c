@@ -2844,51 +2844,57 @@ free_asm_arrays ()
 short
 gen_obj (char *asm_fn, char *obj_fn)
 {
-  logger(DEBUG, "=== START ===");
-
-  /// Assert assembly file name is not null
-  assert(asm_fn);
-
-  /// Assert object file name is not null
-  assert(obj_fn);
-
-  /// Create the NASM call with -g, -f and -o flags
-  logger(DEBUG, "Calling NASM to assemble object.");
-  char NASM_cmd[1024] = { 0 };
-  sprintf(NASM_cmd, "NASM -g -f elf64 -o %s %s", obj_fn, asm_fn);
-
-  /// Check if asm_fn can be read
-  logger(DEBUG, "access (%s, R_OK)", asm_fn);
-  errno = EXIT_SUCCESS;
-  if (access(asm_fn, R_OK) == EXIT_SUCCESS)
-  {
-      _PASS;
-
-      /// Call NASM to create the object
-      logger(DEBUG, "nasm -g -f elf64 -o %s %s", obj_fn, asm_fn);
-      int sys_call = system (NASM_cmd);
-      if (sys_call == EXIT_SUCCESS)
-      {
-          _PASS;
-
-          /// Check if obj_fn can be read
-          logger(DEBUG, "access (%s, R_OK)", obj_fn);
-          errno = EXIT_SUCCESS;
-          if (access(obj_fn,  R_OK) == EXIT_SUCCESS)
-              _PASS;
-          else
-              return(errno);
-      }
-      else
-          perror(NASM_cmd);
-      return (sys_call);
-  }
-  else
-      return (errno);
-  logger(DEBUG, "=== END ===");
-
-  return EXIT_SUCCESS;
+    logger(DEBUG, "=== START ===");
+    /// Assert assembly file name is not null
+    assert(asm_fn);
+    /// Assert object file name is not null
+    assert(obj_fn);
+    /// Check if asm_fn can be read
+    sprintf(perror_msg, "access (%s, R_OK)", asm_fn);
+    logger(DEBUG, perror_msg);
+    errno = EXIT_SUCCESS;
+    if (access (asm_fn, R_OK) == EXIT_SUCCESS)
+    {
+        _PASS;
+        /// Create the NASM call with -g, -f and -o flags
+        logger(DEBUG, "Calling NASM to assemble object.");
+        char nasm_cmd[1024] = { 0 };
+        sprintf (nasm_cmd, "nasm -g -f elf64 -o %s %s", obj_fn, asm_fn);
+        logger(DEBUG, nasm_cmd);
+        int sys_call = system (nasm_cmd);
+        if (sys_call == EXIT_SUCCESS)
+        {
+            _PASS;
+            /// Check if obj_fn can be read
+            sprintf (perror_msg, "access (%s, R_OK)", obj_fn);
+            logger(DEBUG, perror_msg);
+            errno = EXIT_SUCCESS;
+            if (access (obj_fn, R_OK) == EXIT_SUCCESS)
+                _PASS;
+            else
+            {
+                perror (perror_msg);
+                _FAIL;
+                return (errno);
+            }
+        }
+        else
+        {
+            perror (nasm_cmd);
+            _FAIL;
+            return (sys_call);
+        }
+    }
+    else
+    {
+        perror (perror_msg);
+        _FAIL;
+        return (errno);
+    }
+    logger(DEBUG, "=== END ===");
+    return EXIT_SUCCESS;
 }
+
 
 /**
  * @brief           Link object using LD
