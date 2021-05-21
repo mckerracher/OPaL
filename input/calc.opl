@@ -10,7 +10,7 @@ _run = True;
 while (_run != False)
 {
   
-  print("\nOPaL Calculator\n");
+  print("\n*** OPaL Calculator ***\n");
   op = input("Operation: \n0)Exit\n1)Add\n2)Subtract\n3)Multiply\n4)Divide\n5)Remainder\n");
   
   if (op == 0)
