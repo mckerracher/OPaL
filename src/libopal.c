@@ -2167,7 +2167,7 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
 /**
  * @brief       Free memory allocated for syntax tree
  *
- * @param[in,out]   syntax_tree    Syntax tree to deallocate
+ * @param[in,out]   node   Syntax tree to deallocate
  *
  * @return      NULL
  *
