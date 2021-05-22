@@ -7,7 +7,7 @@ all: dirs libopal marc alex astro genie opal doc_res tar
 
 # Create required directory structure
 dirs:
-	mkdir -pv build/{doc,log,report,res,tmp}
+	mkdir -pv build/{doc,log,report,res,tmp,examples}
 
 # Build OPaL library
 libopal: src/libopal.c include/libopal.h
@@ -31,17 +31,18 @@ astro: libopal src/astro.c
 genie: libopal src/genie.c
 	$(CC) $(CFLAGS) src/genie.c -g -lopal -o build/genie
 
-# Copy man page to build directory
+# Copy man page, resource files and examples to build directory
 doc_res:
 	cp -v ref/* build/doc/
 	cp -v res/* build/res/
+	cp -v input/calc.opl build/examples/calculator.opl
 
 # Build orchestrator
 opal: libopal src/opal.c
 	$(CC) $(CFLAGS) src/opal.c -g -lopal -o build/opal
 
 # Tar all files for release
-tar: libopal marc alex astro genie doc_res
+tar: libopal opal doc_res
 	tar -cvf build/opal.tar build/
 
 .PHONY: test
@@ -117,6 +118,11 @@ test: clean all
 	@printf "\n=== Test 29 ===\n"
 	build/genie --debug --output=output/test29.asm input/test29.opl
 	diff -s output/test29.asm test/test29.asm
+	
+	#OPAL tests
+	@printf "\n=== Test 30 ===\n"
+	build/opal --debug --output=output/calc.bin input/calc.opl
+	@expect test/test30.exp
 
 all_tests: test
 	# Negative tests
