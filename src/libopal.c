@@ -2167,7 +2167,7 @@ print_ast_html (node_s *syntax_tree, FILE *report_fp)
 /**
  * @brief       Free memory allocated for syntax tree
  *
- * @param[in,out]   syntax_tree    Syntax tree to deallocate
+ * @param[in,out]   node   Syntax tree to deallocate
  *
  * @return      NULL
  *
@@ -2912,7 +2912,52 @@ gen_bin (char *obj_fn, char *dest_fn)
   /// Assert destination file name is not null
   assert(dest_fn);
 
-  // TODO
+  /// Call to linker
+  logger(DEBUG, "Calling LD to link object.");
+  char LD_cmd[1024] = { 0 };
+  sprintf(LD_cmd, "ld -m elf_x86_64 -o %s -lc -I/lib64/ld-linux-x86-64.so.2 %s", dest_fn, obj_fn);
+
+  /// Confirm obj_fn can be read
+  logger(DEBUG, "access(obj_fn, R_OK)");
+  errno = EXIT_SUCCESS;
+  if (access(obj_fn, R_OK) == 0)
+    {
+
+      /// Use LD to link the obj_fn contents
+      logger(DEBUG, "ld -m elf_x86_64 -o %s -lc -I/lib64/ld-linux-x86-64.so.2 %s", dest_fn, obj_fn);
+      errno = EXIT_SUCCESS;
+      int sys_call = system(LD_cmd);
+
+      /// Confirm successful linking
+      if (sys_call == 0)
+        {
+          /// Confirm dest_fn can be read to and executed
+          logger(DEBUG, "access(obj_fn, R_OK) && access(obj_fn, X_OK)");
+          errno = EXIT_SUCCESS;
+          if ((access(dest_fn, R_OK) == 0) && (access(dest_fn, X_OK) == 0))
+            _PASS;
+
+            /// Return errno if missing permissions on dest_fn
+          else
+            {
+              perror("access(obj_fn, R_OK) && access(obj_fn, X_OK)");
+              return errno;
+            }
+        }
+
+      /// ...or log command if unsuccessful
+      else{
+        perror(LD_cmd);
+        return sys_call;
+      }
+    }
+
+  /// ...or missing read permission on obj_fn
+  else
+    {
+      perror("access(obj_fn, R_OK)");
+      return errno;
+    }
 
   logger(DEBUG, "=== END ===");
 
