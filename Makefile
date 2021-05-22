@@ -119,8 +119,9 @@ test: clean all
 	build/genie --debug --output=output/test29.asm input/test29.opl
 	diff -s output/test29.asm test/test29.asm
 	
+	#OPAL tests
 	@printf "\n=== Test 30 ===\n"
-	build/genie --debug --output=output/calc.bin input/calc.opl
+	build/opal --debug --output=output/calc.bin input/calc.opl
 	@expect test/test30.exp
 
 all_tests: test
