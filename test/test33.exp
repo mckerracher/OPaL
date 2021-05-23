@@ -43,6 +43,6 @@ if {$force_conservative} {
 
 
 set timeout 1
-spawn ./optest.bin
+spawn output/optest.bin
 match_max 100000
 expect eof
