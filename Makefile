@@ -128,6 +128,10 @@ test: clean all
 	build/opal --debug --output=output/PaperScissorsRock.bin input/PaperScissorsRock.opl
 	@expect test/test31.exp
 
+	@printf "\n=== Test 32 ===\n"
+	build/opal --debug --output=output/Sequences.bin input/Sequences.opl
+	@expect test/test32.exp
+	
 all_tests: test
 	# Negative tests
 	@printf "\n=== Test 7 ===\n"

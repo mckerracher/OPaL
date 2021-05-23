@@ -1,0 +1,107 @@
+/*This program prints the number of elements specified by the user of one of three sequences. These include prime numbers, squared numbers, and the Fibonacci sequence.*/
+
+  print(" *** Number Sequence Printer *** ");
+
+  sequence = -1;
+  
+  while (sequence != 0)
+  {
+      sequence = -1; 
+      while ((sequence < 0) || (sequence >= 4))
+      {
+        print("\n\n Which sequence would you like to see?\n");
+        sequence = input(" 0)Exit\n 1)Prime Numbers\n 2)Square Numbers\n 3)Fibonacci Sequence\n");
+    
+        if ((sequence < 0))
+        {
+          print ("\n Invalid number. \n");
+          sequence = 0;  //reset
+        }
+        else
+          print( "\n");
+      }
+      
+      num_elements = -1;
+      
+      while (((num_elements < 1) || (num_elements > 12)) && (sequence != 0))
+      {
+        print ("And how many numbers would you like to see?\n");
+        num_elements = input("Please enter a number between 1 and 12: \n");
+        
+        if (num_elements < 0)
+        {
+          print ("\n Invalid number. \n");
+          sequence = 0;  //reset
+        }
+        else
+        {
+          print( "\n");
+        }
+      }
+      
+      num_elements_printed = 0;
+    
+
+          //Prime numbers
+          if (sequence == 1)
+            {
+              print("\nThe first ", num_elements, " Prime Numbers\n");
+              element = 2;
+              while (num_elements_printed < num_elements)
+              {
+                if ((element == 2) || (element == 3) || (element == 5))
+                  {
+                    print(element, " ");
+                    num_elements_printed = num_elements_printed + 1;
+                  }
+                else{
+                  if (!(element % 2 == 0) && !(element % 3 == 0) && !(element % 5 == 0))
+                  {
+                    print(element, " ");
+                    num_elements_printed = num_elements_printed + 1;
+                  }
+                  else
+                    print("_ " );
+                }
+                element = element + 1;
+              }
+            }
+        
+          else
+          {
+            //Square numbers
+            if (sequence == 2)
+            {
+              print("\nThe first ", num_elements, " Square Numbers\n");
+              element = 1;
+              while (num_elements_printed < num_elements)
+              {
+                print(element * element, " ");
+                num_elements_printed = num_elements_printed + 1;
+                element = element + 1;
+              }
+            }
+            
+            //Fibonacci Sequence
+            else
+            {
+                if (sequence == 3){
+              print("\nThe first ", num_elements, " terms of the Fibonacci Sequence\n");
+              n_minus_one = 0;
+              n = 1;
+        
+              while (num_elements_printed < num_elements)
+              {
+                print(n, " ");
+                temp = n;
+                n = n_minus_one + n;
+                n_minus_one = temp;
+                num_elements_printed = num_elements_printed + 1;
+              }   
+            }
+            else
+              print("Exiting");
+          }
+      }
+  } //greater while
+  print("\n\n");
