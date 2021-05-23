@@ -69,6 +69,7 @@ y = (1 + x) * 2;
 ** CONTROL STRUCTURE **
 
 The language supports the ‘if-else’ control structure.
+All if statements must be coupled with an else.
 Eg:
 
 ```

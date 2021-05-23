@@ -69,7 +69,21 @@ file
     }
     a = a + 1;
   }
-  $ ./opal.sh --output=test.bin test.opl
+  $ ./opal --output=test.bin test.opl
+  Source file:    test.opl
+  Log file:       log/oc_log
+  Temp directory: tmp/
+  Removed comments from source file.
+  Processed #include files.
+  Removed comments from included files.
+  Symbol table of lexemes created.
+  Abstract Syntax Tree created.
+  Abstract Syntax Tree optimization done.
+  Assembly code generated.
+  Assemble object file using 'NASM'.
+  Link object file using 'ld'.
+  Output file:    test.bin
+  Compilation report:     report/oc_report.html
   $ ./test.bin
   a: 0 is less than 2.
   a: 1 is less than 2.
