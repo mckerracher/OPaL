@@ -37,6 +37,8 @@ doc_res:
 	cp -v res/* build/res/
 	cp -v input/bool.hpl build/examples/bool.hpl
 	cp -v input/calc.opl build/examples/calculator.opl
+	cp -v input/PaperScissorsRock.opl build/examples/PaperScissorsRock.opl
+	cp -v input/Sequences.opl build/examples/Sequences.opl
 
 # Build orchestrator
 opal: libopal src/opal.c
