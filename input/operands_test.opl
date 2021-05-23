@@ -1,0 +1,89 @@
+/*
+ * Simple program in the OPaL language to test all operators.
+ */
+
+/* Notes about tests: the assignment operator is implicitly tested in each test below. The same is true for
+the equality operator. */
+
+print("Testing all operators\n");
+
+// Variables used in tests
+a = 10;
+b = 5;
+
+// Test addition
+c = a + b;
+if (c == 15)
+    print("Addition passed\n");
+else
+    print("Addition failed\n");
+
+// Test subtraction
+d = a - b;
+if (d == 5)
+    print("Subtraction passed\n");
+else
+    print("Subtraction failed\n");
+
+// Test multiplication
+e = a * b;
+if (e == 50)
+    print("Multiplication passed\n");
+else
+    print("Multiplication failed\n");
+
+// Test division
+f = a / b;
+if (f == 2)
+    print("Division passed\n");
+else
+    print("Division failed\n");
+
+// Test modulus
+g = a % b;
+if (g == 0)
+    print("Modulus passed\n");
+else
+    print("Modulus failed\n");
+
+// Test inequality operator
+if (a != b)
+    print("Inequality operator passed\n");
+else
+    print("Inequality operator failed\n");
+
+// Test less than operator
+if (b < a)
+    print("Less than operator passed\n");
+else
+    print("Less than operator failed\n");
+
+// Test greater than operator
+if (a > b)
+    print("Greater than operator passed\n");
+else
+    print("Greater than operator failed\n");
+
+// Test less than or equal to operator
+if (a <= 10)
+    print("Less than or equal to operator passed\n");
+else
+    print("Less than or equal to operator failed\n");
+
+// Test greater than or equal to operator
+if (b >= 5)
+    print("Greater than or equal to operator passed\n");
+else
+    print("Greater than or equal to operator failed\n");
+
+// Test logical AND operator
+if ((a == 10) && (b == 5))
+    print("And operator passed\n");
+else
+    print("And operator failed\n");
+
+// Test logical OR operator
+if ((a == 5) || (b == 5))
+    print("Or operator passed\n");
+else
+    print("Or operator failed\n");
