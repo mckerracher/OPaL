@@ -134,7 +134,11 @@ test: clean all
 	@printf "\n=== Test 32 ===\n"
 	build/opal --debug --output=output/Sequences.bin input/Sequences.opl
 	@expect test/test32.exp
-	
+
+	@printf "\n=== Test 33 ===\n"
+	build/opal --debug --output=output/optest.bin input/operands_test.opl
+	@expect test/test33.exp
+
 all_tests: test
 	# Negative tests
 	@printf "\n=== Test 7 ===\n"
