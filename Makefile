@@ -35,6 +35,7 @@ genie: libopal src/genie.c
 doc_res:
 	cp -v ref/* build/doc/
 	cp -v res/* build/res/
+	cp -v input/bool.hpl build/examples/bool.hpl
 	cp -v input/calc.opl build/examples/calculator.opl
 
 # Build orchestrator
