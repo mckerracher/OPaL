@@ -1,0 +1,117 @@
+/*This program follows the standard rule of Paper, Scissors, Rock. The computer 
+ *opponent chooses an option before the user makes their selection.
+ *The winner of the decided number of round will be declared the victor.*/
+
+  print(" *** OPaL Game: Paper, Scissors, Rock ***\n\n ");
+  num_rounds = 0;
+
+  //Get the number of rounds to play from user
+  while ((num_rounds % 2) == 0)
+  {
+    num_rounds = input ("How many rounds do you want to play? \n Please enter an odd number: ");
+    //num_rounds = 5;
+    if ( !(num_rounds > 0))
+    {
+      print ("\n Invalid number. \n");
+      num_rounds = 0;  //reset num_games counter
+    }
+    else
+    {
+        print( "\n");
+    }
+  }
+
+  //Play game!
+   games_played = 0;
+   games_user_won = 0;
+   games_computer_won = 0;
+
+  while (games_played < num_rounds)
+  {
+    print (" * * Game ", games_played + 1, " of ", num_rounds, " * * \n");
+    //Computer selects
+    //Paper == 1, Scissors == 2, Rock == 3;
+     computer_choice = (games_played % 3) + 1;
+
+    //User selects
+     user_choice = 0;
+    while ( (user_choice < 1) || (user_choice > 3) )
+    {
+      user_choice = input ("  1)Paper\n  2)Scissors\n  3)Rock\nChoose your weapon: ");
+    }
+
+    print ("You entered ", user_choice, ".\n");
+
+    //Print choices
+    //Computer's choice
+    print ("\nThe computer played ");
+
+    if ( computer_choice == 1 )
+       print ( "Paper ");
+       
+    else
+    {
+        if (computer_choice == 2)
+          print ("Scissors ");
+
+        else //computer_choice == 3
+          print ("Rock ");
+    }
+
+    //User's choice
+    print("and you played ");
+
+
+    if (user_choice == 1)
+       print("Paper.\n");
+
+    else
+    {
+        if (user_choice == 2)
+           print("Scissors.\n");
+           
+        else //user_choice == 3
+           print("Rock.\n");
+    }
+
+    //Determine winner
+    //No winner
+    if (user_choice == computer_choice)
+    {
+      print("It's a tie! Replay the round.\n");
+      //Do not increase the score or game counters
+    }
+
+    //round decided
+    else
+    {
+        //User wins if choice is higher than computer's OR they had Paper against Rock
+        if ((user_choice > computer_choice) || ((user_choice == 1) && (computer_choice == 3)))
+        {
+          print("You won the round!\n\n");
+          games_user_won = games_user_won + 1;
+          games_played = games_played + 1;
+        }
+    
+        //Otherwise the computer has won
+        else
+        {
+          print("You lost the round.\n\n");
+          games_computer_won = games_computer_won + 1;
+          games_played = games_played + 1;
+        } 
+    }
+    
+    //Print running scores
+    print("\n The score is currently You:", games_user_won, " Computer: ", games_computer_won,"\n");
+
+  } //Game ends when all user-specified rounds are played
+
+  //Print final scores
+  print(" *** FINAL SCORES ***\n");
+  print("You:", games_user_won, " Computer: ", games_computer_won,"\n");
+
+  if (games_user_won > games_computer_won)
+    print("\n * * CONGRATULATIONS! You won!! * *\n\n");
+  else
+    print("\n - You lost. Better luck next time. - \n\n");
