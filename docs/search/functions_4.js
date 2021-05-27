@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['rem_5fcomments_30',['rem_comments',['../opal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135',1,'rem_comments(FILE *, FILE *):&#160;opal.c'],['../opal_8c.html#a35b36f4d03b295f20b734a0dcff3a6b7',1,'rem_comments(FILE *source_fd, FILE *dest_fd):&#160;opal.c']]]
+  ['free_5fasm_5farrays_167',['free_asm_arrays',['../libopal_8h.html#ab29b33d3b68c06bb1cef882d95b54676',1,'free_asm_arrays():&#160;libopal.c'],['../libopal_8c.html#ab29b33d3b68c06bb1cef882d95b54676',1,'free_asm_arrays():&#160;libopal.c']]],
+  ['free_5fsymbol_5ftable_168',['free_symbol_table',['../libopal_8h.html#aee033c38e101ee9a4819568d32391311',1,'free_symbol_table(lexeme_s *):&#160;libopal.c'],['../libopal_8c.html#af4757d144fdd29f4f548e6b65ff877aa',1,'free_symbol_table(lexeme_s *symbol_table):&#160;libopal.c']]],
+  ['free_5fsyntax_5ftree_169',['free_syntax_tree',['../libopal_8h.html#a5488ec319f8557d7ab9fc15e14bc451a',1,'free_syntax_tree(node_s *):&#160;libopal.c'],['../libopal_8c.html#acd7e7f056f3c9afa9456c2d1d75b308a',1,'free_syntax_tree(node_s *node):&#160;libopal.c']]]
 ];

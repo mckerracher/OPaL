@@ -94,155 +94,63 @@ $(document).ready(function(){initNavTree('opal_8c.html',''); initResizable(); })
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">opal.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;argp.h&gt;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
+<code>#include &lt;errno.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="libopal_8h_source.html">../include/libopal.h</a>&quot;</code><br />
+</div>
 <p><a href="opal_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structarguments.html">arguments</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct to hold Command Line arguments.  <a href="structarguments.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8738821155207d736631eab42d8b7217"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#a8738821155207d736631eab42d8b7217">opal_log</a> (<a class="el" href="opal_8h.html#a422dd72bca60185cb2aedf7a8c5027e1">log_level_e</a> tag, const char *file, int line, const char *func, const char *fmt,...)</td></tr>
-<tr class="memdesc:a8738821155207d736631eab42d8b7217"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print formatted message to log file.  <a href="opal_8c.html#a8738821155207d736631eab42d8b7217">More...</a><br /></td></tr>
-<tr class="separator:a8738821155207d736631eab42d8b7217"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a079add52854a2e52aaa420ab066b6b4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#a079add52854a2e52aaa420ab066b6b4c">banner</a> (const char *msg)</td></tr>
-<tr class="memdesc:a079add52854a2e52aaa420ab066b6b4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print banner with stars above and below given string in DEBUG mode.  <a href="opal_8c.html#a079add52854a2e52aaa420ab066b6b4c">More...</a><br /></td></tr>
-<tr class="separator:a079add52854a2e52aaa420ab066b6b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae559f1e60e611246de516e7bb925f81"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#aae559f1e60e611246de516e7bb925f81">opal_exit</a> (short code)</td></tr>
-<tr class="memdesc:aae559f1e60e611246de516e7bb925f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to close all open resources before program exit.  <a href="opal_8c.html#aae559f1e60e611246de516e7bb925f81">More...</a><br /></td></tr>
-<tr class="separator:aae559f1e60e611246de516e7bb925f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35b36f4d03b295f20b734a0dcff3a6b7"><td class="memItemLeft" align="right" valign="top"><a id="a35b36f4d03b295f20b734a0dcff3a6b7"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#a35b36f4d03b295f20b734a0dcff3a6b7">rem_comments</a> (FILE *<a class="el" href="opal_8h.html#ad3893007f61414f87271127816fc455a">source_fd</a>, FILE *<a class="el" href="opal_8h.html#ac968cf86c4367c0e4f85136296c40f29">dest_fd</a>)</td></tr>
-<tr class="memdesc:a35b36f4d03b295f20b734a0dcff3a6b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read source, remove comments, write to destination. <br /></td></tr>
-<tr class="separator:a35b36f4d03b295f20b734a0dcff3a6b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae68e553ef3e43b34813c9d74dd4f75e4"><td class="memItemLeft" align="right" valign="top"><a id="ae68e553ef3e43b34813c9d74dd4f75e4"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#ae68e553ef3e43b34813c9d74dd4f75e4">proc_includes</a> (FILE *<a class="el" href="opal_8h.html#ad3893007f61414f87271127816fc455a">source_fd</a>, FILE *<a class="el" href="opal_8h.html#ac968cf86c4367c0e4f85136296c40f29">dest_fd</a>)</td></tr>
-<tr class="memdesc:ae68e553ef3e43b34813c9d74dd4f75e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read source, process includes, write to destination. <br /></td></tr>
-<tr class="separator:ae68e553ef3e43b34813c9d74dd4f75e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:a3c04138a5bfe5d72780bb7e82a18e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function for opal - OPaL compiler.  <a href="opal_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">More...</a><br /></td></tr>
+<tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af806de90c2f7de7c398004aaa4350ab7"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#af806de90c2f7de7c398004aaa4350ab7">argp_program_version_hook</a> )(FILE *stream, struct argp_state *state)</td></tr>
+<tr class="memdesc:af806de90c2f7de7c398004aaa4350ab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hook for printing build version.  <a href="opal_8c.html#af806de90c2f7de7c398004aaa4350ab7">More...</a><br /></td></tr>
+<tr class="separator:af806de90c2f7de7c398004aaa4350ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa037e59f26a80a8a2e35e6f2364004d"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8c.html#aaa037e59f26a80a8a2e35e6f2364004d">argp_program_bug_address</a></td></tr>
+<tr class="memdesc:aaa037e59f26a80a8a2e35e6f2364004d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Link for reporting bugs.  <a href="opal_8c.html#aaa037e59f26a80a8a2e35e6f2364004d">More...</a><br /></td></tr>
+<tr class="separator:aaa037e59f26a80a8a2e35e6f2364004d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a079add52854a2e52aaa420ab066b6b4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a079add52854a2e52aaa420ab066b6b4c">&#9670;&nbsp;</a></span>banner()</h2>
+<a id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c04138a5bfe5d72780bb7e82a18e627">&#9670;&nbsp;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void banner </td>
+          <td class="memname">int main </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>msg</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Print banner with stars above and below given string in DEBUG mode. </p>
-<p>Print a banner with stars above and below given string.</p>
-<p>Helper function to show something prominently in the logs Eg:</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a></p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a> ***************************************************************</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a> MARC start.</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a> ***************************************************************</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a></p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">msg</td><td>String to print</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
-<p>Create buffer of 64 characters size and fill with 63 stars</p>
-<p>Call logger macro to print newline, 63 stars, string, 63 stars &amp; newline</p>
-
-<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00105">105</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
-
-</div>
-</div>
-<a id="aae559f1e60e611246de516e7bb925f81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae559f1e60e611246de516e7bb925f81">&#9670;&nbsp;</a></span>opal_exit()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">short opal_exit </td>
-          <td>(</td>
-          <td class="paramtype">short&#160;</td>
-          <td class="paramname"><em>code</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Function to close all open resources before program exit. </p>
-<p>Close open files, flush buffers and exit.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">code</td><td>Exit code to return</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">code</td><td></td></tr>
-    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Flush stdout</p>
-<p>Close source file</p>
-<p>Flush and close destination file</p>
-<p>Flush and close log file</p>
-
-<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00132">132</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
-
-</div>
-</div>
-<a id="a8738821155207d736631eab42d8b7217"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8738821155207d736631eab42d8b7217">&#9670;&nbsp;</a></span>opal_log()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void opal_log </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="opal_8h.html#a422dd72bca60185cb2aedf7a8c5027e1">log_level_e</a>&#160;</td>
-          <td class="paramname"><em>tag</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>, </td>
+          <td class="paramname"><em>argc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>fmt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -252,35 +160,137 @@ short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opa
       </table>
 </div><div class="memdoc">
 
-<p>Print formatted message to log file. </p>
-<p>Helper function to log messages. Function writes to global variable log_fd. Usually called by a macro logger. Eg:</p>
-<p>logger (ERROR, "Cannot read file: %s", file_name);</p>
-<p>logger (DEBUG, "access('%s', F_OK)", source_fn););</p>
+<p>Main function for opal - OPaL compiler. </p>
+<ol type="1">
+<li>Calls the remove_comments() and <a class="el" href="libopal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4" title="Process include files, write to destination.">proc_includes()</a> to process source file.</li>
+<li>Calls the <a class="el" href="libopal_8h.html#a92162f1c45121d0238f06d5f13dcb208" title="Populate symbol table with lexemes in source file pointer.">build_symbol_table()</a> to build symbol table.</li>
+<li>Calls <a class="el" href="libopal_8h.html#ad59a42ca521899a5eafe0d8b313da058" title="Build abstract syntax tree from symbol table.">build_syntax_tree()</a> to build the abstract syntax tree.</li>
+<li>Calls gen_asm() to build the assembly code table and write to destination.</li>
+<li>Calls <a class="el" href="libopal_8h.html#a10b7af265b19b00e6fcefb9b8f2f7f94" title="Assemble object using NASM.">gen_obj()</a> to assemble object file using NASM.</li>
+<li>Calls <a class="el" href="libopal_8h.html#acc3911adea655b9d0ffc282534ab2ee3" title="Link object using LD.">gen_bin()</a> to link binary file using ld.</li>
+</ol>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">tag</td><td>Log level of message </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>Source file name </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>Source file line number </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>Source file function </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">fmt</td><td>Formatted message to log</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">argc</td><td>Number of command line arguments </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">argv</td><td>Vector of individual command line argument strings </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
-<ol type="1">
-<li>Assert log file descriptor is not null</li>
-<li>Allocate buffer to hold message to log</li>
-<li>Read formatted user message string into the buffer</li>
-<li><p class="startli">If tag is a result of a system call and current log level is more than DEBUG, print the message and return.</p>
-<p class="startli">Eg - PASS / FAIL etc</p>
-</li>
-<li><p class="startli">If log message is less than current log level, print message with current date, time to log file descriptor. Eg.</p>
-<p class="startli">[05/02/2021 20:57:58] [DEBUG] <a class="el" href="marc_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Main function for pre-processor marc.">main()</a> [source_fd] access('input/hello.opl', R_OK) - PASS</p>
-</li>
-<li>Flush message to log file</li>
-</ol>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Create structure to process command line arguments</p>
+<p>Parse arguments</p>
+<p>Populate variables for source, destination, log, report files</p>
+<p>Open log file in append mode, else exit program</p>
+<p>If source file does not exist, print error and exit</p>
+<p>If source file can not be read, print error and exit</p>
+<p>Check if destination file exists</p>
+<p>If destination file exists, delete it</p>
+<p>Open source file in read-only mode</p>
+<p>Check if report file exists</p>
+<p>Truncate report file</p>
+<p>If report file can not be written, print error and exit</p>
+<p>Initialize HTML report file</p>
+<p>Call MARC functions to pre-process source file</p>
+<p>Create and open temp destination file for remove_comments()</p>
+<p>If temp file can not be written, print error and exit</p>
+<p>Remove comments from source with <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a>, write to rc_tmp</p>
+<p>Close source file pointer source_fp if not NULL</p>
+<p>Close <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file pointer rc_fp if not NULL</p>
+<p>Open <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file in read mode, else print error and exit</p>
+<p>Create and open temp destination file for <a class="el" href="libopal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4" title="Process include files, write to destination.">proc_includes()</a></p>
+<p>If temp file can not be written, print error and exit</p>
+<p>Process #include directives from source with <a class="el" href="libopal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4" title="Process include files, write to destination.">proc_includes()</a></p>
+<p>Close rem_comments temp file pointer if not NULL</p>
+<p>Close <a class="el" href="libopal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4" title="Process include files, write to destination.">proc_includes()</a> temp file pointer if not NULL</p>
+<p>Open <a class="el" href="libopal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4" title="Process include files, write to destination.">proc_includes()</a> temp file in read mode, else print error and exit</p>
+<p>Open <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file in write mode, else print error and exit</p>
+<p>Remove comments from includes files with <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a>, write to rc_tmp</p>
+<p>Close <a class="el" href="libopal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4" title="Process include files, write to destination.">proc_includes()</a> temp file pointer, else print error and exit</p>
+<p>Close <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file pointer, else print error and exit</p>
+<p>Open <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file in read mode, else print error and exit</p>
+<p>Append MARC output to HTML report</p>
+<p>Close <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file pointer, else print error and exit</p>
+<p>Start lexical analyzer code</p>
+<p>Open <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file as source_fp, else print error and exit</p>
+<p>Create symbol table linked list</p>
+<p>&lt; Number of lexemes identified</p>
+<p>Build symbol table using <a class="el" href="libopal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135" title="Read source, remove comments, write to destination.">rem_comments()</a> temp file as source</p>
+<p>Create and open temp destination file for <a class="el" href="libopal_8h.html#a8ef6f834db95b86cb5dc1b5d494438e2" title="Print symbol table to destination file pointer.">print_symbol_table()</a></p>
+<p>If alex temp file can not be written, print error and exit</p>
+<p>Print symbol table with <a class="el" href="libopal_8h.html#a8ef6f834db95b86cb5dc1b5d494438e2" title="Print symbol table to destination file pointer.">print_symbol_table()</a> to alex temp file</p>
+<p>Print symbol table HTML report with <a class="el" href="libopal_8h.html#a74a49be2cb5b32f92c753068cfd10fa1" title="Print symbol table to HTML report.">print_symbol_table_html()</a></p>
+<p>Start syntax analyzer code</p>
+<p>Build abstract syntax tree using symbol table</p>
+<p>Print abstract syntax tree HTML report with <a class="el" href="libopal_8h.html#a8fbade0fa39aac463cbeb35b676bf1a0" title="Print abstract syntax tree to HTML report.">print_ast_html()</a></p>
+<p>Optimize the abstract syntax tree</p>
+<p>Print optimized syntax tree HTML report with <a class="el" href="libopal_8h.html#a8fbade0fa39aac463cbeb35b676bf1a0" title="Print abstract syntax tree to HTML report.">print_ast_html()</a></p>
+<p>Start code generator</p>
+<p>Build assembly code table using</p>
+<p>Create and open temp destination file for <a class="el" href="libopal_8h.html#acdf97044819bf64d6daa56ea1a8c19ab" title="Print assembly code list.">print_asm_code()</a></p>
+<p>If asm temp file can not be written, print error and exit</p>
+<p>Print symbol table with <a class="el" href="libopal_8h.html#a8ef6f834db95b86cb5dc1b5d494438e2" title="Print symbol table to destination file pointer.">print_symbol_table()</a> to assembly file</p>
+<p>Close asm temp file pointer asm_fp if not NULL</p>
+<p>Print assembly code with <a class="el" href="libopal_8h.html#a7550da2002e988ee91445e3606d069a2" title="Print assembly code list to HTML report file.">print_asm_code_html()</a></p>
+<p>Start orchestrator</p>
+<p>If object object file exists, delete it</p>
+<p>Assemble object using NASM</p>
+<p>Link object using LD</p>
+<p>Close HTML report file</p>
+<p>Free memory used by symbol_table</p>
+<p>Free memory used by syntax_tree</p>
+<p>Free memory used by ASM array</p>
+<p>source_fp, dest_fp, log_fp &amp; report_fp closed by <a class="el" href="libopal_8h.html#a82c2145d603c4f8547222977c4f18168" title="Close open files, flush buffers and exit.">opal_exit()</a></p>
 
-<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00038">38</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00127">127</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="aaa037e59f26a80a8a2e35e6f2364004d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa037e59f26a80a8a2e35e6f2364004d">&#9670;&nbsp;</a></span>argp_program_bug_address</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* argp_program_bug_address</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">    <span class="stringliteral">&quot;https://github.com/mckerracher/OPaL/issues&quot;</span></div>
+</div><!-- fragment -->
+<p>Link for reporting bugs. </p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00026">26</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="af806de90c2f7de7c398004aaa4350ab7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af806de90c2f7de7c398004aaa4350ab7">&#9670;&nbsp;</a></span>argp_program_version_hook</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* argp_program_version_hook) (FILE *stream, struct argp_state *state)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">argp_print_version</div>
+</div><!-- fragment -->
+<p>Hook for printing build version. </p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00022">22</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
 
 </div>
 </div>

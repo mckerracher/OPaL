@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OPaL: OPaL - OSU Programmin Language Compiler</title>
+<title>OPaL: OPaL - OSU Programming Language Compiler</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -94,45 +94,91 @@ $(document).ready(function(){initNavTree('md__r_e_a_d_m_e.html',''); initResizab
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">OPaL - OSU Programmin Language Compiler </div>  </div>
+<div class="title">OPaL - OSU Programming Language Compiler </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This is the repository for code by the team</p>
-<h1><a class="anchor" id="autotoc_md1"></a>
-Class: CS467-400 Spring 2021  Capstone Project</h1>
-<h1><a class="anchor" id="autotoc_md2"></a>
-Instructor:</h1>
-<p><a href="#" onclick="location.href='mai'+'lto:'+' wi'+'ll'+'iam'+'.p'+'fei'+'l@'+'ore'+'go'+'nst'+'at'+'e.e'+'du'; return false;">Bill Pfeil</a></p>
-<h1><a class="anchor" id="autotoc_md3"></a>
-Team:</h1>
+<div class="textblock"><h2><a class="anchor" id="autotoc_md1"></a>
+Table of contents</h2>
 <ul>
-<li><a href="#" onclick="location.href='mai'+'lto:'+' da'+'ml'+'ek@'+'or'+'ego'+'ns'+'tat'+'e.'+'edu'; return false;">Kedar Damle</a> <br  />
-</li>
-<li><a href="#" onclick="location.href='mai'+'lto:'+' mc'+'ke'+'rra'+'j@'+'ore'+'go'+'nst'+'at'+'e.e'+'du'; return false;">Josh Mckerracher</a> <br  />
-</li>
-<li><a href="#" onclick="location.href='mai'+'lto:'+' le'+'on'+'s@o'+'re'+'gon'+'st'+'ate'+'.e'+'du'; return false;">Sarah Leon</a> <br  />
-</li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#copying">Copying</a></li>
+<li><a href="#system-requirements">System requirements</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#running-tests">Running tests</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#feedback">Feedback</a></li>
+<li><a href="#about">About</a></li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Introduction</h1>
+<p>Class: CS467-400 Spring 2021 Capstone Project</p>
+<p>This is the repository for the team to design and develop a compiler using C/C++ for a dynamically typed language, that is inspired by Python and C. It produces assembly code modelled after Java bytecode using a stack machine. An orchestrator tool that is used by the end user, runs the individual components of the project sequentially and then invokes NASM to output an executable.</p>
+<ul>
+<li>The language syntax specification for the language can be found in the “OPaL - Language Specification” document.</li>
+<li>A few examples of programs written and compiled can be found in the “OPaL -Examples” document.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md3"></a>
+Features</h1>
+<p>The goal of the compiler is not to be the most efficient or create the most optimized program, but rather be easy to understand, implement and study. The process will help us learn compiler development and understand how a high level language can be translated into lower level code to run on a computer. The compiler is split into following stages:</p><ol type="1">
+<li>MARC - The preprocessor replaces macros in the source file. The language currently supports the #include directive, which reads in the given file.</li>
+<li>ALEX - The lexical analyzer reads the source file resulting from MARC and creates lexemes for the supported syntax to append to the symbol table.</li>
+<li>ASTRO - The syntax analyzer walks symbol table created by ALEX and creates a abstract syntax tree based on the lanuage grammar.</li>
+<li>GENIE - The code generator walks the syntax tree created by ASTRO and produces [single-address]() assembly code for a 32-bit stack machine.</li>
+<li>oc - The orchestrator tool used by the end user calls the individual components in order to generate an assembly file for the given source file. It then calls NASM to create an object file, followed by linking the object file with <code>ld</code> to generate an executable.</li>
+</ol>
+<p>The program also generates a number of helpful references, that show the individual steps taken by the compiler. A HTML report can be generated with the output shown from each stage, [example](), man pages showing individual source file usage, source code doxygen report etc.</p>
+<ul>
+<li>The project follows the GNU coding standards found <a href="https://www.gnu.org/prep/standards/standards.html#Formatting">here</a></li>
+<li>The code is commented for <a href="https://www.doxygen.nl">Doxygen</a> and developer documentation can be found <a href="https://mckerracher.github.io/OPaL/">here</a></li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
-Project tracking:</h2>
-<p><a href="https://trello.com/b/UlsDmAPI/tasks-kanban-board">Kanban board</a></p>
-<h2><a class="anchor" id="autotoc_md5"></a>
-Coding style:</h2>
+Copying:</h2>
 <ul>
-<li><a href="https://www.gnu.org/prep/standards/standards.html#Formatting">Formatting</a></li>
-<li><a href="https://www.doxygen.nl">Doxygen</a></li>
+<li>Clone the <a href="https://github.com/mckerracher/OPaL.git">Project git repository</a></li>
 </ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+System Requirements:</h2>
+<ol type="1">
+<li>The compiler has been tested to work on Linux and may possibly work on other POSIX compliant systems with the required tooling.</li>
+<li><a href="www.java.com">Java</a> to create reports with abstract syntax tree visualization charts</li>
+<li><a href="https://www.gnu.org/software/libc/">glibc</a> 2.17 or newer</li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc-4.8.5/gcc/">gcc</a> 4.8.5 or newer</li>
+<li><a href="https://nasm.us/">NASM</a> 2.10.07 or newer</li>
+</ol>
 <h2><a class="anchor" id="autotoc_md6"></a>
 Installation:</h2>
-<p>Untar the latest release of the compiler to a destination directory.</p>
+<ol type="1">
+<li>Untar the release file to a directory.</li>
+<li>Change to the directory and run <code>make</code></li>
+</ol>
 <h2><a class="anchor" id="autotoc_md7"></a>
+Running tests:</h2>
+<p>After building, run <code>make all_tests</code> to run all the canned tests.</p>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Usage:</h2>
 <ol type="1">
-<li>Export LD_LIBRARY_PATH to include the build directory <br  />
- <code>export LD_LIBRARY_PATH=build</code> <br  />
+<li>Run the required component binary with <code>--help</code> for usage instructions.</li>
+<li>Write your program in the OPaL language.</li>
+<li>Run the compiler <code>opal</code> with the argument as your source file. <br  />
 </li>
-<li>Run binary with argument <code>--help</code> to display help and usage instructions </li>
 </ol>
+<p>A binary as per the <code>--output</code> argument is created.</p>
+<p>A compilation report is created as an HTML file as per the <code>--report</code> argument.</p>
+<h1><a class="anchor" id="autotoc_md9"></a>
+Feedback</h1>
+<p>Submit any feedback on <a href="https://github.com/mckerracher/OPaL/issues">github</a></p>
+<h1><a class="anchor" id="autotoc_md10"></a>
+About</h1>
+<ul>
+<li>Instructor: <a href="#" onclick="location.href='mai'+'lto:'+' wi'+'ll'+'iam'+'.p'+'fei'+'l@'+'ore'+'go'+'nst'+'at'+'e.e'+'du'; return false;">Bill Pfeil</a></li>
+<li>Team:<ul>
+<li><a href="#" onclick="location.href='mai'+'lto:'+' da'+'ml'+'ek@'+'or'+'ego'+'ns'+'tat'+'e.'+'edu'; return false;">Kedar Damle</a></li>
+<li><a href="#" onclick="location.href='mai'+'lto:'+' mc'+'ke'+'rra'+'j@'+'ore'+'go'+'nst'+'at'+'e.e'+'du'; return false;">Josh Mckerracher</a></li>
+<li><a href="#" onclick="location.href='mai'+'lto:'+' le'+'on'+'s@o'+'re'+'gon'+'st'+'ate'+'.e'+'du'; return false;">Sarah Leon</a> </li>
+</ul>
+</li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

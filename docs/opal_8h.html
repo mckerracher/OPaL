@@ -94,6 +94,8 @@ $(document).ready(function(){initNavTree('opal_8h.html',''); initResizable(); })
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
@@ -102,15 +104,107 @@ $(document).ready(function(){initNavTree('opal_8h.html',''); initResizable(); })
 <div class="title">opal.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
+</div>
 <p><a href="opal_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structkeyword.html">keyword</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for keyword string/type.  <a href="structkeyword.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlexeme.html">lexeme</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for lexeme in the symbol table linked list.  <a href="structlexeme.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structnode.html">node</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for abstract syntax tree node.  <a href="structnode.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structattributes.html">attributes</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Language grammar.  <a href="structattributes.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structasm__cmd.html">asm_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for assembly code list.  <a href="structasm__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a08593562746a2ea185c9e26e859b4244"><td class="memItemLeft" align="right" valign="top"><a id="a08593562746a2ea185c9e26e859b4244"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a08593562746a2ea185c9e26e859b4244">__VERSION_NUM</a>&#160;&#160;&#160;1.0</td></tr>
+<tr class="memdesc:a08593562746a2ea185c9e26e859b4244"><td class="mdescLeft">&#160;</td><td class="mdescRight">__VERSION_NUM for program <br /></td></tr>
+<tr class="separator:a08593562746a2ea185c9e26e859b4244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8cecfc5c5c054d2875c03e77b7be15d"><td class="memItemLeft" align="right" valign="top"><a id="aa8cecfc5c5c054d2875c03e77b7be15d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:aa8cecfc5c5c054d2875c03e77b7be15d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for better code readability. <br /></td></tr>
+<tr class="separator:aa8cecfc5c5c054d2875c03e77b7be15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa93f0eb578d23995850d61f7d61c55c1"><td class="memItemLeft" align="right" valign="top"><a id="aa93f0eb578d23995850d61f7d61c55c1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:aa93f0eb578d23995850d61f7d61c55c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for better code readability. <br /></td></tr>
+<tr class="separator:aa93f0eb578d23995850d61f7d61c55c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ce34e4aaca41ed6632de3362971822"><td class="memItemLeft" align="right" valign="top"><a id="ae5ce34e4aaca41ed6632de3362971822"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ae5ce34e4aaca41ed6632de3362971822">logger</a>(tag, ...)&#160;&#160;&#160;<a class="el" href="opal_8c.html#a8738821155207d736631eab42d8b7217">opal_log</a>(tag, __FILE__, __LINE__, __func__, __VA_ARGS__)</td></tr>
+<tr class="memdesc:ae5ce34e4aaca41ed6632de3362971822"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro function to call <a class="el" href="opal_8h.html#a7c2b72711c27ef1b775809412d1f4607" title="Print formatted message to log file.">opal_log()</a> with source file, line &amp; function name. <br /></td></tr>
+<tr class="separator:ae5ce34e4aaca41ed6632de3362971822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefce66cc0bfdabbb7a57aa667f9281d0"><td class="memItemLeft" align="right" valign="top"><a id="aefce66cc0bfdabbb7a57aa667f9281d0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aefce66cc0bfdabbb7a57aa667f9281d0">_PASS</a>&#160;&#160;&#160;(<a class="el" href="opal_8h.html#ae5ce34e4aaca41ed6632de3362971822">logger</a>(RESULT, &quot; - PASS&quot;))</td></tr>
+<tr class="memdesc:aefce66cc0bfdabbb7a57aa667f9281d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro function to log PASS. <br /></td></tr>
+<tr class="separator:aefce66cc0bfdabbb7a57aa667f9281d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f278a17c84143023a040534e20b59f0"><td class="memItemLeft" align="right" valign="top"><a id="a8f278a17c84143023a040534e20b59f0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a8f278a17c84143023a040534e20b59f0">_FAIL</a>&#160;&#160;&#160;(<a class="el" href="opal_8h.html#ae5ce34e4aaca41ed6632de3362971822">logger</a>(RESULT, &quot; - FAIL&quot;))</td></tr>
+<tr class="memdesc:a8f278a17c84143023a040534e20b59f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro function to log FAIL. <br /></td></tr>
+<tr class="separator:a8f278a17c84143023a040534e20b59f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59027a8be1cbf4071522f0b3defff671"><td class="memItemLeft" align="right" valign="top"><a id="a59027a8be1cbf4071522f0b3defff671"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a59027a8be1cbf4071522f0b3defff671">_DONE</a>&#160;&#160;&#160;(<a class="el" href="opal_8h.html#ae5ce34e4aaca41ed6632de3362971822">logger</a>(RESULT, &quot; .. DONE&quot;))</td></tr>
+<tr class="memdesc:a59027a8be1cbf4071522f0b3defff671"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro function to log DONE. <br /></td></tr>
+<tr class="separator:a59027a8be1cbf4071522f0b3defff671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75177a8389dbd0e9f44679a33b33cdcd"><td class="memItemLeft" align="right" valign="top"><a id="a75177a8389dbd0e9f44679a33b33cdcd"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a75177a8389dbd0e9f44679a33b33cdcd">perror_msg_len</a>&#160;&#160;&#160;1024</td></tr>
+<tr class="memdesc:a75177a8389dbd0e9f44679a33b33cdcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer used to populate error message string for perror() <br /></td></tr>
+<tr class="separator:a75177a8389dbd0e9f44679a33b33cdcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a377ebf0361c8735891e26d0c00a34a40"><td class="memItemLeft" align="right" valign="top"><a id="a377ebf0361c8735891e26d0c00a34a40"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a377ebf0361c8735891e26d0c00a34a40">lexeme_str_len</a>&#160;&#160;&#160;1024</td></tr>
+<tr class="memdesc:a377ebf0361c8735891e26d0c00a34a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">A buffer to hold string value of lexeme. <br /></td></tr>
+<tr class="separator:a377ebf0361c8735891e26d0c00a34a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a422dd72bca60185cb2aedf7a8c5027e1"><td class="memItemLeft" align="right" valign="top"><a id="a422dd72bca60185cb2aedf7a8c5027e1"></a>
 typedef enum <a class="el" href="opal_8h.html#ac91d55174d383848b976a34de843748e">log_level</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a422dd72bca60185cb2aedf7a8c5027e1">log_level_e</a></td></tr>
 <tr class="memdesc:a422dd72bca60185cb2aedf7a8c5027e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log level name enum for opal_log function. <br /></td></tr>
 <tr class="separator:a422dd72bca60185cb2aedf7a8c5027e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35baafaf1d84428147f1d3593633129d"><td class="memItemLeft" align="right" valign="top"><a id="a35baafaf1d84428147f1d3593633129d"></a>
+typedef enum <a class="el" href="opal_8h.html#a42a0c9976fd304d047569fa96042d9be">lexeme_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a></td></tr>
+<tr class="memdesc:a35baafaf1d84428147f1d3593633129d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lexeme types enum. <br /></td></tr>
+<tr class="separator:a35baafaf1d84428147f1d3593633129d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45c6a520bfad0196f7b0d0ecb22503fc"><td class="memItemLeft" align="right" valign="top"><a id="a45c6a520bfad0196f7b0d0ecb22503fc"></a>
+typedef struct <a class="el" href="structkeyword.html">keyword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a45c6a520bfad0196f7b0d0ecb22503fc">keyword</a></td></tr>
+<tr class="memdesc:a45c6a520bfad0196f7b0d0ecb22503fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for keyword string/type. <br /></td></tr>
+<tr class="separator:a45c6a520bfad0196f7b0d0ecb22503fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f0862f506a0240b18eb167bd848ae0"><td class="memItemLeft" align="right" valign="top"><a id="ae5f0862f506a0240b18eb167bd848ae0"></a>
+typedef struct <a class="el" href="structlexeme.html">lexeme</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a></td></tr>
+<tr class="memdesc:ae5f0862f506a0240b18eb167bd848ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for lexeme in the symbol table linked list. <br /></td></tr>
+<tr class="separator:ae5f0862f506a0240b18eb167bd848ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac3bf63d708d7e554d97073c3150b351"><td class="memItemLeft" align="right" valign="top"><a id="aac3bf63d708d7e554d97073c3150b351"></a>
+typedef enum <a class="el" href="opal_8h.html#aebf74e5cdec0fd7743f9dfbe2dbd8233">ast_node_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aac3bf63d708d7e554d97073c3150b351">ast_node_type_e</a></td></tr>
+<tr class="memdesc:aac3bf63d708d7e554d97073c3150b351"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for abstract syntax tree node type. <br /></td></tr>
+<tr class="separator:aac3bf63d708d7e554d97073c3150b351"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeed67813c57d1b99aba54f16aa01639f"><td class="memItemLeft" align="right" valign="top"><a id="aeed67813c57d1b99aba54f16aa01639f"></a>
+typedef struct <a class="el" href="structnode.html">node</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a></td></tr>
+<tr class="memdesc:aeed67813c57d1b99aba54f16aa01639f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for abstract syntax tree node. <br /></td></tr>
+<tr class="separator:aeed67813c57d1b99aba54f16aa01639f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5ceb9bcfb95afa11dc828f14e18c2eb"><td class="memItemLeft" align="right" valign="top"><a id="aa5ceb9bcfb95afa11dc828f14e18c2eb"></a>
+typedef struct <a class="el" href="structattributes.html">attributes</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aa5ceb9bcfb95afa11dc828f14e18c2eb">attributes_s</a></td></tr>
+<tr class="memdesc:aa5ceb9bcfb95afa11dc828f14e18c2eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Language grammar. <br /></td></tr>
+<tr class="separator:aa5ceb9bcfb95afa11dc828f14e18c2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56af0fd33db9f6b505c426c67f7f2eb3"><td class="memItemLeft" align="right" valign="top"><a id="a56af0fd33db9f6b505c426c67f7f2eb3"></a>
+typedef enum <a class="el" href="opal_8h.html#a74336a4fa3a7eca4ca370f86e2c3d10e">asm_code</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a56af0fd33db9f6b505c426c67f7f2eb3">asm_code_e</a></td></tr>
+<tr class="memdesc:a56af0fd33db9f6b505c426c67f7f2eb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for assembly code. <br /></td></tr>
+<tr class="separator:a56af0fd33db9f6b505c426c67f7f2eb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26e4b9d30a5effe252dcd725cba7856d"><td class="memItemLeft" align="right" valign="top"><a id="a26e4b9d30a5effe252dcd725cba7856d"></a>
+typedef struct <a class="el" href="structasm__cmd.html">asm_cmd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a26e4b9d30a5effe252dcd725cba7856d">asm_cmd_e</a></td></tr>
+<tr class="memdesc:a26e4b9d30a5effe252dcd725cba7856d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for assembly code list. <br /></td></tr>
+<tr class="separator:a26e4b9d30a5effe252dcd725cba7856d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -125,6 +219,133 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ac91d55174d383848b976a34de843748e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log level name enum for opal_log function. <br /></td></tr>
 <tr class="separator:ac91d55174d383848b976a34de843748e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a0c9976fd304d047569fa96042d9be"><td class="memItemLeft" align="right" valign="top"><a id="a42a0c9976fd304d047569fa96042d9be"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a42a0c9976fd304d047569fa96042d9be">lexeme_type</a> { <br />
+&#160;&#160;<b>lx_NOP</b> = 0, 
+<b>lx_EOF</b>, 
+<b>lx_Ident</b>, 
+<b>lx_Integer</b>, 
+<br />
+&#160;&#160;<b>lx_String</b>, 
+<b>lx_Assign</b>, 
+<b>lx_Add</b>, 
+<b>lx_Sub</b>, 
+<br />
+&#160;&#160;<b>lx_Negate</b>, 
+<b>lx_Mul</b>, 
+<b>lx_Div</b>, 
+<b>lx_Mod</b>, 
+<br />
+&#160;&#160;<b>lx_Eq</b>, 
+<b>lx_Neq</b>, 
+<b>lx_Lss</b>, 
+<b>lx_Gtr</b>, 
+<br />
+&#160;&#160;<b>lx_Leq</b>, 
+<b>lx_Geq</b>, 
+<b>lx_And</b>, 
+<b>lx_Or</b>, 
+<br />
+&#160;&#160;<b>lx_Not</b>, 
+<b>lx_If</b>, 
+<b>lx_Else</b>, 
+<b>lx_While</b>, 
+<br />
+&#160;&#160;<b>lx_Lparen</b>, 
+<b>lx_Rparen</b>, 
+<b>lx_Lbrace</b>, 
+<b>lx_Rbrace</b>, 
+<br />
+&#160;&#160;<b>lx_Semi</b>, 
+<b>lx_Comma</b>, 
+<b>lx_Print</b>, 
+<b>lx_Input</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:a42a0c9976fd304d047569fa96042d9be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lexeme types enum. <br /></td></tr>
+<tr class="separator:a42a0c9976fd304d047569fa96042d9be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebf74e5cdec0fd7743f9dfbe2dbd8233"><td class="memItemLeft" align="right" valign="top"><a id="aebf74e5cdec0fd7743f9dfbe2dbd8233"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aebf74e5cdec0fd7743f9dfbe2dbd8233">ast_node_type</a> { <br />
+&#160;&#160;<b>nd_NOP</b> = 0, 
+<b>nd_EOF</b>, 
+<b>nd_Ident</b>, 
+<b>nd_Integer</b>, 
+<br />
+&#160;&#160;<b>nd_String</b>, 
+<b>nd_Assign</b>, 
+<b>nd_Add</b>, 
+<b>nd_Sub</b>, 
+<br />
+&#160;&#160;<b>nd_Negate</b>, 
+<b>nd_Mul</b>, 
+<b>nd_Div</b>, 
+<b>nd_Mod</b>, 
+<br />
+&#160;&#160;<b>nd_Eq</b>, 
+<b>nd_Neq</b>, 
+<b>nd_Lss</b>, 
+<b>nd_Gtr</b>, 
+<br />
+&#160;&#160;<b>nd_Leq</b>, 
+<b>nd_Geq</b>, 
+<b>nd_And</b>, 
+<b>nd_Or</b>, 
+<br />
+&#160;&#160;<b>nd_Not</b>, 
+<b>nd_If</b>, 
+<b>nd_Else</b>, 
+<b>nd_While</b>, 
+<br />
+&#160;&#160;<b>nd_Prts</b>, 
+<b>nd_Prti</b>, 
+<b>nd_Sequence</b>, 
+<b>nd_Input</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:aebf74e5cdec0fd7743f9dfbe2dbd8233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for abstract syntax tree node type. <br /></td></tr>
+<tr class="separator:aebf74e5cdec0fd7743f9dfbe2dbd8233"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74336a4fa3a7eca4ca370f86e2c3d10e"><td class="memItemLeft" align="right" valign="top"><a id="a74336a4fa3a7eca4ca370f86e2c3d10e"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a74336a4fa3a7eca4ca370f86e2c3d10e">asm_code</a> { <br />
+&#160;&#160;<b>asm_NOP</b> = 0, 
+<b>asm_EOF</b>, 
+<b>asm_Ident</b>, 
+<b>asm_Int</b>, 
+<br />
+&#160;&#160;<b>asm_String</b>, 
+<b>asm_Assign</b>, 
+<b>asm_Add</b>, 
+<b>asm_Sub</b>, 
+<br />
+&#160;&#160;<b>asm_Negate</b>, 
+<b>asm_Mul</b>, 
+<b>asm_Div</b>, 
+<b>asm_Mod</b>, 
+<br />
+&#160;&#160;<b>asm_Eq</b>, 
+<b>asm_Neq</b>, 
+<b>asm_Lss</b>, 
+<b>asm_Gtr</b>, 
+<br />
+&#160;&#160;<b>asm_Leq</b>, 
+<b>asm_Geq</b>, 
+<b>asm_And</b>, 
+<b>asm_Or</b>, 
+<br />
+&#160;&#160;<b>asm_Not</b>, 
+<b>asm_Fetch</b>, 
+<b>asm_Store</b>, 
+<b>asm_Push</b>, 
+<br />
+&#160;&#160;<b>asm_Jmp</b>, 
+<b>asm_Jz</b>, 
+<b>asm_Jnz</b>, 
+<b>asm_Prts</b>, 
+<br />
+&#160;&#160;<b>asm_Prti</b>, 
+<b>asm_HALT</b>, 
+<b>asm_Label</b>, 
+<b>asm_Input</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:a74336a4fa3a7eca4ca370f86e2c3d10e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for assembly code. <br /></td></tr>
+<tr class="separator:a74336a4fa3a7eca4ca370f86e2c3d10e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -137,23 +358,112 @@ Functions</h2></td></tr>
 <tr class="memitem:a82c2145d603c4f8547222977c4f18168"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a82c2145d603c4f8547222977c4f18168">opal_exit</a> (short)</td></tr>
 <tr class="memdesc:a82c2145d603c4f8547222977c4f18168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close open files, flush buffers and exit.  <a href="opal_8h.html#a82c2145d603c4f8547222977c4f18168">More...</a><br /></td></tr>
 <tr class="separator:a82c2145d603c4f8547222977c4f18168"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae951f95b2ccdbc62456c6b4ad98ec135"><td class="memItemLeft" align="right" valign="top"><a id="ae951f95b2ccdbc62456c6b4ad98ec135"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135">rem_comments</a> (FILE *, FILE *)</td></tr>
-<tr class="memdesc:ae951f95b2ccdbc62456c6b4ad98ec135"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read source, remove comments, write to destination. <br /></td></tr>
+<tr class="memitem:a4b4c012b4a157270e330f11305718df0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a4b4c012b4a157270e330f11305718df0">read_next_char</a> (void)</td></tr>
+<tr class="memdesc:a4b4c012b4a157270e330f11305718df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read next character from source file.  <a href="opal_8h.html#a4b4c012b4a157270e330f11305718df0">More...</a><br /></td></tr>
+<tr class="separator:a4b4c012b4a157270e330f11305718df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afae31523c6a031187ba988f7ed31b549"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#afae31523c6a031187ba988f7ed31b549">init_report</a> (FILE *)</td></tr>
+<tr class="memdesc:afae31523c6a031187ba988f7ed31b549"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize HTML report.  <a href="opal_8h.html#afae31523c6a031187ba988f7ed31b549">More...</a><br /></td></tr>
+<tr class="separator:afae31523c6a031187ba988f7ed31b549"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8028a9f965a3de77fee97a8d6da3b95"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aa8028a9f965a3de77fee97a8d6da3b95">close_report</a> (FILE *)</td></tr>
+<tr class="memdesc:aa8028a9f965a3de77fee97a8d6da3b95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close HTML report.  <a href="opal_8h.html#aa8028a9f965a3de77fee97a8d6da3b95">More...</a><br /></td></tr>
+<tr class="separator:aa8028a9f965a3de77fee97a8d6da3b95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae951f95b2ccdbc62456c6b4ad98ec135"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135">rem_comments</a> (FILE *, FILE *)</td></tr>
+<tr class="memdesc:ae951f95b2ccdbc62456c6b4ad98ec135"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read source, remove comments, write to destination.  <a href="opal_8h.html#ae951f95b2ccdbc62456c6b4ad98ec135">More...</a><br /></td></tr>
 <tr class="separator:ae951f95b2ccdbc62456c6b4ad98ec135"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1aef0203ae82edbd186ab4c42c814e4"><td class="memItemLeft" align="right" valign="top"><a id="ac1aef0203ae82edbd186ab4c42c814e4"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4">proc_includes</a> (FILE *, FILE *)</td></tr>
-<tr class="memdesc:ac1aef0203ae82edbd186ab4c42c814e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read source, process includes, write to destination. <br /></td></tr>
+<tr class="memitem:ac1aef0203ae82edbd186ab4c42c814e4"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4">proc_includes</a> (FILE *, FILE *)</td></tr>
+<tr class="memdesc:ac1aef0203ae82edbd186ab4c42c814e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process include files, write to destination.  <a href="opal_8h.html#ac1aef0203ae82edbd186ab4c42c814e4">More...</a><br /></td></tr>
 <tr class="separator:ac1aef0203ae82edbd186ab4c42c814e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71c51df39075991857476dc4ec596576"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a71c51df39075991857476dc4ec596576">print_marc_html</a> (FILE *, FILE *)</td></tr>
+<tr class="memdesc:a71c51df39075991857476dc4ec596576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append MARC output to HTML report file.  <a href="opal_8h.html#a71c51df39075991857476dc4ec596576">More...</a><br /></td></tr>
+<tr class="separator:a71c51df39075991857476dc4ec596576"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96ff4140fa8a5853701da8b295daf6ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a96ff4140fa8a5853701da8b295daf6ba">get_string_literal_lexeme</a> (int, int)</td></tr>
+<tr class="memdesc:a96ff4140fa8a5853701da8b295daf6ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get lexeme for a string literal.  <a href="opal_8h.html#a96ff4140fa8a5853701da8b295daf6ba">More...</a><br /></td></tr>
+<tr class="separator:a96ff4140fa8a5853701da8b295daf6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a400c3c262d9136a37c79889d695b33ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a400c3c262d9136a37c79889d695b33ee">binary_unary</a> (char, <a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a>, <a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a>, int, int)</td></tr>
+<tr class="memdesc:a400c3c262d9136a37c79889d695b33ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get lexeme for binary or unary operator.  <a href="opal_8h.html#a400c3c262d9136a37c79889d695b33ee">More...</a><br /></td></tr>
+<tr class="separator:a400c3c262d9136a37c79889d695b33ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d0f53a68e3fff57aeb10137f7ff97d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a7d0f53a68e3fff57aeb10137f7ff97d9">get_identifier_lexeme</a> (int, int)</td></tr>
+<tr class="memdesc:a7d0f53a68e3fff57aeb10137f7ff97d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get identifier lexeme.  <a href="opal_8h.html#a7d0f53a68e3fff57aeb10137f7ff97d9">More...</a><br /></td></tr>
+<tr class="separator:a7d0f53a68e3fff57aeb10137f7ff97d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c761b60942927bd6cea3baaf61a407e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a4c761b60942927bd6cea3baaf61a407e">get_next_lexeme</a> (void)</td></tr>
+<tr class="memdesc:a4c761b60942927bd6cea3baaf61a407e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next lexeme.  <a href="opal_8h.html#a4c761b60942927bd6cea3baaf61a407e">More...</a><br /></td></tr>
+<tr class="separator:a4c761b60942927bd6cea3baaf61a407e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53800b00931cd4a0b64f50a4ee0ac59f"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a53800b00931cd4a0b64f50a4ee0ac59f">get_lexeme_str</a> (const <a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *, char *, int)</td></tr>
+<tr class="memdesc:a53800b00931cd4a0b64f50a4ee0ac59f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringify lexeme.  <a href="opal_8h.html#a53800b00931cd4a0b64f50a4ee0ac59f">More...</a><br /></td></tr>
+<tr class="separator:a53800b00931cd4a0b64f50a4ee0ac59f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92162f1c45121d0238f06d5f13dcb208"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a92162f1c45121d0238f06d5f13dcb208">build_symbol_table</a> (<a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *, int *)</td></tr>
+<tr class="memdesc:a92162f1c45121d0238f06d5f13dcb208"><td class="mdescLeft">&#160;</td><td class="mdescRight">Populate symbol table with lexemes in source file pointer.  <a href="opal_8h.html#a92162f1c45121d0238f06d5f13dcb208">More...</a><br /></td></tr>
+<tr class="separator:a92162f1c45121d0238f06d5f13dcb208"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ef6f834db95b86cb5dc1b5d494438e2"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a8ef6f834db95b86cb5dc1b5d494438e2">print_symbol_table</a> (<a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *, FILE *)</td></tr>
+<tr class="memdesc:a8ef6f834db95b86cb5dc1b5d494438e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print symbol table to destination file pointer.  <a href="opal_8h.html#a8ef6f834db95b86cb5dc1b5d494438e2">More...</a><br /></td></tr>
+<tr class="separator:a8ef6f834db95b86cb5dc1b5d494438e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95ea2ea53c21572d0cfdbed767e7ad18"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a95ea2ea53c21572d0cfdbed767e7ad18">match</a> (const char *str, const char *pattern)</td></tr>
+<tr class="memdesc:a95ea2ea53c21572d0cfdbed767e7ad18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if regular expression is an integer.  <a href="opal_8h.html#a95ea2ea53c21572d0cfdbed767e7ad18">More...</a><br /></td></tr>
+<tr class="separator:a95ea2ea53c21572d0cfdbed767e7ad18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74a49be2cb5b32f92c753068cfd10fa1"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a74a49be2cb5b32f92c753068cfd10fa1">print_symbol_table_html</a> (<a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *, FILE *)</td></tr>
+<tr class="memdesc:a74a49be2cb5b32f92c753068cfd10fa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print symbol table to HTML report.  <a href="opal_8h.html#a74a49be2cb5b32f92c753068cfd10fa1">More...</a><br /></td></tr>
+<tr class="separator:a74a49be2cb5b32f92c753068cfd10fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee033c38e101ee9a4819568d32391311"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aee033c38e101ee9a4819568d32391311">free_symbol_table</a> (<a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *)</td></tr>
+<tr class="memdesc:aee033c38e101ee9a4819568d32391311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free symbol table linked list.  <a href="opal_8h.html#aee033c38e101ee9a4819568d32391311">More...</a><br /></td></tr>
+<tr class="separator:aee033c38e101ee9a4819568d32391311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a2f85ea541ba97874eab9803b3477da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a9a2f85ea541ba97874eab9803b3477da">traverse_ast</a> (<a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *<a class="el" href="structnode.html">node</a>, FILE *<a class="el" href="opal_8h.html#a0b5351f559ae3d0ea035380c8280a863">dest_fp</a>)</td></tr>
+<tr class="memdesc:a9a2f85ea541ba97874eab9803b3477da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traverse syntax tree for output file generation.  <a href="opal_8h.html#a9a2f85ea541ba97874eab9803b3477da">More...</a><br /></td></tr>
+<tr class="separator:a9a2f85ea541ba97874eab9803b3477da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad59a42ca521899a5eafe0d8b313da058"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ad59a42ca521899a5eafe0d8b313da058">build_syntax_tree</a> (<a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *)</td></tr>
+<tr class="memdesc:ad59a42ca521899a5eafe0d8b313da058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build abstract syntax tree from symbol table.  <a href="opal_8h.html#ad59a42ca521899a5eafe0d8b313da058">More...</a><br /></td></tr>
+<tr class="separator:ad59a42ca521899a5eafe0d8b313da058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ee27a44dc4b69c9b61d58ed5d750761"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a2ee27a44dc4b69c9b61d58ed5d750761">make_statement_node</a> (void)</td></tr>
+<tr class="memdesc:a2ee27a44dc4b69c9b61d58ed5d750761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build and return statement node.  <a href="opal_8h.html#a2ee27a44dc4b69c9b61d58ed5d750761">More...</a><br /></td></tr>
+<tr class="separator:a2ee27a44dc4b69c9b61d58ed5d750761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2660a5de7ad993c33e13657805fefa27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a2660a5de7ad993c33e13657805fefa27">make_parentheses_expression</a> (void)</td></tr>
+<tr class="memdesc:a2660a5de7ad993c33e13657805fefa27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build and return expression inside parantheses.  <a href="opal_8h.html#a2660a5de7ad993c33e13657805fefa27">More...</a><br /></td></tr>
+<tr class="separator:a2660a5de7ad993c33e13657805fefa27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a856c68578ec186e13e8c3cf4bc456a77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a856c68578ec186e13e8c3cf4bc456a77">make_expression_node</a> (int)</td></tr>
+<tr class="memdesc:a856c68578ec186e13e8c3cf4bc456a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build expression node.  <a href="opal_8h.html#a856c68578ec186e13e8c3cf4bc456a77">More...</a><br /></td></tr>
+<tr class="separator:a856c68578ec186e13e8c3cf4bc456a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a849ab8d1affc911d76e2a556ed9e207b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a849ab8d1affc911d76e2a556ed9e207b">expect_lexeme</a> (<a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a>)</td></tr>
+<tr class="memdesc:a849ab8d1affc911d76e2a556ed9e207b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if lexeme is expected type, else print error and exit.  <a href="opal_8h.html#a849ab8d1affc911d76e2a556ed9e207b">More...</a><br /></td></tr>
+<tr class="separator:a849ab8d1affc911d76e2a556ed9e207b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ea85a54e2729af17de39ed5b89931fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a6ea85a54e2729af17de39ed5b89931fc">make_leaf_node</a> (<a class="el" href="opal_8h.html#aac3bf63d708d7e554d97073c3150b351">ast_node_type_e</a>, <a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *)</td></tr>
+<tr class="memdesc:a6ea85a54e2729af17de39ed5b89931fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build and return leaf nodes for identifier/integer/strings.  <a href="opal_8h.html#a6ea85a54e2729af17de39ed5b89931fc">More...</a><br /></td></tr>
+<tr class="separator:a6ea85a54e2729af17de39ed5b89931fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43ea84509aa6b1e3cde137f2d4b963f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a43ea84509aa6b1e3cde137f2d4b963f0">optimize_syntax_tree</a> (<a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *)</td></tr>
+<tr class="memdesc:a43ea84509aa6b1e3cde137f2d4b963f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimize the abstract syntax tree.  <a href="opal_8h.html#a43ea84509aa6b1e3cde137f2d4b963f0">More...</a><br /></td></tr>
+<tr class="separator:a43ea84509aa6b1e3cde137f2d4b963f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a107cacdae25ddcd698a7deb00972bdf4"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a107cacdae25ddcd698a7deb00972bdf4">print_ast</a> (<a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *, FILE *)</td></tr>
+<tr class="memdesc:a107cacdae25ddcd698a7deb00972bdf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print abstract syntax tree to destination file.  <a href="opal_8h.html#a107cacdae25ddcd698a7deb00972bdf4">More...</a><br /></td></tr>
+<tr class="separator:a107cacdae25ddcd698a7deb00972bdf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81605425592a18497f81a5b97db9d5a3"><td class="memItemLeft" align="right" valign="top"><a id="a81605425592a18497f81a5b97db9d5a3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a81605425592a18497f81a5b97db9d5a3">traversePreOrder_grah</a> (<a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *, FILE *, int)</td></tr>
+<tr class="memdesc:a81605425592a18497f81a5b97db9d5a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traverse abstract syntax tree pre-order. <br /></td></tr>
+<tr class="separator:a81605425592a18497f81a5b97db9d5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fbade0fa39aac463cbeb35b676bf1a0"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a8fbade0fa39aac463cbeb35b676bf1a0">print_ast_html</a> (<a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *, FILE *)</td></tr>
+<tr class="memdesc:a8fbade0fa39aac463cbeb35b676bf1a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print abstract syntax tree to HTML report.  <a href="opal_8h.html#a8fbade0fa39aac463cbeb35b676bf1a0">More...</a><br /></td></tr>
+<tr class="separator:a8fbade0fa39aac463cbeb35b676bf1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5488ec319f8557d7ab9fc15e14bc451a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a5488ec319f8557d7ab9fc15e14bc451a">free_syntax_tree</a> (<a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *)</td></tr>
+<tr class="memdesc:a5488ec319f8557d7ab9fc15e14bc451a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free syntax tree.  <a href="opal_8h.html#a5488ec319f8557d7ab9fc15e14bc451a">More...</a><br /></td></tr>
+<tr class="separator:a5488ec319f8557d7ab9fc15e14bc451a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11608c5fa9c0a644efb0d5ce5f63ea90"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a11608c5fa9c0a644efb0d5ce5f63ea90">gen_asm_code</a> (<a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *)</td></tr>
+<tr class="memdesc:a11608c5fa9c0a644efb0d5ce5f63ea90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build assembly code list from abstract syntax tree.  <a href="opal_8h.html#a11608c5fa9c0a644efb0d5ce5f63ea90">More...</a><br /></td></tr>
+<tr class="separator:a11608c5fa9c0a644efb0d5ce5f63ea90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdf97044819bf64d6daa56ea1a8c19ab"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#acdf97044819bf64d6daa56ea1a8c19ab">print_asm_code</a> (<a class="el" href="opal_8h.html#a26e4b9d30a5effe252dcd725cba7856d">asm_cmd_e</a>[], FILE *)</td></tr>
+<tr class="memdesc:acdf97044819bf64d6daa56ea1a8c19ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print assembly code list.  <a href="opal_8h.html#acdf97044819bf64d6daa56ea1a8c19ab">More...</a><br /></td></tr>
+<tr class="separator:acdf97044819bf64d6daa56ea1a8c19ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7550da2002e988ee91445e3606d069a2"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a7550da2002e988ee91445e3606d069a2">print_asm_code_html</a> (<a class="el" href="opal_8h.html#a26e4b9d30a5effe252dcd725cba7856d">asm_cmd_e</a>[], FILE *)</td></tr>
+<tr class="memdesc:a7550da2002e988ee91445e3606d069a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print assembly code list to HTML report file.  <a href="opal_8h.html#a7550da2002e988ee91445e3606d069a2">More...</a><br /></td></tr>
+<tr class="separator:a7550da2002e988ee91445e3606d069a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a653272d568de8ddf2f217195e0a632b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a653272d568de8ddf2f217195e0a632b1">add_var</a> (char *)</td></tr>
+<tr class="memdesc:a653272d568de8ddf2f217195e0a632b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create Identifier array.  <a href="opal_8h.html#a653272d568de8ddf2f217195e0a632b1">More...</a><br /></td></tr>
+<tr class="separator:a653272d568de8ddf2f217195e0a632b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac73c5e616f161d15d99f4339bdb54bff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac73c5e616f161d15d99f4339bdb54bff">add_str</a> (char *)</td></tr>
+<tr class="memdesc:ac73c5e616f161d15d99f4339bdb54bff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create String array.  <a href="opal_8h.html#ac73c5e616f161d15d99f4339bdb54bff">More...</a><br /></td></tr>
+<tr class="separator:ac73c5e616f161d15d99f4339bdb54bff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:adbb10a638717bd0bd8322be858484c82"><td class="memItemLeft" align="right" valign="top"><a id="adbb10a638717bd0bd8322be858484c82"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#adbb10a638717bd0bd8322be858484c82">LOG_LEVEL</a> = ERROR</td></tr>
-<tr class="memdesc:adbb10a638717bd0bd8322be858484c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current log level. <br /></td></tr>
-<tr class="separator:adbb10a638717bd0bd8322be858484c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5211a130a92ea4bee41d2f228789f8b"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac5211a130a92ea4bee41d2f228789f8b">source_fn</a> = NULL</td></tr>
-<tr class="memdesc:ac5211a130a92ea4bee41d2f228789f8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common data structures and variables used.  <a href="opal_8h.html#ac5211a130a92ea4bee41d2f228789f8b">More...</a><br /></td></tr>
+<tr class="memitem:ac5211a130a92ea4bee41d2f228789f8b"><td class="memItemLeft" align="right" valign="top"><a id="ac5211a130a92ea4bee41d2f228789f8b"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac5211a130a92ea4bee41d2f228789f8b">source_fn</a> = NULL</td></tr>
+<tr class="memdesc:ac5211a130a92ea4bee41d2f228789f8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input source file name. <br /></td></tr>
 <tr class="separator:ac5211a130a92ea4bee41d2f228789f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3875fb77e6d1fdda2f152212fb6d59a2"><td class="memItemLeft" align="right" valign="top"><a id="a3875fb77e6d1fdda2f152212fb6d59a2"></a>
 char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a3875fb77e6d1fdda2f152212fb6d59a2">dest_fn</a> = NULL</td></tr>
@@ -163,28 +473,198 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="op
 char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a8b9a77dd3d8d0f94769af4ba3d91b2cb">log_fn</a> = NULL</td></tr>
 <tr class="memdesc:a8b9a77dd3d8d0f94769af4ba3d91b2cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log file name. <br /></td></tr>
 <tr class="separator:a8b9a77dd3d8d0f94769af4ba3d91b2cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3893007f61414f87271127816fc455a"><td class="memItemLeft" align="right" valign="top"><a id="ad3893007f61414f87271127816fc455a"></a>
-FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ad3893007f61414f87271127816fc455a">source_fd</a> = NULL</td></tr>
-<tr class="memdesc:ad3893007f61414f87271127816fc455a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source file pointer. <br /></td></tr>
-<tr class="separator:ad3893007f61414f87271127816fc455a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac968cf86c4367c0e4f85136296c40f29"><td class="memItemLeft" align="right" valign="top"><a id="ac968cf86c4367c0e4f85136296c40f29"></a>
-FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac968cf86c4367c0e4f85136296c40f29">dest_fd</a> = NULL</td></tr>
-<tr class="memdesc:ac968cf86c4367c0e4f85136296c40f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destination file pointer. <br /></td></tr>
-<tr class="separator:ac968cf86c4367c0e4f85136296c40f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81d85575e25f5052a9276da219caf092"><td class="memItemLeft" align="right" valign="top"><a id="a81d85575e25f5052a9276da219caf092"></a>
-FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a81d85575e25f5052a9276da219caf092">log_fd</a> = NULL</td></tr>
-<tr class="memdesc:a81d85575e25f5052a9276da219caf092"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log file pointer. <br /></td></tr>
-<tr class="separator:a81d85575e25f5052a9276da219caf092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeef6f17f5037f11136b54131ee3ceebf"><td class="memItemLeft" align="right" valign="top"><a id="aeef6f17f5037f11136b54131ee3ceebf"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aeef6f17f5037f11136b54131ee3ceebf">report_fn</a> = NULL</td></tr>
+<tr class="memdesc:aeef6f17f5037f11136b54131ee3ceebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report file name. <br /></td></tr>
+<tr class="separator:aeef6f17f5037f11136b54131ee3ceebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad45db5720d51f62241f4b500b150bea9"><td class="memItemLeft" align="right" valign="top"><a id="ad45db5720d51f62241f4b500b150bea9"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ad45db5720d51f62241f4b500b150bea9">golden_fn</a> = NULL</td></tr>
+<tr class="memdesc:ad45db5720d51f62241f4b500b150bea9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Golden syntax tree printout file name. <br /></td></tr>
+<tr class="separator:ad45db5720d51f62241f4b500b150bea9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4de6a313827bfc80c9b584682a9ba132"><td class="memItemLeft" align="right" valign="top"><a id="a4de6a313827bfc80c9b584682a9ba132"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a4de6a313827bfc80c9b584682a9ba132">css_fn</a> = &quot;res/styles.css&quot;</td></tr>
+<tr class="memdesc:a4de6a313827bfc80c9b584682a9ba132"><td class="mdescLeft">&#160;</td><td class="mdescRight">HTML CSS file name. <br /></td></tr>
+<tr class="separator:a4de6a313827bfc80c9b584682a9ba132"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafdfbbe43c9f69a1b777a3e96589bac2"><td class="memItemLeft" align="right" valign="top"><a id="aafdfbbe43c9f69a1b777a3e96589bac2"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aafdfbbe43c9f69a1b777a3e96589bac2">source_fp</a> = NULL</td></tr>
+<tr class="memdesc:aafdfbbe43c9f69a1b777a3e96589bac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source file pointer. <br /></td></tr>
+<tr class="separator:aafdfbbe43c9f69a1b777a3e96589bac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b5351f559ae3d0ea035380c8280a863"><td class="memItemLeft" align="right" valign="top"><a id="a0b5351f559ae3d0ea035380c8280a863"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a0b5351f559ae3d0ea035380c8280a863">dest_fp</a> = NULL</td></tr>
+<tr class="memdesc:a0b5351f559ae3d0ea035380c8280a863"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destination file pointer. <br /></td></tr>
+<tr class="separator:a0b5351f559ae3d0ea035380c8280a863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa574e45a6e318dd8f45530c13db10cc1"><td class="memItemLeft" align="right" valign="top"><a id="aa574e45a6e318dd8f45530c13db10cc1"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aa574e45a6e318dd8f45530c13db10cc1">log_fp</a> = NULL</td></tr>
+<tr class="memdesc:aa574e45a6e318dd8f45530c13db10cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log file pointer. <br /></td></tr>
+<tr class="separator:aa574e45a6e318dd8f45530c13db10cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2771d36662e0ec174a28cde061e210ec"><td class="memItemLeft" align="right" valign="top"><a id="a2771d36662e0ec174a28cde061e210ec"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a2771d36662e0ec174a28cde061e210ec">report_fp</a> = NULL</td></tr>
+<tr class="memdesc:a2771d36662e0ec174a28cde061e210ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report file pointer. <br /></td></tr>
+<tr class="separator:a2771d36662e0ec174a28cde061e210ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44b8b1fafe9d8e58b0c88dec842542ec"><td class="memItemLeft" align="right" valign="top"><a id="a44b8b1fafe9d8e58b0c88dec842542ec"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a44b8b1fafe9d8e58b0c88dec842542ec">golden_fp</a> = NULL</td></tr>
+<tr class="memdesc:a44b8b1fafe9d8e58b0c88dec842542ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Golden syntax tree printout file pointer. <br /></td></tr>
+<tr class="separator:a44b8b1fafe9d8e58b0c88dec842542ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a450669cfc67457359398c66eb4d30032"><td class="memItemLeft" align="right" valign="top"><a id="a450669cfc67457359398c66eb4d30032"></a>
 short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a450669cfc67457359398c66eb4d30032">retVal</a> = 0</td></tr>
 <tr class="memdesc:a450669cfc67457359398c66eb4d30032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function return value. <br /></td></tr>
 <tr class="separator:a450669cfc67457359398c66eb4d30032"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f1e88833ded635abf0aa74ab8416715"><td class="memItemLeft" align="right" valign="top"><a id="a6f1e88833ded635abf0aa74ab8416715"></a>
-char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a6f1e88833ded635abf0aa74ab8416715">perror_msg</a> [1024] = { 0 }</td></tr>
-<tr class="memdesc:a6f1e88833ded635abf0aa74ab8416715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer used to populate error message string for perror() <br /></td></tr>
-<tr class="separator:a6f1e88833ded635abf0aa74ab8416715"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36240b8e24f41cbb824cf351769f4c57"><td class="memItemLeft" align="right" valign="top"><a id="a36240b8e24f41cbb824cf351769f4c57"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a36240b8e24f41cbb824cf351769f4c57">next_char</a> = ' '</td></tr>
+<tr class="memdesc:a36240b8e24f41cbb824cf351769f4c57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Next character in source file. <br /></td></tr>
+<tr class="separator:a36240b8e24f41cbb824cf351769f4c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcea1953936476988cd61ad9e7d7dfe2"><td class="memItemLeft" align="right" valign="top"><a id="afcea1953936476988cd61ad9e7d7dfe2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#afcea1953936476988cd61ad9e7d7dfe2">char_col</a> = 0</td></tr>
+<tr class="memdesc:afcea1953936476988cd61ad9e7d7dfe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column number of character in source file. <br /></td></tr>
+<tr class="separator:afcea1953936476988cd61ad9e7d7dfe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a664f43968af6daf03c31721aaa85ca75"><td class="memItemLeft" align="right" valign="top"><a id="a664f43968af6daf03c31721aaa85ca75"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a664f43968af6daf03c31721aaa85ca75">char_line</a> = 0</td></tr>
+<tr class="memdesc:a664f43968af6daf03c31721aaa85ca75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line number of character in source file. <br /></td></tr>
+<tr class="separator:a664f43968af6daf03c31721aaa85ca75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbb10a638717bd0bd8322be858484c82"><td class="memItemLeft" align="right" valign="top"><a id="adbb10a638717bd0bd8322be858484c82"></a>
+short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#adbb10a638717bd0bd8322be858484c82">LOG_LEVEL</a> = ERROR</td></tr>
+<tr class="memdesc:adbb10a638717bd0bd8322be858484c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current log level. <br /></td></tr>
+<tr class="separator:adbb10a638717bd0bd8322be858484c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af42e5684c3d19390a946115d8d1b73cc"><td class="memItemLeft" align="right" valign="top"><a id="af42e5684c3d19390a946115d8d1b73cc"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#af42e5684c3d19390a946115d8d1b73cc">perror_msg</a> [<a class="el" href="opal_8h.html#a75177a8389dbd0e9f44679a33b33cdcd">perror_msg_len</a>] = { 0 }</td></tr>
+<tr class="memdesc:af42e5684c3d19390a946115d8d1b73cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message string for perror() <br /></td></tr>
+<tr class="separator:af42e5684c3d19390a946115d8d1b73cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a05680343d2d84609a5512e3aa9fba6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structkeyword.html">keyword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a5a05680343d2d84609a5512e3aa9fba6">keyword_arr</a> []</td></tr>
+<tr class="memdesc:a5a05680343d2d84609a5512e3aa9fba6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array for supported keywords.  <a href="opal_8h.html#a5a05680343d2d84609a5512e3aa9fba6">More...</a><br /></td></tr>
+<tr class="separator:a5a05680343d2d84609a5512e3aa9fba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b3f9159ab2e5920aa674af492e42d35"><td class="memItemLeft" align="right" valign="top">const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a6b3f9159ab2e5920aa674af492e42d35">op_name</a> [][16]</td></tr>
+<tr class="memdesc:a6b3f9159ab2e5920aa674af492e42d35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lexeme type names for logging.  <a href="opal_8h.html#a6b3f9159ab2e5920aa674af492e42d35">More...</a><br /></td></tr>
+<tr class="separator:a6b3f9159ab2e5920aa674af492e42d35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a646d5d828b60894311fd098e5918c527"><td class="memItemLeft" align="right" valign="top"><a id="a646d5d828b60894311fd098e5918c527"></a>
+<a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a646d5d828b60894311fd098e5918c527">next_lexeme</a> = { 0 }</td></tr>
+<tr class="memdesc:a646d5d828b60894311fd098e5918c527"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct to hold next lexeme. <br /></td></tr>
+<tr class="separator:a646d5d828b60894311fd098e5918c527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfaf4c574572e949a9b39805aba69467"><td class="memItemLeft" align="right" valign="top"><a id="acfaf4c574572e949a9b39805aba69467"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#acfaf4c574572e949a9b39805aba69467">lexeme_str</a> [<a class="el" href="opal_8h.html#a377ebf0361c8735891e26d0c00a34a40">lexeme_str_len</a>] = { 0 }</td></tr>
+<tr class="memdesc:acfaf4c574572e949a9b39805aba69467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds stringified contents of lexeme for printing. <br /></td></tr>
+<tr class="separator:acfaf4c574572e949a9b39805aba69467"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a043b7ad2ba1325ead730c74842cc5e73"><td class="memItemLeft" align="right" valign="top"><a id="a043b7ad2ba1325ead730c74842cc5e73"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a043b7ad2ba1325ead730c74842cc5e73">int_regex_pattern</a> = &quot;^[-+]?[0-9]+$&quot;</td></tr>
+<tr class="memdesc:a043b7ad2ba1325ead730c74842cc5e73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extended regular expression pattern for integers. <br /></td></tr>
+<tr class="separator:a043b7ad2ba1325ead730c74842cc5e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6a507c9e92dc33af462e6e553597c49"><td class="memItemLeft" align="right" valign="top">const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ab6a507c9e92dc33af462e6e553597c49">node_name</a> [][16]</td></tr>
+<tr class="memdesc:ab6a507c9e92dc33af462e6e553597c49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Syntax tree node type names for logging.  <a href="opal_8h.html#ab6a507c9e92dc33af462e6e553597c49">More...</a><br /></td></tr>
+<tr class="separator:ab6a507c9e92dc33af462e6e553597c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9721f47425dd13a2d22c03b96bfc9f1"><td class="memItemLeft" align="right" valign="top"><a id="ac9721f47425dd13a2d22c03b96bfc9f1"></a>
+const <a class="el" href="opal_8h.html#aa5ceb9bcfb95afa11dc828f14e18c2eb">attributes_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac9721f47425dd13a2d22c03b96bfc9f1">grammar</a> []</td></tr>
+<tr class="memdesc:ac9721f47425dd13a2d22c03b96bfc9f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Language grammar Ref: <a href="https://en.wikipedia.org/wiki/Operators_in_C_and_C">https://en.wikipedia.org/wiki/Operators_in_C_and_C</a>. <br /></td></tr>
+<tr class="separator:ac9721f47425dd13a2d22c03b96bfc9f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79fcb2ac4c89dd1f1b094b65e0b8bc5e"><td class="memItemLeft" align="right" valign="top"><a id="a79fcb2ac4c89dd1f1b094b65e0b8bc5e"></a>
+<a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a79fcb2ac4c89dd1f1b094b65e0b8bc5e">ast_curr_lexeme</a> = NULL</td></tr>
+<tr class="memdesc:a79fcb2ac4c89dd1f1b094b65e0b8bc5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lexeme currently being processed by <a class="el" href="opal_8h.html#ad59a42ca521899a5eafe0d8b313da058" title="Build abstract syntax tree from symbol table.">build_syntax_tree()</a> <br /></td></tr>
+<tr class="separator:a79fcb2ac4c89dd1f1b094b65e0b8bc5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac98768748f816cd28eaaefe1d5081d67"><td class="memItemLeft" align="right" valign="top">const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ac98768748f816cd28eaaefe1d5081d67">asm_cmds</a> [][16]</td></tr>
+<tr class="memdesc:ac98768748f816cd28eaaefe1d5081d67"><td class="mdescLeft">&#160;</td><td class="mdescRight">0-address assembly commands  <a href="opal_8h.html#ac98768748f816cd28eaaefe1d5081d67">More...</a><br /></td></tr>
+<tr class="separator:ac98768748f816cd28eaaefe1d5081d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ba25257867755d3ddd4c649bcd2d855"><td class="memItemLeft" align="right" valign="top"><a id="a6ba25257867755d3ddd4c649bcd2d855"></a>
+<a class="el" href="opal_8h.html#a26e4b9d30a5effe252dcd725cba7856d">asm_cmd_e</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a6ba25257867755d3ddd4c649bcd2d855">asm_cmd_list</a> [1024] = { {0} }</td></tr>
+<tr class="memdesc:a6ba25257867755d3ddd4c649bcd2d855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assembly commands list. <br /></td></tr>
+<tr class="separator:a6ba25257867755d3ddd4c649bcd2d855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2a2ff133e7926094b1a9b10e4c3dbc3"><td class="memItemLeft" align="right" valign="top"><a id="aa2a2ff133e7926094b1a9b10e4c3dbc3"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aa2a2ff133e7926094b1a9b10e4c3dbc3">asm_cmd_list_len</a> = 0</td></tr>
+<tr class="memdesc:aa2a2ff133e7926094b1a9b10e4c3dbc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assembly commands list length. <br /></td></tr>
+<tr class="separator:aa2a2ff133e7926094b1a9b10e4c3dbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacd4c578a5e33580738ccc27b50a0953"><td class="memItemLeft" align="right" valign="top"><a id="aacd4c578a5e33580738ccc27b50a0953"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#aacd4c578a5e33580738ccc27b50a0953">strs</a> [1024] = { 0 }</td></tr>
+<tr class="memdesc:aacd4c578a5e33580738ccc27b50a0953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strings used in program. <br /></td></tr>
+<tr class="separator:aacd4c578a5e33580738ccc27b50a0953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22c4f920e7dd013c742ca3d16f862e64"><td class="memItemLeft" align="right" valign="top"><a id="a22c4f920e7dd013c742ca3d16f862e64"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a22c4f920e7dd013c742ca3d16f862e64">strs_len</a> = 0</td></tr>
+<tr class="memdesc:a22c4f920e7dd013c742ca3d16f862e64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strings used count. <br /></td></tr>
+<tr class="separator:a22c4f920e7dd013c742ca3d16f862e64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b88111b8fdcf47130688db726f4c4fa"><td class="memItemLeft" align="right" valign="top"><a id="a2b88111b8fdcf47130688db726f4c4fa"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a2b88111b8fdcf47130688db726f4c4fa">vars</a> [1024] = { 0 }</td></tr>
+<tr class="memdesc:a2b88111b8fdcf47130688db726f4c4fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vars used in program. <br /></td></tr>
+<tr class="separator:a2b88111b8fdcf47130688db726f4c4fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03ae256ca6871f27bd9bc118482d320b"><td class="memItemLeft" align="right" valign="top"><a id="a03ae256ca6871f27bd9bc118482d320b"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#a03ae256ca6871f27bd9bc118482d320b">vars_len</a> = 0</td></tr>
+<tr class="memdesc:a03ae256ca6871f27bd9bc118482d320b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vars used count. <br /></td></tr>
+<tr class="separator:a03ae256ca6871f27bd9bc118482d320b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3f7729826dd780663f4ee2f44a82658"><td class="memItemLeft" align="right" valign="top"><a id="ab3f7729826dd780663f4ee2f44a82658"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#ab3f7729826dd780663f4ee2f44a82658">int_count</a> = 0</td></tr>
+<tr class="memdesc:ab3f7729826dd780663f4ee2f44a82658"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integers used. <br /></td></tr>
+<tr class="separator:ab3f7729826dd780663f4ee2f44a82658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf74cb47b6f8ab6b2af624167f8154a8"><td class="memItemLeft" align="right" valign="top"><a id="adf74cb47b6f8ab6b2af624167f8154a8"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal_8h.html#adf74cb47b6f8ab6b2af624167f8154a8">usr_vars</a> = 0</td></tr>
+<tr class="memdesc:adf74cb47b6f8ab6b2af624167f8154a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">User input varss used count. <br /></td></tr>
+<tr class="separator:adf74cb47b6f8ab6b2af624167f8154a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ac73c5e616f161d15d99f4339bdb54bff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac73c5e616f161d15d99f4339bdb54bff">&#9670;&nbsp;</a></span>add_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int add_str </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>str_curr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create String array. </p>
+<p>Create String array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">str_curr</td><td>string to get index for</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>index of string in the array </dd></dl>
+<p>If string array is not empty</p>
+<p>Search it for the current string</p>
+<p>and return its index if found</p>
+<p>Otherwise append the string to the array</p>
+<p>and return its index</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02299">2299</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a653272d568de8ddf2f217195e0a632b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a653272d568de8ddf2f217195e0a632b1">&#9670;&nbsp;</a></span>add_var()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int add_var </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>ident_curr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create Identifier array. </p>
+<p>Create Identifier array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ident_curr</td><td>identifier to get index for</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>index of identifier in the array </dd></dl>
+<p>If identifier array is not empty</p>
+<p>Search it for the current identifier</p>
+<p>and return its index if found</p>
+<p>Otherwise append the identifier to the array</p>
+<p>and return its index</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02266">2266</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
 <a id="adc4b1f222c40e7c7311569e6944db59d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adc4b1f222c40e7c7311569e6944db59d">&#9670;&nbsp;</a></span>banner()</h2>
 
@@ -204,12 +684,12 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal
 <p>Print a banner with stars above and below given string. </p>
 <p>Print a banner with stars above and below given string.</p>
 <p>Helper function to show something prominently in the logs Eg:</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a></p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a> ***************************************************************</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a> MARC start.</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a> ***************************************************************</p>
-<p>[02/04/2021 20:57:58] [DEBUG] <a class="el" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d" title="Print a banner with stars above and below given string.">banner()</a></p>
-<dl class="params"><dt>Parameters</dt><dd>
+<div class="fragment"><div class="line">[02/04/2021 20:57:58] [DEBUG]         <a class="code" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d">banner</a>()</div>
+<div class="line">[02/04/2021 20:57:58] [DEBUG]         <a class="code" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d">banner</a>() ***************************************************************</div>
+<div class="line">[02/04/2021 20:57:58] [DEBUG]         <a class="code" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d">banner</a>() MARC start.</div>
+<div class="line">[02/04/2021 20:57:58] [DEBUG]         <a class="code" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d">banner</a>() ***************************************************************</div>
+<div class="line">[02/04/2021 20:57:58] [DEBUG]         <a class="code" href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d">banner</a>()</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">msg</td><td>String to print</td></tr>
   </table>
@@ -219,7 +699,842 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal
 <p>Create buffer of 64 characters size and fill with 63 stars</p>
 <p>Call logger macro to print newline, 63 stars, string, 63 stars &amp; newline</p>
 
-<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00105">105</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00120">120</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a400c3c262d9136a37c79889d695b33ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a400c3c262d9136a37c79889d695b33ee">&#9670;&nbsp;</a></span>binary_unary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a> binary_unary </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>compound_char</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a>&#160;</td>
+          <td class="paramname"><em>compound_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a>&#160;</td>
+          <td class="paramname"><em>simple_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>char_line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>char_col</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get lexeme for binary or unary operator. </p>
+<dl class="section return"><dt>Returns</dt><dd>Next lexeme struct with values populated</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">enum</td><td>lexeme type </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Initialize return variable.</p>
+<p>The next char needs to be checked, so get it.</p>
+<p>Illegal character found.</p>
+<p>Compound type found, so get the next char and return compound_type.</p>
+<p>Compound type not found, so return simple_type.</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00946">946</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a92162f1c45121d0238f06d5f13dcb208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92162f1c45121d0238f06d5f13dcb208">&#9670;&nbsp;</a></span>build_symbol_table()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short build_symbol_table </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td>
+          <td class="paramname"><em>symbol_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>symbol_count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Populate symbol table with lexemes in source file pointer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">*symbol_table</td><td>Symbol table linked list to populate </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">*symbol_count</td><td>Pointer to count of lexemes found</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert symbol table pointer is not NULL</p>
+<p>Assert symbol table count pointer is not NULL</p>
+<p>Create symbols at the beginning of the linked list</p>
+<p>Get lexemes in a loop until we get a EOF lexeme</p>
+<p>Call <a class="el" href="opal_8c.html#a4c761b60942927bd6cea3baaf61a407e" title="Get the next lexeme based on the next character.">get_next_lexeme()</a> to populate next_lexeme</p>
+<p>Append next_lexeme to symbol table</p>
+<p>Call <a class="el" href="opal_8c.html#a67bc433d115f235fb432c3a0ff15085a" title="Get lexeme string format.">get_lexeme_str()</a> to stringify next_lexeme</p>
+<p>Append lexeme to symbol table</p>
+<p>Increment symbol count</p>
+<p>Move current to last symbol in linked list</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01224">1224</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="ad59a42ca521899a5eafe0d8b313da058"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad59a42ca521899a5eafe0d8b313da058">&#9670;&nbsp;</a></span>build_syntax_tree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a>* build_syntax_tree </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td>
+          <td class="paramname"><em>symbol_table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build abstract syntax tree from symbol table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbol_table</td><td>Lexeme symbol table</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Abstract syntax tree built from the symbol table</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Tree</td><td>root node pointer On success </td></tr>
+    <tr><td class="paramname">NULL</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Check if symbol table pointer is not NULL</p>
+<p>Create syntax tree node NULL pointer to return</p>
+<p>Start reading lexemes from the symbol table</p>
+<p>Call <a class="el" href="opal_8c.html#a29820945d2f3aef6c1753683cf443973" title="Return syntax tree node with given left and right child nodes.">make_ast_node()</a> until lexeme with lx_EOF is seen</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01529">1529</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="aa8028a9f965a3de77fee97a8d6da3b95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8028a9f965a3de77fee97a8d6da3b95">&#9670;&nbsp;</a></span>close_report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short close_report </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>report_fp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Close HTML report. </p>
+<p>Close HTML report.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">report_fp</td><td>Report file pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert report file pointer is not NULL</p>
+<p>Write HTML closing tags to the report</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00491">491</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a849ab8d1affc911d76e2a556ed9e207b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a849ab8d1affc911d76e2a556ed9e207b">&#9670;&nbsp;</a></span>expect_lexeme()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void expect_lexeme </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#a35baafaf1d84428147f1d3593633129d">lexeme_type_e</a>&#160;</td>
+          <td class="paramname"><em>expected_type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if lexeme is expected type, else print error and exit. </p>
+<p>Check if lexeme is expected type, else print error and exit.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">expected_type</td><td>Expected lexeme type</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
+<p>If ast_curr_lexeme is of expected type</p>
+<p>... read next lexeme and return</p>
+<p>... else print error and exit</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01561">1561</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="aee033c38e101ee9a4819568d32391311"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee033c38e101ee9a4819568d32391311">&#9670;&nbsp;</a></span>free_symbol_table()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free_symbol_table </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td>
+          <td class="paramname"><em>symbol_table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Free symbol table linked list. </p>
+<p>Free symbol table linked list.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">symbol_table</td><td>Symbol table to deallocate</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
+<p>Walk symbol table and free individual lexemes</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01438">1438</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a5488ec319f8557d7ab9fc15e14bc451a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5488ec319f8557d7ab9fc15e14bc451a">&#9670;&nbsp;</a></span>free_syntax_tree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free_syntax_tree </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td>
+          <td class="paramname"><em>syntax_tree</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Free syntax tree. </p>
+<p>Free syntax tree.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">syntax_tree</td><td>Syntax tree to deallocate</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
+<p>Walk the tree free each node starting with the leaf nodes</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02159">2159</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a11608c5fa9c0a644efb0d5ce5f63ea90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11608c5fa9c0a644efb0d5ce5f63ea90">&#9670;&nbsp;</a></span>gen_asm_code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short gen_asm_code </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td>
+          <td class="paramname"><em>ast</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build assembly code list from abstract syntax tree. </p>
+<p>Build assembly code list from abstract syntax tree.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ast</td><td>Abstract syntax tree</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Function exit code</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02216">2216</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a7d0f53a68e3fff57aeb10137f7ff97d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d0f53a68e3fff57aeb10137f7ff97d9">&#9670;&nbsp;</a></span>get_identifier_lexeme()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> get_identifier_lexeme </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>char_line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>char_col</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get identifier lexeme. </p>
+<p>Get identifier lexeme.</p>
+<dl class="section return"><dt>Returns</dt><dd>Lexeme with values populated</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">struct</td><td>lexeme </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Get string to analyze</p>
+<p>Terminate string</p>
+<p>Error for unsupported characters</p>
+<p>Determine if string is a reserved keyword</p>
+<p>Determine if the string is an integer via regex</p>
+<p>String must be an identifier</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00983">983</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a53800b00931cd4a0b64f50a4ee0ac59f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53800b00931cd4a0b64f50a4ee0ac59f">&#9670;&nbsp;</a></span>get_lexeme_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short get_lexeme_str </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td>
+          <td class="paramname"><em>lexeme</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>buffer_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stringify lexeme. </p>
+<p>Stringify lexeme.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lexeme</td><td>Lexeme to stringify </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">buffer</td><td>Buffer to store string value of lexeme </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer_len</td><td>Length of buffer to use</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert buffer is not NULL</p>
+<p>Empty out the string buffer</p>
+<p>Populate the buffer with values from the struct</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01191">1191</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a4c761b60942927bd6cea3baaf61a407e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c761b60942927bd6cea3baaf61a407e">&#9670;&nbsp;</a></span>get_next_lexeme()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> get_next_lexeme </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the next lexeme. </p>
+<p>Get the next lexeme.</p>
+<dl class="section return"><dt>Returns</dt><dd>Next lexeme struct with values populated</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">struct</td><td>lexeme </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Create a empty struct to populate and return</p>
+<p>Call <a class="el" href="opal_8c.html#a4b4c012b4a157270e330f11305718df0" title="Function to read next character from the source file pointer.">read_next_char()</a> to get the next character from source</p>
+<p>Populate lexeme line and column number</p>
+<p>Get the lexeme type based on the next character</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01095">1095</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a96ff4140fa8a5853701da8b295daf6ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96ff4140fa8a5853701da8b295daf6ba">&#9670;&nbsp;</a></span>get_string_literal_lexeme()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> get_string_literal_lexeme </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>char_line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>char_col</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get lexeme for a string literal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">char_line</td><td>line number of char in source file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">char_col</td><td>column number of char in source file</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Next lexeme struct with values populated</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">struct</td><td>lexeme * </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Initialize the string</p>
+<p>The next char needs to be checked, so get it.</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00903">903</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="afae31523c6a031187ba988f7ed31b549"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afae31523c6a031187ba988f7ed31b549">&#9670;&nbsp;</a></span>init_report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short init_report </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>report_fp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize HTML report. </p>
+<p>Initialize HTML report.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">report_fp</td><td>Report file pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert report file pointer is not NULL</p>
+<p>Write HTML head tag to the report</p>
+<p>Open res/styles.css in read-only mode</p>
+<p>Copy CSS to HTML report</p>
+<p>Close res/styles.css file</p>
+<p>Start HTML body tag</p>
+<p>Open textarea tag for source file</p>
+<p>Append source file to HTML report and close textarea tag</p>
+<p>Rewind source file pointer</p>
+<p>If current value of source file position not 0, print error and exit</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00385">385</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a856c68578ec186e13e8c3cf4bc456a77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a856c68578ec186e13e8c3cf4bc456a77">&#9670;&nbsp;</a></span>make_expression_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a>* make_expression_node </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>precedence</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build expression node. </p>
+<p>Build expression node.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">precedence</td><td>Precedence of mathematical operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Syntax tree node pointer</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">node_s*</td><td>On success </td></tr>
+    <tr><td class="paramname">NULL</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Create the tree node to return</p>
+<p>If lexeme type is Not, get next lexeme</p>
+<p>...make Not node with the children next_lexeme and NULL</p>
+<p>If lexeme type is Add or Sub, save type</p>
+<p>Get next lexeme and make new expression node with it</p>
+<p>If original node type was Sub</p>
+<p>...make a Negate node with the children new node and NULL</p>
+<p>Else only use the new node</p>
+<p>If lexeme type is Integer, make leaf node and get next lexeme</p>
+<p>If lexeme type is Ident, make leaf node and get next lexeme</p>
+<p>If lexeme type is Input, get next lexeme</p>
+<p>...expect LParen</p>
+<p>... and make Input node with NULL as one child</p>
+<p>... and expect String contents as the other</p>
+<p>... finally expect Rparen to close Input</p>
+<p>If lexeme type is Lparen, make tree from contents within</p>
+<p>Expressions cannot start with any other type of lexeme</p>
+<p>While the next lexeme is binary and its precedence is at least as high as the current lexeme</p>
+<p>Save lexeme type and get next lexeme</p>
+<p>Search for higher precedence in a later lexeme</p>
+<p>and increment counter to work up precedence hierarchy</p>
+<p>Recursively make new expression node with incremented precedence</p>
+<p>...and add it to a working tree</p>
+<p>...until all higher precedented lexemes in expression are processed</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01657">1657</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a6ea85a54e2729af17de39ed5b89931fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ea85a54e2729af17de39ed5b89931fc">&#9670;&nbsp;</a></span>make_leaf_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a>* make_leaf_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#aac3bf63d708d7e554d97073c3150b351">ast_node_type_e</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td>
+          <td class="paramname"><em>curr_lexeme</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build and return leaf nodes for identifier/integer/strings. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>type of node in tree </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">curr_lexeme</td><td>lexeme to make leaf with</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Syntax tree node pointer</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">node_s*</td><td>On success </td></tr>
+    <tr><td class="paramname">NULL</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Create the leaf node to return</p>
+<p>Assign node type to new node</p>
+<p>If lexeme type is a string or an identifier</p>
+<p>Otherwise the lexeme type is an integer</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01618">1618</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a2660a5de7ad993c33e13657805fefa27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2660a5de7ad993c33e13657805fefa27">&#9670;&nbsp;</a></span>make_parentheses_expression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a>* make_parentheses_expression </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build and return expression inside parantheses. </p>
+<dl class="section return"><dt>Returns</dt><dd>Syntax tree node pointer</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">node_s*</td><td>On success </td></tr>
+    <tr><td class="paramname">NULL</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Expect left parantheses before the expression</p>
+<p>Create tree for expression inside parantheses</p>
+<p>Expect right parantheses after the expression</p>
+<p>return tree</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01587">1587</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a2ee27a44dc4b69c9b61d58ed5d750761"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ee27a44dc4b69c9b61d58ed5d750761">&#9670;&nbsp;</a></span>make_statement_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a>* make_statement_node </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build and return statement node. </p>
+<p>Build and return statement node.</p>
+<dl class="section return"><dt>Returns</dt><dd>Syntax tree node pointer</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">node_s*</td><td>On success </td></tr>
+    <tr><td class="paramname">NULL</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; Syntax tree node to return</p>
+<p>&lt; Leaf node with int/string value</p>
+<p>&lt; Node for expression</p>
+<p>&lt; if/while condition statement node</p>
+<p>&lt; else condition statement node</p>
+<p>If next lexeme is if statement, read next lexeme</p>
+<p>... get expression inside left parentheses</p>
+<p>... get condition statement node</p>
+<p>... and create else statement node as NULL</p>
+<p>If next lexeme is an else</p>
+<p>... read next lexeme</p>
+<p>... and make else statement node</p>
+<p>Build and return the tree with left child as the expression node &amp; right child as the code block to execute</p>
+<p>If next lexeme is print, read next lexeme</p>
+<p>Loop over lexemes inside the left and right parantheses of print statement, incrementing with every comma lexeme found</p>
+<p>For string inside print statement ...</p>
+<p>Build tree with left child as op-code to print string &amp; right child as the leaf node representing the string</p>
+<p>... and read next lexeme</p>
+<p>For integer inside print statement ...</p>
+<p>Build tree with left child as op-code to print integer &amp; right child as the expression node representing the integer</p>
+<p><a class="el" href="opal_8c.html#ad3e44180b0bc4c93e0496fe18cedde7f" title="Build and return expression node.">make_expression_node()</a> will read next lexeme</p>
+<p>Build tree for statement till this comma</p>
+<p>If no more commas in print statement, return tree</p>
+<p>Expect a ')' &amp; a ';' after print, else print error and exit</p>
+<p>If next lexeme is semicolon, read next lexeme &amp; return tree</p>
+<p>If next lexeme is no operation, read next lexeme &amp; return tree</p>
+<p>If next lexeme is an identifier create leaf node for it</p>
+<p>... and read next lexeme</p>
+<p>Expect an '=' operator after an identifier, else print error and exit</p>
+<p>Build expression tree whose result we will assign to the identifier</p>
+<p>Build tree with left child as identifier &amp; right child as expression</p>
+<p>Expect a semi colon after expression, else print error and exit</p>
+<p>If next lexeme is while, read next lexeme</p>
+<p>... build expression node inside parantheses</p>
+<p>... build tree node to execute if condition is true</p>
+<p>... return while tree with left child as expression &amp; right child as code block to execute</p>
+<p>If next lexeme is left brace, build tree for code block until right brace lexeme is found</p>
+<p>Expect a right brace after code block and return tree, else print error and exit</p>
+<p>If next lexeme is end of file, break and return tree</p>
+<p>Statements cannot start with any other type of lexeme</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01772">1772</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a95ea2ea53c21572d0cfdbed767e7ad18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95ea2ea53c21572d0cfdbed767e7ad18">&#9670;&nbsp;</a></span>match()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool match </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pattern</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determine if regular expression is an integer. </p>
+<p>Determine if regular expression is an integer.</p>
+<p>From pubs.opengroup.org/onlinepubs/007904875/functions/regcomp.html</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">str</td><td>String to match </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pattern</td><td>Extended regular expression</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result of the pattern match.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true(1)</td><td>On match </td></tr>
+    <tr><td class="paramname">false(0)</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Ensure regex is set up properly</p>
+<p>Process string against regex pattern</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01066">1066</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
 
 </div>
 </div>
@@ -258,9 +1573,10 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal
 <p>Flush stdout</p>
 <p>Close source file</p>
 <p>Flush and close destination file</p>
+<p>Flush and close report file</p>
 <p>Flush and close log file</p>
 
-<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00132">132</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00146">146</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
 
 </div>
 </div>
@@ -315,59 +1631,757 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="opal
 </div><div class="memdoc">
 
 <p>Print formatted message to log file. </p>
-<p>Helper function to log messages. Function writes to global variable log_fd. Usually called by a macro logger. Eg:</p>
-<p>logger (ERROR, "Cannot read file: %s", file_name);</p>
-<p>logger (DEBUG, "access('%s', F_OK)", source_fn););</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Helper function to log messages. Function writes to global variable log_fp. Usually called by a macro logger. Eg:</p>
+<div class="fragment"><div class="line"><a class="code" href="opal_8h.html#ae5ce34e4aaca41ed6632de3362971822">logger</a> (ERROR, <span class="stringliteral">&quot;Cannot read file: %s&quot;</span>, file_name);</div>
+<div class="line"><a class="code" href="opal_8h.html#ae5ce34e4aaca41ed6632de3362971822">logger</a> (DEBUG, <span class="stringliteral">&quot;access(&#39;%s&#39;, F_OK)&quot;</span>, <a class="code" href="opal_8h.html#ac5211a130a92ea4bee41d2f228789f8b">source_fn</a>);</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">tag</td><td>Log level of message </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>Source file name </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>Source file line number </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>Source file function </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">func</td><td>Source file function </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">fmt</td><td>Formatted message to log</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
-<ol type="1">
-<li>Assert log file descriptor is not null</li>
-<li>Allocate buffer to hold message to log</li>
-<li>Read formatted user message string into the buffer</li>
-<li><p class="startli">If tag is a result of a system call and current log level is more than DEBUG, print the message and return.</p>
-<p class="startli">Eg - PASS / FAIL etc</p>
-</li>
-<li><p class="startli">If log message is less than current log level, print message with current date, time to log file descriptor. Eg.</p>
-<p class="startli">[05/02/2021 20:57:58] [DEBUG] <a class="el" href="marc_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Main function for pre-processor marc.">main()</a> [source_fd] access('input/hello.opl', R_OK) - PASS</p>
-</li>
-<li>Flush message to log file</li>
-</ol>
+<p>Assert log file pointer is not null</p>
+<p>Allocate buffer to hold message to log</p>
+<p>Read formatted user message string into the buffer</p>
+<p>If tag is a result of a system call and current log level is more than DEBUG, print the message and return. Eg - PASS / FAIL etc</p>
+<p>If log message is less than current log level, print message with current date, time to log file pointer. Eg.</p>
+<div class="fragment"><div class="line">[05/02/2021 20:57:58] [DEBUG]   <a class="code" href="alex_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>() [<a class="code" href="opal_8h.html#aafdfbbe43c9f69a1b777a3e96589bac2">source_fp</a>] access(<span class="stringliteral">&#39;input/hello.opl&#39;</span>, R_OK) - PASS</div>
+</div><!-- fragment --><p>Flush message to log file</p>
 
-<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00038">38</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00046">46</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="ac5211a130a92ea4bee41d2f228789f8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5211a130a92ea4bee41d2f228789f8b">&#9670;&nbsp;</a></span>source_fn</h2>
+<a id="a43ea84509aa6b1e3cde137f2d4b963f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43ea84509aa6b1e3cde137f2d4b963f0">&#9670;&nbsp;</a></span>optimize_syntax_tree()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* source_fn = NULL</td>
+          <td class="memname"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a>* optimize_syntax_tree </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td>
+          <td class="paramname"><em>tree</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Common data structures and variables used. </p>
-<p>Input source file name </p>
+<p>Optimize the abstract syntax tree. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">tree</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Optimized abstract syntax tree root pointer</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">node_s*</td><td>On success </td></tr>
+    <tr><td class="paramname">NULL</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Return NULL if no node</p>
+<p>If no left or right child nodes</p>
+<p>Empty code block with no child nodes</p>
+<p>Leaf node</p>
+<p>If no left node, return address of right</p>
+<p>If no right node, return address of left</p>
+<p>If node has left and right nodes, optimize them</p>
 
-<p class="definition">Definition at line <a class="el" href="opal_8h_source.html#l00039">39</a> of file <a class="el" href="opal_8h_source.html">opal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01945">1945</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="acdf97044819bf64d6daa56ea1a8c19ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdf97044819bf64d6daa56ea1a8c19ab">&#9670;&nbsp;</a></span>print_asm_code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short print_asm_code </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#a26e4b9d30a5effe252dcd725cba7856d">asm_cmd_e</a>&#160;</td>
+          <td class="paramname"><em>cmd_list</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>dest_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print assembly code list. </p>
+<p>Print assembly code list.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd_list</td><td>Assembly command list to print </td></tr>
+    <tr><td class="paramname">dest_fp</td><td>Destination file pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Function exit code</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02234">2234</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a7550da2002e988ee91445e3606d069a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7550da2002e988ee91445e3606d069a2">&#9670;&nbsp;</a></span>print_asm_code_html()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short print_asm_code_html </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#a26e4b9d30a5effe252dcd725cba7856d">asm_cmd_e</a>&#160;</td>
+          <td class="paramname"><em>cmd_list</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>report_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print assembly code list to HTML report file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd_list</td><td>Assembly command list to print </td></tr>
+    <tr><td class="paramname">report_fp</td><td>Destination HTML reportfile pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Function exit code</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02252">2252</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a107cacdae25ddcd698a7deb00972bdf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a107cacdae25ddcd698a7deb00972bdf4">&#9670;&nbsp;</a></span>print_ast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short print_ast </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td>
+          <td class="paramname"><em>syntax_tree</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>dest_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print abstract syntax tree to destination file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">syntax_tree</td><td>Abstract syntax tree </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">dest_fp</td><td>Destination file pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Check if syntax tree pointer is not NULL</p>
+<p>Print syntax tree in pre-traversal mode to destination file pointer</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01998">1998</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a8fbade0fa39aac463cbeb35b676bf1a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fbade0fa39aac463cbeb35b676bf1a0">&#9670;&nbsp;</a></span>print_ast_html()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short print_ast_html </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td>
+          <td class="paramname"><em>syntax_tree</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>report_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print abstract syntax tree to HTML report. </p>
+<p>Print abstract syntax tree to HTML report.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">syntax_tree</td><td>Abstract syntax tree </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">report_fp</td><td>Report file pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Check if syntax tree pointer is not NULL</p>
+<p>Write mermaid graph header</p>
+<p>Open res/mermaid.styles in read-only mode</p>
+<p>Copy CSS to HTML report</p>
+<p>Close res/styles.css file</p>
+<p>Print abstract syntax tree to report</p>
+<p>Write mermaid graph footer</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02076">2076</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a71c51df39075991857476dc4ec596576"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71c51df39075991857476dc4ec596576">&#9670;&nbsp;</a></span>print_marc_html()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short print_marc_html </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>source_fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>report_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Append MARC output to HTML report file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">source_fp</td><td>Source to be read from </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">report_fp</td><td>Destination to written to</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert source file pointer is not NULL</p>
+<p>Assert destination file pointer is not NULL</p>
+<p>Open textarea tag in report file for MARC output</p>
+<p>Append MARC output file to report file</p>
+<p>Flush contents of report to disk</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00837">837</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a8ef6f834db95b86cb5dc1b5d494438e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ef6f834db95b86cb5dc1b5d494438e2">&#9670;&nbsp;</a></span>print_symbol_table()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short print_symbol_table </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td>
+          <td class="paramname"><em>symbol_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>dest_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print symbol table to destination file pointer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">symbol_table</td><td>Symbol table to print </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">dest_fp</td><td>Destination file pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert symbol table pointer is not NULL</p>
+<p>Assert destination file pointer is not NULL</p>
+<p>Write ALEX to destination file</p>
+<p>Call <a class="el" href="opal_8c.html#a67bc433d115f235fb432c3a0ff15085a" title="Get lexeme string format.">get_lexeme_str()</a> to stringify next_lexeme</p>
+<p>Append lexeme to symbol table</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01292">1292</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a74a49be2cb5b32f92c753068cfd10fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74a49be2cb5b32f92c753068cfd10fa1">&#9670;&nbsp;</a></span>print_symbol_table_html()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short print_symbol_table_html </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#ae5f0862f506a0240b18eb167bd848ae0">lexeme_s</a> *&#160;</td>
+          <td class="paramname"><em>symbol_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>report_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print symbol table to HTML report. </p>
+<p>Print symbol table to HTML report.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">symbol_table</td><td>Symbol table to print </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">report_fp</td><td>Report file pointer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert symbol table pointer is not NULL</p>
+<p>Assert destination file pointer is not NULL</p>
+<p>Walk the symbol table &amp; print the HTML report to destination file pointer</p>
+<p>Append symbol table to report file</p>
+<p>Flush contents of report to disk</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l01348">1348</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="ac1aef0203ae82edbd186ab4c42c814e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1aef0203ae82edbd186ab4c42c814e4">&#9670;&nbsp;</a></span>proc_includes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short proc_includes </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>source_fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>dest_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Process include files, write to destination. </p>
+<p>Process include files, write to destination.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">source_fp</td><td>Source to be read from </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dest_fp</td><td>Destination to written to</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Assert source file pointer is not NULL</p>
+<p>Assert destination file pointer is not NULL</p>
+<p>Move source_fp to beginning of file.</p>
+<p>If source file position not 0, print error and exit</p>
+<p>Copy each character to the destination file, while checking for include files.</p>
+<p>Reads in 8 chars to check if they are "include ".</p>
+<p>Rewinds the file pointer.</p>
+<p>If include is found, process the included file.</p>
+<p>Move file pointer to the point after "include "</p>
+<p>Get the filename for the include file.</p>
+<p>If given file name is relative path, prefix source file dir</p>
+<p>Get source file directory</p>
+<p>If include file does not exist, print error and exit</p>
+<p>If include file can not be read, print error and exit</p>
+<p>Open include file in read-only mode</p>
+<p>Move contents of include file into destination file</p>
+<p>Flush destination file contents to disk</p>
+<p>Close include file pointer</p>
+<p>Gets the next char for the switch case to evaluate.</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00642">642</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a4b4c012b4a157270e330f11305718df0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b4c012b4a157270e330f11305718df0">&#9670;&nbsp;</a></span>read_next_char()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int read_next_char </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read next character from source file. </p>
+<p>Read next character from source file.</p>
+<dl class="section return"><dt>Returns</dt><dd>Character read</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Next</td><td>character read from FILE *stream source_fp </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Read character from source file pointer</p>
+<p>getc() sets the errno in the event of an error</p>
+<p>Increment the column number of the character</p>
+<p>If character is a newline, increment line number and reset column number</p>
+<p>Return the character read</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00345">345</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="ae951f95b2ccdbc62456c6b4ad98ec135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae951f95b2ccdbc62456c6b4ad98ec135">&#9670;&nbsp;</a></span>rem_comments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short rem_comments </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>source_fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>dest_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read source, remove comments, write to destination. </p>
+<p>Read source, remove comments, write to destination.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">source_fp</td><td>Source to be read from </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dest_fp</td><td>Destination to written to</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The error return code of the function.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">EXIT_SUCCESS</td><td>On success </td></tr>
+    <tr><td class="paramname">EXIT_FAILURE</td><td>On error </td></tr>
+    <tr><td class="paramname">errno</td><td>On system call failure </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Check if source file pointer is not NULL</p>
+<p>Check if destination file pointer is not NULL</p>
+<p>Start reading characters from file</p>
+<p>If character is not a /, line is not a comment</p>
+<p>If character is a /, read next character</p>
+<p>If next character is / or *, line is a comment, set flag</p>
+<p>else, not a comment, write both characters to file</p>
+<p>If comment flag is set, process comment</p>
+<p>Read next character from file</p>
+<p>If next character is /, process single line comment</p>
+<p>If next character is *, process multi-line comment</p>
+<p>If end of file in multi-line comment return EXIT_FAILURE</p>
+<p>If char is a newline, write to file to preserve line numbers</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l00534">534</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<a id="a9a2f85ea541ba97874eab9803b3477da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2f85ea541ba97874eab9803b3477da">&#9670;&nbsp;</a></span>traverse_ast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void traverse_ast </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="opal_8h.html#aeed67813c57d1b99aba54f16aa01639f">node_s</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>dest_fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Traverse syntax tree for output file generation. </p>
+<p>Traverse syntax tree for output file generation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td>The syntax tree node to be processed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dest_fp</td><td>The file to which the node's content will be printed</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL </dd></dl>
+<p>We have reached a NULL leaf</p>
+<p>If node is identifier or string, print char_val</p>
+<p>... if node is integer, print the int_val</p>
+<p>... else, print node type name</p>
+<p>Recursive calls for further tree traversal</p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8c_source.html#l02178">2178</a> of file <a class="el" href="opal_8c_source.html">opal.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ac98768748f816cd28eaaefe1d5081d67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac98768748f816cd28eaaefe1d5081d67">&#9670;&nbsp;</a></span>asm_cmds</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char asm_cmds[][16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">  { <span class="stringliteral">&quot;NOP&quot;</span>, <span class="stringliteral">&quot;_EOF_&quot;</span>, <span class="stringliteral">&quot;_IDENT_&quot;</span>, <span class="stringliteral">&quot;_INT_&quot;</span>, <span class="stringliteral">&quot;_STR_&quot;</span>, <span class="stringliteral">&quot;_ASSIGN_&quot;</span>, <span class="stringliteral">&quot;O_ADD&quot;</span>, <span class="stringliteral">&quot;O_SUB&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;O_NEGATE&quot;</span>, <span class="stringliteral">&quot;O_MUL&quot;</span>, <span class="stringliteral">&quot;O_DIV&quot;</span>, <span class="stringliteral">&quot;O_MOD&quot;</span>, <span class="stringliteral">&quot;O_EQ&quot;</span>, <span class="stringliteral">&quot;O_NEQ&quot;</span>, <span class="stringliteral">&quot;O_LSS&quot;</span>, <span class="stringliteral">&quot;O_GTR&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;O_LEQ&quot;</span>, <span class="stringliteral">&quot;O_GEQ&quot;</span>, <span class="stringliteral">&quot;O_AND&quot;</span>, <span class="stringliteral">&quot;O_OR&quot;</span>, <span class="stringliteral">&quot;O_NOT&quot;</span>, <span class="stringliteral">&quot;_FETCH_&quot;</span>, <span class="stringliteral">&quot;_STORE_&quot;</span>, <span class="stringliteral">&quot;PUSH&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;JMP&quot;</span>, <span class="stringliteral">&quot;O_JZ&quot;</span>, <span class="stringliteral">&quot;O_JNZ&quot;</span>, <span class="stringliteral">&quot;O_PRTS&quot;</span>, <span class="stringliteral">&quot;O_PRTI&quot;</span>, <span class="stringliteral">&quot;HALT&quot;</span>, <span class="stringliteral">&quot;_LABEL_&quot;</span>, <span class="stringliteral">&quot;_INPUT_&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p>0-address assembly commands </p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8h_source.html#l00313">313</a> of file <a class="el" href="opal_8h_source.html">opal.h</a>.</p>
+
+</div>
+</div>
+<a id="a5a05680343d2d84609a5512e3aa9fba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a05680343d2d84609a5512e3aa9fba6">&#9670;&nbsp;</a></span>keyword_arr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structkeyword.html">keyword</a> keyword_arr[]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">    {</div>
+<div class="line">        {<span class="stringliteral">&quot;if&quot;</span>, lx_If},</div>
+<div class="line">        {<span class="stringliteral">&quot;else&quot;</span>, lx_Else},</div>
+<div class="line">        {<span class="stringliteral">&quot;while&quot;</span>, lx_While},</div>
+<div class="line">        {<span class="stringliteral">&quot;print&quot;</span>, lx_Print},</div>
+<div class="line">        {<span class="stringliteral">&quot;input&quot;</span>, lx_Input}</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Array for supported keywords. </p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8h_source.html#l00119">119</a> of file <a class="el" href="opal_8h_source.html">opal.h</a>.</p>
+
+</div>
+</div>
+<a id="ab6a507c9e92dc33af462e6e553597c49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6a507c9e92dc33af462e6e553597c49">&#9670;&nbsp;</a></span>node_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char node_name[][16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">  { <span class="stringliteral">&quot;No_operation&quot;</span>, <span class="stringliteral">&quot;End_of_file&quot;</span>, <span class="stringliteral">&quot;Identifier&quot;</span>, <span class="stringliteral">&quot;Integer&quot;</span>, <span class="stringliteral">&quot;String&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Op_Assign&quot;</span>, <span class="stringliteral">&quot;Op_Add&quot;</span>, <span class="stringliteral">&quot;Op_Subtract&quot;</span>, <span class="stringliteral">&quot;Op_Negate&quot;</span>, <span class="stringliteral">&quot;Op_Multiply&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Op_Divide&quot;</span>, <span class="stringliteral">&quot;Op_Mod&quot;</span>, <span class="stringliteral">&quot;Op_Equal&quot;</span>, <span class="stringliteral">&quot;Op_NotEqual&quot;</span>, <span class="stringliteral">&quot;Op_Less&quot;</span>, <span class="stringliteral">&quot;Op_Greater&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Op_LessEqual&quot;</span>, <span class="stringliteral">&quot;Op_GreaterEqual&quot;</span>, <span class="stringliteral">&quot;Op_And&quot;</span>, <span class="stringliteral">&quot;Op_Or&quot;</span>, <span class="stringliteral">&quot;Op_Not&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Keyword_If&quot;</span>, <span class="stringliteral">&quot;Keyword_Else&quot;</span>, <span class="stringliteral">&quot;Keyword_While&quot;</span>, <span class="stringliteral">&quot;Print_String&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Print_Integer&quot;</span>, <span class="stringliteral">&quot;Code_sequence&quot;</span>, <span class="stringliteral">&quot;Keyword_input&quot;</span> }</div>
+</div><!-- fragment -->
+<p>Syntax tree node type names for logging. </p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8h_source.html#l00194">194</a> of file <a class="el" href="opal_8h_source.html">opal.h</a>.</p>
+
+</div>
+</div>
+<a id="a6b3f9159ab2e5920aa674af492e42d35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b3f9159ab2e5920aa674af492e42d35">&#9670;&nbsp;</a></span>op_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char op_name[][16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">  { <span class="stringliteral">&quot;No_operation&quot;</span>, <span class="stringliteral">&quot;End_of_file&quot;</span>, <span class="stringliteral">&quot;Identifier&quot;</span>, <span class="stringliteral">&quot;Integer&quot;</span>, <span class="stringliteral">&quot;String&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Op_Assign&quot;</span>, <span class="stringliteral">&quot;Op_Add&quot;</span>, <span class="stringliteral">&quot;Op_Subtract&quot;</span>, <span class="stringliteral">&quot;Op_Negate&quot;</span>, <span class="stringliteral">&quot;Op_Multiply&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Op_Divide&quot;</span>, <span class="stringliteral">&quot;Op_Mod&quot;</span>, <span class="stringliteral">&quot;Op_Equal&quot;</span>, <span class="stringliteral">&quot;Op_NotEqual&quot;</span>, <span class="stringliteral">&quot;Op_Less&quot;</span>, <span class="stringliteral">&quot;Op_Greater&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Op_LessEqual&quot;</span>, <span class="stringliteral">&quot;Op_GreaterEqual&quot;</span>, <span class="stringliteral">&quot;Op_And&quot;</span>, <span class="stringliteral">&quot;Op_Or&quot;</span>, <span class="stringliteral">&quot;Op_Not&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Keyword_If&quot;</span>, <span class="stringliteral">&quot;Keyword_Else&quot;</span>, <span class="stringliteral">&quot;Keyword_While&quot;</span>, <span class="stringliteral">&quot;LeftParen&quot;</span>, <span class="stringliteral">&quot;RightParen&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;LeftBrace&quot;</span>, <span class="stringliteral">&quot;RightBrace&quot;</span>, <span class="stringliteral">&quot;Semicolon&quot;</span>, <span class="stringliteral">&quot;Comma&quot;</span>, <span class="stringliteral">&quot;Keyword_print&quot;</span>,</div>
+<div class="line">      <span class="stringliteral">&quot;Keyword_input&quot;</span> }</div>
+</div><!-- fragment -->
+<p>Lexeme type names for logging. </p>
+
+<p class="definition">Definition at line <a class="el" href="opal_8h_source.html#l00129">129</a> of file <a class="el" href="opal_8h_source.html">opal.h</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aopal_8h_html_ae5ce34e4aaca41ed6632de3362971822"><div class="ttname"><a href="opal_8h.html#ae5ce34e4aaca41ed6632de3362971822">logger</a></div><div class="ttdeci">#define logger(tag,...)</div><div class="ttdoc">Macro function to call opal_log() with source file, line &amp; function name.</div><div class="ttdef"><b>Definition:</b> <a href="opal_8h_source.html#l00025">opal.h:25</a></div></div>
+<div class="ttc" id="aopal_8h_html_adc4b1f222c40e7c7311569e6944db59d"><div class="ttname"><a href="opal_8h.html#adc4b1f222c40e7c7311569e6944db59d">banner</a></div><div class="ttdeci">void banner(const char *)</div><div class="ttdoc">Print a banner with stars above and below given string.</div><div class="ttdef"><b>Definition:</b> <a href="opal_8c_source.html#l00120">opal.c:120</a></div></div>
+<div class="ttc" id="aopal_8h_html_aafdfbbe43c9f69a1b777a3e96589bac2"><div class="ttname"><a href="opal_8h.html#aafdfbbe43c9f69a1b777a3e96589bac2">source_fp</a></div><div class="ttdeci">FILE * source_fp</div><div class="ttdoc">Source file pointer.</div><div class="ttdef"><b>Definition:</b> <a href="opal_8h_source.html#l00045">opal.h:45</a></div></div>
+<div class="ttc" id="aopal_8h_html_ac5211a130a92ea4bee41d2f228789f8b"><div class="ttname"><a href="opal_8h.html#ac5211a130a92ea4bee41d2f228789f8b">source_fn</a></div><div class="ttdeci">char * source_fn</div><div class="ttdoc">Input source file name.</div><div class="ttdef"><b>Definition:</b> <a href="opal_8h_source.html#l00037">opal.h:37</a></div></div>
+<div class="ttc" id="aalex_8c_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="alex_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdoc">Main function for pre-processor alex.</div><div class="ttdef"><b>Definition:</b> <a href="alex_8c_source.html#l00114">alex.c:114</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
