@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['log_5ffd_4',['log_fd',['../opal_8h.html#a81d85575e25f5052a9276da219caf092',1,'opal.h']]],
-  ['log_5ffn_5',['log_fn',['../opal_8h.html#a8b9a77dd3d8d0f94769af4ba3d91b2cb',1,'opal.h']]],
-  ['log_5flevel_6',['log_level',['../opal_8h.html#ac91d55174d383848b976a34de843748e',1,'log_level():&#160;opal.h'],['../opal_8h.html#adbb10a638717bd0bd8322be858484c82',1,'LOG_LEVEL():&#160;opal.h']]],
-  ['log_5flevel_5fe_7',['log_level_e',['../opal_8h.html#a422dd72bca60185cb2aedf7a8c5027e1',1,'opal.h']]]
+  ['char_5fcol_29',['char_col',['../libopal_8h.html#afcea1953936476988cd61ad9e7d7dfe2',1,'libopal.h']]],
+  ['char_5fline_30',['char_line',['../libopal_8h.html#a664f43968af6daf03c31721aaa85ca75',1,'libopal.h']]],
+  ['char_5fval_31',['char_val',['../structlexeme.html#a0103e33662984c04bd6908ca97ffe9a6',1,'lexeme::char_val()'],['../structnode.html#a0103e33662984c04bd6908ca97ffe9a6',1,'node::char_val()']]],
+  ['close_5freport_32',['close_report',['../libopal_8h.html#aa8028a9f965a3de77fee97a8d6da3b95',1,'close_report(FILE *):&#160;libopal.c'],['../libopal_8c.html#a2f5571894ebc1038a4725138d3a5ecaf',1,'close_report(FILE *report_fp):&#160;libopal.c']]],
+  ['cmd_33',['cmd',['../structasm__cmd.html#aeca7b748ae684845c50e313019e77c6b',1,'asm_cmd']]],
+  ['column_34',['column',['../structlexeme.html#a60dae4c6e78188cd718b696e4f08fc71',1,'lexeme']]],
+  ['css_5ffn_35',['css_fn',['../libopal_8h.html#a4de6a313827bfc80c9b584682a9ba132',1,'libopal.h']]]
 ];
