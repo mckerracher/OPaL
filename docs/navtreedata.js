@@ -41,7 +41,8 @@ var NAVTREE =
       [ "MARC", "md_test_tests-desc.html#autotoc_md12", null ],
       [ "ALEX", "md_test_tests-desc.html#autotoc_md13", null ],
       [ "ASTRO", "md_test_tests-desc.html#autotoc_md14", null ],
-      [ "GENIE", "md_test_tests-desc.html#autotoc_md15", null ]
+      [ "GENIE", "md_test_tests-desc.html#autotoc_md15", null ],
+      [ "OPaL", "md_test_tests-desc.html#autotoc_md16", null ]
     ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
