@@ -16,17 +16,16 @@
 Class: CS467-400 Spring 2021  Capstone Project
 
 This is the repository for the team to design and develop a compiler using 
-C/C++ for a dynamically typed language, that is inspired by Python and C.
-It produces assembly code modelled after Java bytecode using a stack machine. 
+C for a dynamically typed language, that is inspired by Python and C.
+It produces assembly code modelled after Java bytecode using a 0-address stack machine. 
 An orchestrator tool that is used by the end user, runs the individual 
-components of the project sequentially and then invokes NASM to output an 
+components of the project sequentially and then invokes `nasm` & `ld` to output an 
 executable.
 
 * The language syntax specification for the language can be found in the 
-“OPaL - Language Specification” document.
+`doc/lang-spec.md` document.
 
-* A few examples of programs written and compiled can be found in the 
-“OPaL -Examples” document.
+* A few examples of programs written and compiled can be found in the `examples` directory.
 
 ## Features
 The goal of the compiler is not to be the most efficient or create the most 
@@ -42,15 +41,14 @@ creates lexemes for the supported syntax to append to the symbol table.
 abstract syntax tree based on the lanuage grammar.
 4. GENIE - The code generator walks the syntax tree created by ASTRO and 
 produces [single-address]() assembly code for a 32-bit stack machine.
-5. oc - The orchestrator tool used by the end user calls the individual 
+5. opal - The orchestrator tool used by the end user calls the individual 
 components in order to generate an assembly file for the given source file.
 It then calls NASM to create an object file, followed by linking the object 
 file with `ld` to generate an executable.
 
 The program also generates a number of helpful references, that show the 
-individual steps taken by the compiler. A HTML report can be generated with the 
-output shown from each stage, [example](), man pages showing individual source 
-file usage, source code doxygen report etc.
+individual steps taken by the compiler. A HTML report is generated with the 
+output shown from each stage & debug level log messages.
 
 * The project follows the GNU coding standards found 
 [here](https://www.gnu.org/prep/standards/standards.html#Formatting)
@@ -61,13 +59,11 @@ documentation can be found [here](https://mckerracher.github.io/OPaL/)
 * Clone the [Project git repository](https://github.com/mckerracher/OPaL.git)
 
 ### System Requirements:
-1. The compiler has been tested to work on Linux and may possibly work on other
-POSIX compliant systems with the required tooling.
-2. [Java](www.java.com) to create reports with abstract syntax tree 
-visualization charts
-3. [glibc](https://www.gnu.org/software/libc/) 2.17 or newer
-4. [gcc](https://gcc.gnu.org/onlinedocs/gcc-4.8.5/gcc/) 4.8.5 or newer
-5. [NASM](https://nasm.us/) 2.10.07 or newer
+1. The compiler has been tested to work on Linux x86_86 platform and may possibly
+work on other POSIX compliant systems with the required tooling.
+2. [glibc](https://www.gnu.org/software/libc/) 2.17 or newer
+3. [gcc](https://gcc.gnu.org/onlinedocs/gcc-4.8.5/gcc/) 4.8.5 or newer
+4. [NASM](https://nasm.us/) 2.10.07 or newer
 
 ### Installation:
 1. Untar the release file to a directory.
@@ -77,13 +73,15 @@ visualization charts
 After building, run `make all_tests` to run all the canned tests.
 
 ### Usage:
-1. Run the required component binary with `--help` for usage instructions.
-2. Write your program in the OPaL language.
-3. Run the compiler `opal` with the argument as your source file.  
+1. Write your program in the OPaL language.
+2. Run the compiler `opal` with the argument as your source file.
+3. Run with `--help` for usage instructions.
 
-A binary as per the `--output` argument is created.
+A binary as per the `--output` argument is created or output file is `a.out`.
 
-A compilation report is created as an HTML file as per the `--report` argument.
+A compilation report is created as an HTML file as per the `--report` argument or to 
+`report/oc_report.html`.
+
 
 ## Feedback
 Submit any feedback on [github](https://github.com/mckerracher/OPaL/issues)
